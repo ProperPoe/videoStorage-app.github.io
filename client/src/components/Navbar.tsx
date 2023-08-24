@@ -68,7 +68,7 @@ class Navbar extends PureComponent<Props, State> {
                         <Link to="/" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Home/></Link>
                         <Link to="/profile" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Person/></Link>
                         <Link to="/notifications" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Notifications/></Link>
-                        <Link to="/login" className='hover:text-blue-300 transition duration-300 hover:underline hover:scale-110'>Login</Link>
+                        <Link to="/signup" className='hover:text-blue-300 transition duration-300 hover:underline hover:scale-110'>Login</Link>
                     </div>
                     {/* Lightmode/Darkmode */}
                     {darkModeIcon ? (

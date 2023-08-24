@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 interface Props {}
 interface State {}
@@ -53,7 +54,9 @@ class Login extends PureComponent<Props, State> {
                     </div>
                     </form>
                     <div className="mt-4">
-                        <a href="#" className="text-blue-500 hover:underline">Go back to Sign Up</a>
+                        <Link to="/signup" className="text-blue-500 hover:underline">
+                            Go back to Sign Up
+                        </Link>
                     </div>
                     
                 </div>

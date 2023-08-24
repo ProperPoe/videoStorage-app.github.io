@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 interface Props {}
 interface State {}
@@ -24,7 +25,9 @@ class SignUp extends PureComponent<Props, State> {
                     Discover amazing features and benefits of our app. Lorem ipsum dolor sit amet,
                     consectetur adipiscing elit. Sed ac ante vel nunc ullamcorper lacinia eu a dolor.
                     </p>
-                    <a href="#" className="text-blue-300 hover:underline">Already have an account? Sign In</a>
+                    <Link to="/login" className="text-blue-300 hover:underline">
+                        Already have an account? Sign In
+                    </Link>
                 </div>
                 {/* Signup Form */}
                 <div className="p-8 w-1/2">
