@@ -4,7 +4,10 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined'
 import {Menu, MenuItem, IconButton} from '@mui/material'
 import {Home, Person, Notifications, Search, Menu as MenuIcon} from '@mui/icons-material'
-
+import Homepage from '../pages/Home/Home'
+import Profile from '../pages/Profile/Profile'
+import Notifs from '../pages/Notifications/Notifications'
+import { Link } from 'react-router-dom'
 
 interface Props {}
 interface State {
@@ -62,10 +65,10 @@ class Navbar extends PureComponent<Props, State> {
 
                     {/* Navigation Links */}
                     <div className='text-white space-x-4 lg:flex hidden'>
-                        <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Home/></a>
-                        <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Person/></a>
-                        <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Notifications/></a>
-                        <a href="#" className='hover:text-blue-300 transition duration-300 hover:underline hover:scale-110'>Login</a>
+                        <Link to="/" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Home/></Link>
+                        <Link to="/profile" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Person/></Link>
+                        <Link to="/notifications" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Notifications/></Link>
+                        <Link to="/login" className='hover:text-blue-300 transition duration-300 hover:underline hover:scale-110'>Login</Link>
                     </div>
                     {/* Lightmode/Darkmode */}
                     {darkModeIcon ? (
@@ -93,10 +96,10 @@ class Navbar extends PureComponent<Props, State> {
                 onClose={this.handleClose}
                 
             >
-                <MenuItem onClick={this.handleClose}>Home</MenuItem>
-                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                <MenuItem onClick={this.handleClose}>Notifications</MenuItem>
-                <MenuItem onClick={this.handleClose}>Login</MenuItem>
+                <MenuItem onClick={this.handleClose}><Link to="/">Home</Link></MenuItem>
+                <MenuItem onClick={this.handleClose}><Link to="/profile">Profile</Link></MenuItem>
+                <MenuItem onClick={this.handleClose}><Link to="/notifications">Notifications</Link></MenuItem>
+                <MenuItem onClick={this.handleClose}><Link to="/login">Login</Link></MenuItem>
             </Menu>
             </>
         )

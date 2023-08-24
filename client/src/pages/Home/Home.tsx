@@ -4,7 +4,7 @@ import React, { PureComponent, ReactNode } from 'react'
 interface Props {}
 interface State {}
 
-class Home extends PureComponent<Props, State> {
+class Homepage extends PureComponent<Props, State> {
     constructor(props: Props) {
         super(props)
 
@@ -13,7 +13,7 @@ class Home extends PureComponent<Props, State> {
         }
     }
 
-    render(): ReactNode {
+    render() {
         return (
            <>
             <h1 className="text-3xl font-bold underline">Hiiii!</h1>
@@ -22,4 +22,4 @@ class Home extends PureComponent<Props, State> {
     }
 }
 
-export default Home
+export default Homepage

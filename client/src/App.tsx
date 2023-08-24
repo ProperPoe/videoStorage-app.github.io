@@ -1,45 +1,32 @@
-
-import Navbar from "./components/Navbar"
-import "./index.css"
-import Home from "./pages/Home/Home"
-import SignUp from "./pages/Auth/SignUp"
-import Login from "./pages/Auth/Login"
-
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Homepage from './pages/Home/Home';
+import Notifs from './pages/Notifications/Notifications';
+import Profile from './pages/Profile/Profile';
 
 interface Props {}
 interface State {}
 
-class App extends PureComponent<Props, State> {
+class App extends Component<Props, State> {
   constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      
-    }
+    super(props);
+    this.state = {};
   }
 
   render() {
     return (
-      <>
-      {/* <Navbar /> */}
-      {/* <Home />  */}
-      {/* <SignUp /> */}
-      <Login />
-      </>
-      
-    )
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/notifications" element={<Notifs />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </Router>
+    );
   }
 }
 
-// const mapStateToProps = (state) => ({
-  
-// })
-
-// const mapDispatchToProps = (dispatch) => ({
-  
-// })
-
-export default (App) /*connect(mapStateToProps, mapDispatchToProps)*/
+export default App;
 
