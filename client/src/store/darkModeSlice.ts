@@ -6,8 +6,9 @@ interface DarkModeState {
   isDarkMode: boolean;
 }
 
+const storedDarkMode = localStorage.getItem('darkMode') === 'true';
 const initialState: DarkModeState = {
-  isDarkMode: false, 
+  isDarkMode: storedDarkMode,
 };
 
 const darkModeSlice = createSlice({
@@ -15,7 +16,9 @@ const darkModeSlice = createSlice({
   initialState,
   reducers: {
     toggleDarkMode: (state) => {
-      state.isDarkMode = !state.isDarkMode;
+        const newMode = !state.isDarkMode;
+        localStorage.setItem('darkMode', newMode.toString()); // Update local storage
+        state.isDarkMode = newMode;
     },
   },
 });
