@@ -61,7 +61,7 @@ class Navbar extends PureComponent<Props, State> {
                     {/* Hamburger Icon */}
 
                     {/* Navigation Links */}
-                    <div className='text-white space-x-4'>
+                    <div className='text-white space-x-4 lg:flex hidden'>
                         <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Home/></a>
                         <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Person/></a>
                         <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Notifications/></a>
