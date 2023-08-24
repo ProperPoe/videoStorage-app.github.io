@@ -39,10 +39,10 @@ class Navbar extends PureComponent<Props, State> {
 
                     {/* Navigation Links */}
                     <div className='text-white space-x-4'>
-                        <a href="#" className='hover:text-gray-300 transition duration-300'><Home/></a>
-                        <a href="#" className='hover:text-gray-300 transition duration-300'><Person/></a>
-                        <a href="#" className='hover:text-gray-300 transition duration-300'><Notifications/></a>
-                        <a href="#" className='hover:text-gray-300 transition duration-300'>Login</a>
+                        <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Home/></a>
+                        <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Person/></a>
+                        <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Notifications/></a>
+                        <a href="#" className='hover:text-blue-300 transition duration-300 hover:underline hover:scale-110'>Login</a>
                     </div>
                      {/* Seach Input */}
                      <div className='flex items-center'>
