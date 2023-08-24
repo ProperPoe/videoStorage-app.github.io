@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
+import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined'
 import {Menu, MenuItem, IconButton} from '@mui/material'
-import {Home, Person, Notifications, Search, Menu as MenuIcon} from '@mui/icons-material'
+import {Home, Person, Notifications, Search, Menu as MenuIcon, Brightness4, Brightness7} from '@mui/icons-material'
 
 
 interface Props {}
 interface State {
     anchorEl: null | HTMLElement;
+    darkModeIcon: boolean;
 }
 
 class Navbar extends PureComponent<Props, State> {
@@ -14,6 +17,7 @@ class Navbar extends PureComponent<Props, State> {
         super(props);
         this.state = {
           anchorEl: null,
+          darkModeIcon: false,
         };
       }
     
@@ -25,8 +29,14 @@ class Navbar extends PureComponent<Props, State> {
         this.setState({ anchorEl: null });
       };
 
+      toggleDarkMode = () => {
+        this.setState((prevState) => ({
+            darkModeIcon: !prevState.darkModeIcon
+        }))
+      }
+
     render() {
-        const {anchorEl} = this.state;
+        const {anchorEl, darkModeIcon} = this.state;
 
         return (
             <>
@@ -57,6 +67,15 @@ class Navbar extends PureComponent<Props, State> {
                         <a href="#" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Notifications/></a>
                         <a href="#" className='hover:text-blue-300 transition duration-300 hover:underline hover:scale-110'>Login</a>
                     </div>
+                    {/* Lightmode/Darkmode */}
+                    {darkModeIcon ? (
+                        <DarkModeOutlinedIcon onClick={this.toggleDarkMode} className='text-white cursor-pointer hover:text-gray-300 transition duration-300' />
+                       ):(
+                        <WbSunnyOutlinedIcon onClick={this.toggleDarkMode} className='text-white cursor-pointer hover:text-gray-300 transition duration-300' />
+                    )
+
+                    }
+
                      {/* Seach Input */}
                      <div className='flex items-center'>
                         <input type="text" placeholder='Search' className='rounded-l-lg px-3 py-2 bg-gray-700 text-gray-200 focus:outline-none' />
