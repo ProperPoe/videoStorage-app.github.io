@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined'
 import {Menu, MenuItem, IconButton} from '@mui/material'
-import {Home, Person, Notifications, Search, Menu as MenuIcon, Brightness4, Brightness7} from '@mui/icons-material'
+import {Home, Person, Notifications, Search, Menu as MenuIcon} from '@mui/icons-material'
 
 
 interface Props {}

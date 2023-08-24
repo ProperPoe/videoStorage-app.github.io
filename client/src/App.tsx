@@ -2,6 +2,8 @@
 import Navbar from "./components/Navbar"
 import "./index.css"
 import Home from "./pages/Home/Home"
+import SignUp from "./pages/Auth/SignUp"
+import Login from "./pages/Auth/Login"
 
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
@@ -21,8 +23,10 @@ class App extends PureComponent<Props, State> {
   render() {
     return (
       <>
-      <Navbar />
-      <Home /> 
+      {/* <Navbar /> */}
+      {/* <Home />  */}
+      {/* <SignUp /> */}
+      <Login />
       </>
       
     )
