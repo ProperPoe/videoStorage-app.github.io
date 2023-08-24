@@ -1,18 +1,24 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux';
+import store, {AppDispatch, RootState} from '../store/store';
+import { toggleDarkMode } from '../store/darkModeSlice';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined'
+//import { HomeOutlined } from '@mui/icons-material';
 import {Menu, MenuItem, IconButton} from '@mui/material'
-import {Home, Person, Notifications, Search, Menu as MenuIcon} from '@mui/icons-material'
+import {Home, Person, Notifications, Search, Menu as MenuIcon, HomeMaxOutlined} from '@mui/icons-material'
 import Homepage from '../pages/Home/Home'
 import Profile from '../pages/Profile/Profile'
 import Notifs from '../pages/Notifications/Notifications'
 import { Link } from 'react-router-dom'
 
-interface Props {}
+interface Props {
+    isDarkMode: boolean;
+    toggleDarkMode: () => void
+}
 interface State {
     anchorEl: null | HTMLElement;
-    darkModeIcon: boolean;
 }
 
 class Navbar extends PureComponent<Props, State> {
@@ -20,7 +26,6 @@ class Navbar extends PureComponent<Props, State> {
         super(props);
         this.state = {
           anchorEl: null,
-          darkModeIcon: false,
         };
       }
     
@@ -33,48 +38,55 @@ class Navbar extends PureComponent<Props, State> {
       };
 
       toggleDarkMode = () => {
-        this.setState((prevState) => ({
-            darkModeIcon: !prevState.darkModeIcon
-        }))
+        this.props.toggleDarkMode();
       }
 
     render() {
-        const {anchorEl, darkModeIcon} = this.state;
+        const {anchorEl} = this.state;
+        const {isDarkMode} = this.props;
+
+        // Define the classes for light and dark modes
+        const lightModeClasses = 'bg-white text-black';
+        const darkModeClasses = 'bg-gray-800 text-white';
+
+        // Determine which classes to use based on the dark mode state
+        const navbarClasses = isDarkMode ? darkModeClasses : lightModeClasses;
 
         return (
             <>
-            <div className='bg-gray-800 py-4'>
+            <div className={`bg-gray-800 py-4 ${navbarClasses}`} >
                 <div className='container mx-auto flex justify-between items-center'>
                     <div className='flex items-center'>
-                        <IconButton
-                            sx={{color: 'white', fontSize: '24px'}}
-                            color='inherit'
-                            edge='start'
-                            aria-label='menu'
-                            aria-controls='menu'
-                            aria-haspopup="true"
-                            onClick={this.handleClick}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        {/* Logo */}
-                        <div className='text-white text-xl font-bold'>Logo</div>
+                    <IconButton
+                        sx={{ color: isDarkMode ? 'white' : 'black', fontSize: '24px' }}
+                        color='inherit'
+                        edge='start'
+                        aria-label='menu'
+                        aria-controls='menu'
+                        aria-haspopup='true'
+                        onClick={this.handleClick}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    {/* Logo */}
+                    <div className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Logo</div>
+
 
                     </div>
                     {/* Hamburger Icon */}
 
                     {/* Navigation Links */}
                     <div className='text-white space-x-4 lg:flex hidden'>
-                        <Link to="/" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Home/></Link>
-                        <Link to="/profile" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Person/></Link>
-                        <Link to="/notifications" className='hover:text-blue-400 transition duration-300 hover:underline hover:scale-110'><Notifications/></Link>
-                        <Link to="/signup" className='hover:text-blue-300 transition duration-300 hover:underline hover:scale-110'>Login</Link>
+                        <Link to="/" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Home/></Link>
+                        <Link to="/profile" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Person/></Link>
+                        <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Notifications/></Link>
+                        <Link to="/signup" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}>Login</Link>
                     </div>
                     {/* Lightmode/Darkmode */}
-                    {darkModeIcon ? (
-                        <DarkModeOutlinedIcon onClick={this.toggleDarkMode} className='text-white cursor-pointer hover:text-gray-300 transition duration-300' />
+                    {this.props.isDarkMode ?  (
+                        <DarkModeOutlinedIcon onClick={this.toggleDarkMode} className={`cursor-pointer hover:text-gray-300 transition duration-300 ${isDarkMode ? 'text-white' : 'text-black'}`} />
                        ):(
-                        <WbSunnyOutlinedIcon onClick={this.toggleDarkMode} className='text-white cursor-pointer hover:text-gray-300 transition duration-300' />
+                        <WbSunnyOutlinedIcon onClick={this.toggleDarkMode} className={`cursor-pointer hover:text-gray-300 transition duration-300 ${isDarkMode ? 'text-white' : 'text-black'}`} />
                     )
 
                     }
@@ -106,12 +118,16 @@ class Navbar extends PureComponent<Props, State> {
     }
 }
 
-// const mapStateToProps = (state) => ({
-    
-// })
+const mapStateToProps = (state: RootState) => ({
+    isDarkMode: state.darkMode.isDarkMode,
+  });
 
-// const mapDispatchToProps = (dispatch) => ({
-    
-// })
+const mapDispatchToProps = (dispatch: AppDispatch) =>
+  bindActionCreators(
+    {
+      toggleDarkMode,
+    },
+    dispatch
+  );
 
-export default  (Navbar) /*connect(mapStateToProps, mapDispatchToProps)*/
+export default  connect(mapStateToProps, mapDispatchToProps)(Navbar)

@@ -7,7 +7,7 @@ interface DarkModeState {
 }
 
 const initialState: DarkModeState = {
-  isDarkMode: false, // Set the initial mode as light
+  isDarkMode: false, 
 };
 
 const darkModeSlice = createSlice({
