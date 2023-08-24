@@ -22,7 +22,7 @@ class App extends PureComponent<Props, State> {
     return (
       <>
       <Navbar />
-      <Home />
+      <Home /> 
       </>
       
     )

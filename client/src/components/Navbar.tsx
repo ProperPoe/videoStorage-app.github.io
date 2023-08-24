@@ -3,31 +3,44 @@ import { connect } from 'react-redux'
 import {Menu, MenuItem, IconButton} from '@mui/material'
 import {Home, Person, Notifications, Search, Menu as MenuIcon} from '@mui/icons-material'
 
+
 interface Props {}
-interface State {}
+interface State {
+    anchorEl: null | HTMLElement;
+}
 
 class Navbar extends PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props)
-
+    constructor(props: any) {
+        super(props);
         this.state = {
-            
-        }
-    }
+          anchorEl: null,
+        };
+      }
+    
+      handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        this.setState({ anchorEl: event.currentTarget });
+      };
+    
+      handleClose = () => {
+        this.setState({ anchorEl: null });
+      };
 
     render() {
+        const {anchorEl} = this.state;
+
         return (
             <>
             <div className='bg-gray-800 py-4'>
                 <div className='container mx-auto flex justify-between items-center'>
                     <div className='flex items-center'>
                         <IconButton
-                            sx={{color: 'white'}}
+                            sx={{color: 'white', fontSize: '24px'}}
                             color='inherit'
                             edge='start'
                             aria-label='menu'
                             aria-controls='menu'
                             aria-haspopup="true"
+                            onClick={this.handleClick}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -51,6 +64,21 @@ class Navbar extends PureComponent<Props, State> {
                      </div>
                 </div>
             </div>
+
+            {/* Hamburger Menu */}
+            <Menu
+                id="menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={this.handleClose}
+                
+            >
+                <MenuItem onClick={this.handleClose}>Home</MenuItem>
+                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                <MenuItem onClick={this.handleClose}>Notifications</MenuItem>
+                <MenuItem onClick={this.handleClose}>Login</MenuItem>
+            </Menu>
             </>
         )
     }
