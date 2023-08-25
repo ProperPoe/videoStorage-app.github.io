@@ -54,7 +54,7 @@ class Login extends PureComponent<Props, State> {
                     </div>
                     </form>
                     <div className="mt-4">
-                        <Link to="/signup" className="text-blue-500 hover:underline">
+                        <Link to="/" className="text-blue-500 hover:underline">
                             Go back to Sign Up
                         </Link>
                     </div>

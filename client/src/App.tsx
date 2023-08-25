@@ -6,8 +6,12 @@ import Notifs from './pages/Notifications/Notifications';
 import Profile from './pages/Profile/Profile';
 import SignUp from './pages/Auth/SignUp';
 import Login from './pages/Auth/Login';
+import { connect } from 'react-redux';
+import { RootState } from './store/store';
 
-interface Props {}
+interface Props {
+  isAuthenticated: boolean;
+}
 interface State {}
 
 class App extends Component<Props, State> {
@@ -17,20 +21,33 @@ class App extends Component<Props, State> {
   }
 
   render() {
+    const { isAuthenticated } = this.props;
+
     return (
       <Router>
-        <Navbar />
+        {isAuthenticated && <Navbar />} {/* Render Navbar only when authenticated */}
         <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/notifications" element={<Notifs />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
+          {/* The first page for non-authenticated users */}
+          {!isAuthenticated && 
+            <Route path="/" element={<SignUp />}/>}
+            <Route path="/login" element={<Login />} />
+          {/* Authenticated routes */}
+          {isAuthenticated && (
+            <>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/notifications" element={<Notifs />} />
+              <Route path="/profile" element={<Profile />} />
+            </>
+          )}
+          </Routes>
       </Router>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state: RootState) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(App);
 

@@ -13,6 +13,18 @@ class SignUp extends PureComponent<Props, State> {
             
         }
     }
+    handleFormSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        
+        const formData = new FormData(event.target as HTMLFormElement);
+        const formValues: { [key: string]: string } = {};
+
+        formData.forEach((value, key) => {
+            formValues[key] = value as string;
+        });
+
+        console.log('Form values:', formValues);
+    };
 
     render() {
         return (
@@ -32,7 +44,7 @@ class SignUp extends PureComponent<Props, State> {
                 {/* Signup Form */}
                 <div className="p-8 w-1/2">
                     <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
-                    <form>
+                    <form onSubmit={this.handleFormSubmit}>
                     <div className="mb-6">
                         <label htmlFor="username" className="block text-sm font-medium text-gray-600">
                         Username
