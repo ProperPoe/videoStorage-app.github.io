@@ -4,13 +4,24 @@ import { CommentOutlined, FavoriteBorderOutlined, PlayCircleOutline } from '@mui
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 
-interface Props {}
+interface PostType {
+    id: number;
+    title: string;
+    imageUrl: string;
+    likes: number;
+    comments: number;
+}
+
+interface Props {
+    post: PostType;
+}
 
 function Post(props: Props) {
+    const { post } = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
     // Define class names based on dark mode
-    const cardClassName = `w-64 h-96 overflow-hidden shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'}`;
+    const cardClassName = `w-81 h-96 overflow-hidden shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'}`;
     const iconColor = isDarkMode ? 'text-white' : 'text-gray-700';
 
     return (
@@ -33,13 +44,13 @@ function Post(props: Props) {
                         <IconButton size="small">
                             <FavoriteBorderOutlined fontSize="small" className={iconColor} />
                         </IconButton>
-                        <Typography variant="body2" className={isDarkMode ? 'text-white' : 'text-gray-700'}>12 Likes</Typography>
+                        <Typography variant="body2" className={isDarkMode ? 'text-white' : 'text-gray-700'}>12</Typography>
                     </div>
                     <div className="flex items-center">
                         <IconButton size="small">
                             <CommentOutlined fontSize="small" className={iconColor} />
                         </IconButton>
-                        <Typography variant="body2" className={isDarkMode ? 'text-white' : 'text-gray-700'}>5 Comments</Typography>
+                        <Typography variant="body2" className={isDarkMode ? 'text-white' : 'text-gray-700'}>5</Typography>
                     </div>
                 </div>
             </CardContent>

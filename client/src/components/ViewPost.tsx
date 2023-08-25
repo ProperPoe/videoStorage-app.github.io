@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ThumbUp, Edit, Delete, Lock, CloudDownload, ChatBubbleOutline } from '@mui/icons-material';
+import { FavoriteBorderOutlined, Edit, Delete, Lock, CloudDownload, ChatBubbleOutline, Favorite } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
@@ -27,7 +27,7 @@ const ViewPost = () => {
 
         {/* Likes section */}
         <div className="flex items-center mb-4">
-            <ThumbUp className="text-blue-500 text-lg mr-2 cursor-pointer" />
+            <Favorite className="text-red-600 text-lg mr-2 cursor-pointer" />
             <span className="text-gray-400">100 Likes</span>
         </div>
 
