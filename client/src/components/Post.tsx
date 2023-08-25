@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography } from '@mui/material';
-import { CommentOutlined, FavoriteBorderOutlined, PlayCircleOutline } from '@mui/icons-material';
+import { CommentOutlined, FavoriteBorderOutlined, PlayCircleOutline, FavoriteOutlined } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 
@@ -21,7 +21,7 @@ function Post(props: Props) {
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
     // Define class names based on dark mode
-    const cardClassName = `w-81 h-96 overflow-hidden shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'}`;
+    const cardClassName = `w-81 h-95 overflow-hidden shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'}`;
     const iconColor = isDarkMode ? 'text-white' : 'text-gray-700';
 
     return (
@@ -30,7 +30,7 @@ function Post(props: Props) {
             <div className="w-full h-56 bg-gray-300 relative">
                 <PlayCircleOutline className="absolute inset-1/2 text-gray-700 text-5xl transform -translate-x-1/2 -translate-y-1/2" />
             </div>
-            <CardContent className={`p-2 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+            <CardContent className={`p-2 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} m-0` }>
                 {/* User Info */}
                 <CardHeader
                     avatar={<Avatar />}
