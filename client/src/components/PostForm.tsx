@@ -1,12 +1,15 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 interface Props {}
 
 function PostForm(props: Props) {
     const {} = props
+    const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
     return (
-        <div className="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-md">
+     <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white'} rounded-lg shadow-md`}>
         <h2 className="text-2xl font-semibold mb-4">Upload New Post</h2>
         <form className="space-y-4">
           <div>
@@ -17,8 +20,9 @@ function PostForm(props: Props) {
               id="description"
               name="description"
               rows={3}
-              className="mt-1 p-3 w-full border rounded-md focus:ring focus:ring-blue-300"
-              placeholder="Enter a description for your post"
+              className={`mt-1 p-3 w-full border rounded-md focus:ring focus:ring-blue-300 ${
+                isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'
+              }`}
             />
           </div>
           <div>
@@ -26,11 +30,13 @@ function PostForm(props: Props) {
               Tags
             </label>
             <input
-              type="text"
-              id="tags"
-              name="tags"
-              className="mt-1 p-3 w-full border rounded-md focus:ring focus:ring-blue-300"
-              placeholder="Add tags for easy searching"
+                type="text"
+                id="tags"
+                name="tags"
+                className={`mt-1 p-3 w-full border rounded-md focus:ring focus:ring-blue-300 ${
+                    isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'
+                }`}
+                placeholder="Add tags for easy searching"
             />
           </div>
           <div>
@@ -52,7 +58,7 @@ function PostForm(props: Props) {
             Upload Post
           </button>
         </form>
-      </div>
+      </div>        
     )
 }
 
