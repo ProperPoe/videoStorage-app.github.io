@@ -21,9 +21,9 @@ class Homepage extends PureComponent<Props, State> {
         return (
            <>
             {/* <h1 className="text-3xl font-bold underline">Hiiii!</h1>
-            <PostForm/>
-            <Posts/> */}
-            <ViewPost/>
+            <PostForm/>*/}
+            <Posts/> 
+            {/* <ViewPost/> */}
            </> 
         )
     }
