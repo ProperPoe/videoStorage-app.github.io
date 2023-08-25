@@ -30,13 +30,18 @@ function Post(props: Props) {
             <div className="w-full h-56 bg-gray-300 relative">
                 <PlayCircleOutline className="absolute inset-1/2 text-gray-700 text-5xl transform -translate-x-1/2 -translate-y-1/2" />
             </div>
-            <CardContent className={`p-2 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white'}`}>
+            <CardContent className={`p-2 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
                 {/* User Info */}
                 <CardHeader
-                avatar={<Avatar />}
-                title="Username"
-                subheader="5 minutes ago"
-                className="p-2"
+                    avatar={<Avatar />}
+                    title="Username"
+                    subheader="5 minutes ago"
+                    subheaderTypographyProps={{
+                        style: {
+                            color: isDarkMode ? 'white' : 'gray',
+                        },
+                    }}
+                    className='p-2'
                 />
                 {/* Likes and Comments */}
                 <div className="flex justify-between items-center mt-2">

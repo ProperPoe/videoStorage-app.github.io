@@ -47,7 +47,7 @@ class Navbar extends PureComponent<Props, State> {
 
         // Define the classes for light and dark modes
         const lightModeClasses = 'bg-white text-black';
-        const darkModeClasses = 'bg-gray-800 text-white';
+        const darkModeClasses = 'bg-gray-700 text-white';
 
         // Determine which classes to use based on the dark mode state
         const navbarClasses = isDarkMode ? darkModeClasses : lightModeClasses;
@@ -93,8 +93,8 @@ class Navbar extends PureComponent<Props, State> {
 
                      {/* Seach Input */}
                      <div className='flex items-center'>
-                        <input type="text" placeholder='Search' className='rounded-l-lg px-3 py-2 bg-gray-700 text-gray-200 focus:outline-none' />
-                        <button className='rounded-r-lg px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 transition duration-300'><Search /></button>
+                        <input type="text" placeholder='Search' className={`rounded-l-lg px-3 py-2  ${isDarkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'} focus:outline-none`} />
+                        <button className={`rounded-r-lg px-4 py-2 ${isDarkMode ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-blue-200 text-gray-800 hover:bg-blue-300'} bg-blue-500 text-white hover:bg-blue-600 transition duration-300`}><Search /></button>
                      </div>
                 </div>
             </div>
