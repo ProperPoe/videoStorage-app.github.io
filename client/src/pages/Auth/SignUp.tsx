@@ -1,8 +1,12 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { login } from '../../store/authSlice'
 
-interface Props {}
+interface Props {
+    login: () => void; // Add the login action to props
+  }
 interface State {}
 
 class SignUp extends PureComponent<Props, State> {
@@ -17,12 +21,13 @@ class SignUp extends PureComponent<Props, State> {
         event.preventDefault();
         
         const formData = new FormData(event.target as HTMLFormElement);
-        const formValues: { [key: string]: string } = {};
+        const formValues: { [key: string]: string } = {}; //initializes an empty object that will hold the form values.
 
         formData.forEach((value, key) => {
-            formValues[key] = value as string;
+            formValues[key] = value as string; //assigns the value to the corresponding property in the formValues object using the key as the property name.
         });
-
+    
+        this.props.login()
         console.log('Form values:', formValues);
     };
 
@@ -94,12 +99,8 @@ class SignUp extends PureComponent<Props, State> {
     }
 }
 
-// const mapStateToProps = (state) => ({
-    
-// })
-
-// const mapDispatchToProps = (dispatch) => ({
-    
-// })
-
-export default (SignUp)/*connect(mapStateToProps, mapDispatchToProps)*/
+const mapDispatchToProps = {
+    login, // Map the login action to props
+  };
+  
+  export default connect(null, mapDispatchToProps)(SignUp);
