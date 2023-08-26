@@ -7,7 +7,7 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined'
 //import { HomeOutlined } from '@mui/icons-material';
 import {Menu, MenuItem, IconButton} from '@mui/material'
-import {Home, Person, Notifications, Search, Menu as MenuIcon, HomeMaxOutlined} from '@mui/icons-material'
+import {Home, Person, Notifications, Search, Menu as MenuIcon, AccountCircle, FiberManualRecord, ExitToApp} from '@mui/icons-material'
 import Homepage from '../pages/Home/Home'
 import Profile from '../pages/Profile/Profile'
 import Notifs from '../pages/Notifications/Notifications'
@@ -76,11 +76,28 @@ class Navbar extends PureComponent<Props, State> {
                     {/* Hamburger Icon */}
 
                     {/* Navigation Links */}
-                    <div className='text-white space-x-4 lg:flex hidden'>
-                        <Link to="/" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Home/></Link>
-                        <Link to="/profile" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Person/></Link>
-                        <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Notifications/></Link>
-                        <Link to="/signup" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}>Login</Link>
+                    <div className='flex items-center space-x-4' >
+
+                      <div className='text-white space-x-4 lg:flex hidden'>
+                          <Link to="/" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Home/></Link>
+                          <Link to="/profile" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Person/></Link>
+                          <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Notifications/></Link>
+                          
+                            {/* <ExitToApp className={`hover:text-blue-400 transition duration-300 hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`} /> */}
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                          <div className='flex flex-col'>
+                              <AccountCircle className={`text-gray-500 ${isDarkMode ? 'text-white' : 'text-black'}`} fontSize="small" />
+                              <div className="flex items-center">
+                                  <span className={`cursor-pointer hover:text-blue-400 transition duration-300 hover:underline hover:scale-105 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>usernameuser</span>
+                                  <div className="flex items-center">
+                                      <FiberManualRecord className="text-green-500 mr-1" />
+                                      <span className={`text-xs ${isDarkMode ? 'text-white' : 'text-black'}`}></span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                     </div>
                     {/* Lightmode/Darkmode */}
                     {this.props.isDarkMode ?  (
