@@ -86,7 +86,7 @@ class Navbar extends PureComponent<Props, State> {
                             {/* <ExitToApp className={`hover:text-blue-400 transition duration-300 hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`} /> */}
                       </div>
 
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-2 lg-flex hidden">
                           <div className='flex flex-col'>
                               <AccountCircle className={`text-gray-500 ${isDarkMode ? 'text-white' : 'text-black'}`} fontSize="small" />
                               <div className="flex items-center">
@@ -109,7 +109,7 @@ class Navbar extends PureComponent<Props, State> {
                     }
 
                      {/* Seach Input */}
-                     <div className='flex items-center'>
+                     <div className='flex items-center lg:flex hidden'>
                         <input type="text" placeholder='Search' className={`rounded-l-lg px-3 py-2  ${isDarkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'} focus:outline-none`} />
                         <button className={`rounded-r-lg px-4 py-2 ${isDarkMode ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-blue-200 text-gray-800 hover:bg-blue-300'} bg-blue-500 text-white hover:bg-blue-600 transition duration-300`}><Search /></button>
                      </div>
@@ -125,6 +125,16 @@ class Navbar extends PureComponent<Props, State> {
                 onClose={this.handleClose}
                 
             >
+                <MenuItem>
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        className={`rounded-l-lg px-3 py-2 ${isDarkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'} focus:outline-none`}
+                    />
+                    <button className={`rounded-r-lg px-4 py-2 ${isDarkMode ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-blue-200 text-gray-800 hover:bg-blue-300'} bg-blue-500 text-white hover:bg-blue-600 transition duration-300`}>
+                        <Search />
+                    </button>
+                </MenuItem>
                 <MenuItem onClick={this.handleClose}><Link to="/">Home</Link></MenuItem>
                 <MenuItem onClick={this.handleClose}><Link to="/profile">Profile</Link></MenuItem>
                 <MenuItem onClick={this.handleClose}><Link to="/notifications">Notifications</Link></MenuItem>
