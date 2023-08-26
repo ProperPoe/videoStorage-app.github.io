@@ -22,7 +22,7 @@ function Post(props: Props) {
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
     // Define class names based on dark mode
-    const cardClassName = `w-81 h-95 overflow-hidden shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'} cursor-pointer`;
+    const cardClassName = `w-81 h-95 shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'} cursor-pointer`;
     const iconColor = isDarkMode ? 'text-white' : 'text-gray-700';
 
     const toggleViewPost = () => {

@@ -21,7 +21,7 @@ function Posts(props: Props) {
     
 
     return (
-        <div className="grid grid-cols-2 gap-4 p-4">
+        <div className="grid md:grid-cols-2 gap-4 p-4 sm:grid-cols-1">
             {posts.map(post => (
                 <Post key={post.id} post={post} showPost={showPost} />
             ))}

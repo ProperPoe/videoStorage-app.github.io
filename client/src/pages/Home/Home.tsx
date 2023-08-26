@@ -25,6 +25,8 @@ const samplePosts = [
     { id: 2, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
     { id: 3, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
     { id: 4, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
+    { id: 5, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
+    { id: 6, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
 ];
 
 class Homepage extends PureComponent<Props, State> {

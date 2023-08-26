@@ -87,7 +87,7 @@ class Navbar extends PureComponent<Props, State> {
                       </div>
 
                       <div className="flex items-center space-x-2">
-                          <div className='flex flex-col lg:items-start sm:items-center'>
+                          <div className='flex flex-col lg:items-start items-center'>
                               <AccountCircle className={`text-gray-500 ${isDarkMode ? 'text-white' : 'text-black'}`} fontSize="small" />
                               <div className="flex items-center">
                                   <span className={`cursor-pointer hover:text-blue-400 transition duration-300 hover:underline hover:scale-105 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>usernameuser</span>
