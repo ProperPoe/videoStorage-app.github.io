@@ -2,12 +2,20 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 
-interface Props {}
+interface Props {
+  show: () => void;
+}
 
 function PostForm(props: Props) {
-    const {} = props
+    const {show} = props
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
+    const handleClick = (e: any) => {
+      e.preventDefault()
+
+      show()
+
+    }
     return (
      <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white'} rounded-lg shadow-md`}>
         <h2 className="text-2xl font-semibold mb-4">Upload New Post</h2>
@@ -53,6 +61,7 @@ function PostForm(props: Props) {
           </div>
           <button
             type="submit"
+            onClick={handleClick}
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
           >
             Upload Post

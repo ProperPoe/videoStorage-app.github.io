@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { FavoriteBorderOutlined, Edit, Delete, Lock, CloudDownload, ChatBubbleOutline, Favorite } from '@mui/icons-material';
+import { FavoriteBorderOutlined, Edit, Delete, Lock, CloudDownload, ChatBubbleOutline, Favorite, Close } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import Comments from './Comments';
 
-const ViewPost = () => {
+interface Props{
+    showPost: ()=>void
+}
+
+const ViewPost = (props: Props) => {
+    const {showPost} = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const [showComments, setShowComments] = useState(false); 
 
@@ -14,8 +19,19 @@ const ViewPost = () => {
       { id: 2, user: 'User2', text: 'I love this.' },
     ];
 
+    const toggleViewPost = () => {
+        showPost();
+    }
+
     return (
         <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white'} rounded-lg shadow-md`}>
+            {/* Close icon */}
+        <button
+            className="absolute top-20 right-4 text-gray-400 hover:text-gray-600 cursor-pointer"
+            onClick={toggleViewPost}
+        >
+            <Close className="text-2xl" />
+        </button>
         {/* Placeholder for video/image */}
         <div
             className="w-full h-60 bg-gray-300 rounded-lg mb-4 flex items-center justify-center text-gray-600"

@@ -14,18 +14,23 @@ interface PostType {
 
 interface Props {
     post: PostType;
+    showPost: ()=>void;
 }
 
 function Post(props: Props) {
-    const { post } = props;
+    const { post, showPost } = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
     // Define class names based on dark mode
-    const cardClassName = `w-81 h-95 overflow-hidden shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'}`;
+    const cardClassName = `w-81 h-95 overflow-hidden shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'} cursor-pointer`;
     const iconColor = isDarkMode ? 'text-white' : 'text-gray-700';
 
+    const toggleViewPost = () => {
+        showPost()
+    }
+
     return (
-        <Card className={cardClassName}>
+        <Card className={cardClassName} onClick={toggleViewPost}>
             {/* Thumbnail */}
             <div className="w-full h-56 bg-gray-300 relative">
                 <PlayCircleOutline className="absolute inset-1/2 text-gray-700 text-5xl transform -translate-x-1/2 -translate-y-1/2" />

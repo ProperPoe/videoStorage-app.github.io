@@ -51,7 +51,7 @@ function Profile(props: Props) {
             </div>
             {/* User Posts */}
             <div className="p-4">
-                <Posts posts={specificPosts} />
+                {/* <Posts posts={specificPosts} /> */}
             </div>
         </div>
     );
