@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const auth_js_1 = __importDefault(require("../controllers/auth.js"));
+const notif_js_1 = __importDefault(require("../controllers/notif.js"));
 const router = express_1.default.Router();
-router.get("/test", auth_js_1.default.createUser);
+router.get("/test", notif_js_1.default.getNotif);
 exports.default = router;

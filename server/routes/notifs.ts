@@ -1,10 +1,10 @@
 import express, { Express } from "express";
-import likeController from "../controllers/like.js"
+import notifController from "../controllers/notif.js"
 
 
 const router = express.Router()
 
 
-router.get("/test", likeController.getLike);
+router.get("/test", notifController.getNotif);
 
 export default router
