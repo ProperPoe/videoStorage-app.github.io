@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { login } from '../../store/authSlice'
+import axios from 'axios'
 
 interface Props {
     login: () => void; // Add the login action to props
@@ -17,7 +18,7 @@ class SignUp extends PureComponent<Props, State> {
             
         }
     }
-    handleFormSubmit = (event: React.FormEvent) => {
+    handleFormSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         
         const formData = new FormData(event.target as HTMLFormElement);
@@ -26,8 +27,14 @@ class SignUp extends PureComponent<Props, State> {
         formData.forEach((value, key) => {
             formValues[key] = value as string; //assigns the value to the corresponding property in the formValues object using the key as the property name.
         });
-    
-        this.props.login()
+        
+        try {
+            await axios.post('http://localhost:4000/api/auth/register' , formValues)
+            
+            this.props.login()
+        } catch (error) {
+            console.log(error)
+        }
         console.log('Form values:', formValues);
     };
 
