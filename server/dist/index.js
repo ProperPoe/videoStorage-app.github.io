@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const users_js_1 = __importDefault(require("./routes/users.js"));
 class Server {
     constructor(port) {
         this.app = (0, express_1.default)();
@@ -11,9 +12,7 @@ class Server {
         this.configureRoutes();
     }
     configureRoutes() {
-        // this.app.listen(this.port, () => {
-        //     console.log(`Server on ${this.port}`)
-        // })
+        this.app.use("/api/users", users_js_1.default);
     }
     start() {
         this.app.listen(this.port, () => {

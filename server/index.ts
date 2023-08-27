@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import userRoutes from "./routes/users.js"
 
 class Server {
     private app: Express;
@@ -12,9 +13,8 @@ class Server {
     }
 
     private configureRoutes(){
-        // this.app.listen(this.port, () => {
-        //     console.log(`Server on ${this.port}`)
-        // })
+        this.app.use("/api/users", userRoutes)
+        
     }
 
     public start(){
