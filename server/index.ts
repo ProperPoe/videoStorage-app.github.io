@@ -21,8 +21,15 @@ class Server {
     }
 
     private configureMiddleware(){
+        this.app.use((req, res, next) => {
+            res.header("Access-Control-Allow-Credentials", "true")
+
+            next()
+        })
         this.app.use(express.json());
-        this.app.use(cors());
+        this.app.use(cors({
+            origin: "http://localhost:3000",
+        }));
         this.app.use(cookieParser());
     }
 

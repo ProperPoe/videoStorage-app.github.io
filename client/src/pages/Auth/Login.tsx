@@ -2,13 +2,14 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
-const SignUp: React.FC = () => {
+const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleFormSubmit = (event: React.FormEvent) => {
+  const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     
     const formData = new FormData(event.target as HTMLFormElement);
@@ -18,9 +19,18 @@ const SignUp: React.FC = () => {
       formValues[key] = value as string;
     });
 
-    dispatch(login());
-    
-    navigate('/');
+    try {
+      const res = await axios.post('http://localhost:4000/api/auth/login', formValues, {
+        withCredentials: true,
+      });
+      console.log(res.data)
+      dispatch(login(res.data));
+      
+      navigate('/');
+    } catch (error) {
+      console.log(error)  
+    }
+
   };
 
   return (
@@ -82,5 +92,5 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default Login;
 

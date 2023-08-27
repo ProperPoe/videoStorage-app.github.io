@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { login } from '../../store/authSlice'
 import axios from 'axios'
 
 interface Props {
-    login: () => void; // Add the login action to props
+    login: (currentUser: string) => void; // Add the login action to props
   }
 interface State {}
 
@@ -31,7 +30,7 @@ class SignUp extends PureComponent<Props, State> {
         try {
             await axios.post('http://localhost:4000/api/auth/register' , formValues)
             
-            this.props.login()
+            this.props.login(formValues.username);
         } catch (error) {
             console.log(error)
         }
@@ -107,7 +106,7 @@ class SignUp extends PureComponent<Props, State> {
 }
 
 const mapDispatchToProps = {
-    login, // Map the login action to props
+    login, 
   };
-  
-  export default connect(null, mapDispatchToProps)(SignUp);
+
+export default connect(null, mapDispatchToProps)(SignUp);

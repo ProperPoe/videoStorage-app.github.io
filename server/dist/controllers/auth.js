@@ -45,7 +45,7 @@ class AuthController {
             if (err)
                 return res.status(500).json(err);
             if (data.length === 0)
-                return res.status(404).json("User not found");
+                return res.status(404).json("no");
             const checkPassword = bcryptjs_1.default.compareSync(req.body.password, data[0].password);
             if (!checkPassword)
                 return res.status(400).json("Wrong password or username");

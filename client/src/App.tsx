@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { RootState } from './store/store';
 
 interface Props {
-  isAuthenticated: boolean;
+  currentUser: string | null;
 }
 interface State {}
 
@@ -21,18 +21,18 @@ class App extends Component<Props, State> {
   }
 
   render() {
-    const { isAuthenticated } = this.props;
+    const { currentUser } = this.props;
 
     return (
       <Router>
-        {isAuthenticated && <Navbar />} {/* Render Navbar only when authenticated */}
+        {currentUser && <Navbar />} {/* Render Navbar only when authenticated */}
         <Routes>
           {/* The first page for non-authenticated users */}
-          {!isAuthenticated && 
+          {!currentUser && 
             <Route path="/" element={<SignUp />}/>}
             <Route path="/login" element={<Login />} />
           {/* Authenticated routes */}
-          {isAuthenticated && (
+          {currentUser && (
             <>
               <Route path="/" element={<Homepage />} />
               <Route path="/notifications" element={<Notifs />} />
@@ -46,7 +46,7 @@ class App extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  currentUser: state.auth.currentUser,
 });
 
 export default connect(mapStateToProps)(App);
