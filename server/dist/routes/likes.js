@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const like_js_1 = __importDefault(require("../controllers/like.js"));
 const router = express_1.default.Router();
-router.get("/test", like_js_1.default.getLike);
+router.get("", like_js_1.default.getLike);
 exports.default = router;

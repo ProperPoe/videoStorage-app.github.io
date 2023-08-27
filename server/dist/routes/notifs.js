@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const notif_js_1 = __importDefault(require("../controllers/notif.js"));
 const router = express_1.default.Router();
-router.get("/test", notif_js_1.default.getNotif);
+router.get("", notif_js_1.default.getNotif);
 exports.default = router;
