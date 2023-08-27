@@ -55,7 +55,10 @@ class AuthController {
         });
     }
     logout(req, res) {
-        res.send("it works!");
+        res.clearCookie("accessToken", {
+            secure: true,
+            sameSite: "none"
+        }).status(200).json("User is logged out");
     }
 }
 exports.default = new AuthController();

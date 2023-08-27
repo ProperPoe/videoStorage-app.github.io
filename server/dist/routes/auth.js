@@ -8,5 +8,5 @@ const auth_js_1 = __importDefault(require("../controllers/auth.js"));
 const router = express_1.default.Router();
 router.post("/login", auth_js_1.default.login);
 router.post("/register", auth_js_1.default.register);
-router.get("/logout", auth_js_1.default.logout);
+router.post("/logout", auth_js_1.default.logout);
 exports.default = router;

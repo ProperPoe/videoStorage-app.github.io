@@ -49,7 +49,10 @@ class AuthController {
         })
     }
     public logout(req: Request, res: Response): void {
-        res.send("it works!")
+        res.clearCookie("accessToken", {
+            secure:true,
+            sameSite:"none"
+        }).status(200).json("User is logged out")
     }
 }
 
