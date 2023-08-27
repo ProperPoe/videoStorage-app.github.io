@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import { db } from "../connect";
 import { OkPacket, RowDataPacket } from "mysql2";
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken"
+
 
 class AuthController {
     public register(req: Request, res: Response): void {
@@ -27,7 +29,24 @@ class AuthController {
 
     }
     public login(req: Request, res: Response): void {
-        res.send("it works!")
+        const q = "SELECT * FROM users WHERE username = ?";
+
+        db.query(q,[req.body.username],(err, data: RowDataPacket[]) => {
+            if(err) return res.status(500).json(err);
+            if(data.length === 0) return res.status(404).json("User not found");
+
+            const checkPassword = bcrypt.compareSync(req.body.password, data[0].password);
+
+            if(!checkPassword) return res.status(400).json("Wrong password or username");
+
+            const token = jwt.sign({id:data[0].id}, "theKey");
+
+            const {password, ...others} = data[0]
+
+            res.cookie("accessToken", token, { httpOnly: true}).status(200).json(others)
+
+
+        })
     }
     public logout(req: Request, res: Response): void {
         res.send("it works!")

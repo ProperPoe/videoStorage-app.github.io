@@ -5,6 +5,8 @@ import commentRoutes from "./routes/comments.js"
 import likeRoutes from "./routes/likes.js"
 import postRoutes from "./routes/posts.js"
 import notifRoutes from "./routes/notifs.js"
+import cors from "cors";
+import cookieParser from "cookie-parser"
 
 class Server {
     private app: Express;
@@ -20,6 +22,8 @@ class Server {
 
     private configureMiddleware(){
         this.app.use(express.json());
+        this.app.use(cors());
+        this.app.use(cookieParser());
     }
 
     private configureRoutes(){

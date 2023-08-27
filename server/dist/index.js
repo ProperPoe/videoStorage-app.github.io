@@ -10,6 +10,8 @@ const comments_js_1 = __importDefault(require("./routes/comments.js"));
 const likes_js_1 = __importDefault(require("./routes/likes.js"));
 const posts_js_1 = __importDefault(require("./routes/posts.js"));
 const notifs_js_1 = __importDefault(require("./routes/notifs.js"));
+const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 class Server {
     constructor(port) {
         this.app = (0, express_1.default)();
@@ -19,6 +21,8 @@ class Server {
     }
     configureMiddleware() {
         this.app.use(express_1.default.json());
+        this.app.use((0, cors_1.default)());
+        this.app.use((0, cookie_parser_1.default)());
     }
     configureRoutes() {
         this.app.use("/api/auth", auth_js_1.default);
