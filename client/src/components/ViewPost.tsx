@@ -7,6 +7,7 @@ import Comments from './Comments';
 
 interface PostType{
     username: string
+    desc: string
 }
 
 interface Props{
@@ -29,10 +30,10 @@ const ViewPost = (props: Props) => {
     }
 
     return (
-        <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white'} rounded-lg shadow-md`}>
+        <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} rounded-lg shadow-md`}>
             {/* Close icon */}
         <button
-            className="absolute top-20 right-4 text-gray-400 hover:text-gray-600 cursor-pointer"
+            className="absolute top-25 right-1 text-gray-400 hover:text-gray-600 cursor-pointer"
             onClick={toggleViewPost}
         >
             <Close className="text-2xl" />
@@ -72,7 +73,7 @@ const ViewPost = (props: Props) => {
             <Avatar alt="User" src="https://via.placeholder.com/40" sx={{ width: 40, height: 40, marginRight: 2 }} />
             <span className="font-semibold">Username: {post.username}</span>
             </div>
-            <p className="text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p className="text-gray-400">{post.desc}.</p>
         </div>
               {/* Conditional rendering of Comments */}
             {showComments && <Comments comments={commentsData} />}

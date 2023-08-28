@@ -98,6 +98,10 @@ class Navbar extends PureComponent<Props, State> {
                               </div>
                           </div>
                       </div>
+                      <div className='lg:hidden flex'>
+                        <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Notifications/></Link>
+
+                      </div>
                     </div>
                     {/* Lightmode/Darkmode */}
                     {this.props.isDarkMode ?  (
