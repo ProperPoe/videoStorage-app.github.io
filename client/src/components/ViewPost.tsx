@@ -4,11 +4,19 @@ import { Avatar, Button, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import Comments from './Comments';
+import { useQuery } from '@tanstack/react-query';
+import { makeRequest } from '../axios';
 
 interface PostType{
+    id: number
     username: string
     desc: string
 }
+
+// interface CommentType{
+//     username: string;
+//     desc: string
+// }
 
 interface Props{
     post: PostType; 
@@ -21,10 +29,11 @@ const ViewPost = (props: Props) => {
     const [showComments, setShowComments] = useState(false); 
     const [commentText, setCommentText] = useState(''); 
 
-    const commentsData = [
-      { id: 1, user: 'User1', text: 'Great post!' },
-      { id: 2, user: 'User2', text: 'I love this.' },
-    ];
+    const { isLoading, error, data} = useQuery(['comments'], ()=>{
+        return makeRequest.get(`/comments?postId=${post.id}`).then((res)=>{
+            return res.data;
+        })
+    })
 
     const handleCommentSubmit = () => {
 
@@ -41,6 +50,7 @@ const ViewPost = (props: Props) => {
     const labelStyles = {
         color: isDarkMode ? 'blue-dark' : 'blue-light', // Change text color in comment inout
     };
+    
 
     return (
         <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} rounded-lg shadow-md`}>
@@ -107,7 +117,7 @@ const ViewPost = (props: Props) => {
         </div>
         )}
               {/* Conditional rendering of Comments */}
-            {showComments && <Comments comments={commentsData} />}
+            {showComments && <Comments comments={data}/>}
         </div>
     );
 };

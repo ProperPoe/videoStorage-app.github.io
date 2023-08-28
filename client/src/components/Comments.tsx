@@ -1,14 +1,14 @@
 import React from 'react';
 import Comment from './Comment';
 
-interface Props {
+interface CommentType {
   id: number;
-  user: string;
-  text: string;
+  username: string;
+  desc: string;
 }
 
 interface CommentsProps {
-  comments: Props[];
+  comments: CommentType[];
 }
 
 function Comments(props: CommentsProps) {
@@ -17,7 +17,7 @@ function Comments(props: CommentsProps) {
     return (
         <div>
         {comments.map((comment) => (
-          <Comment key={comment.id} user={comment.user} text={comment.text} />
+          <Comment key={comment.id} user={comment.username} text={comment.desc} />
         ))}
       </div>
     )

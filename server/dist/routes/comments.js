@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const comment_js_1 = __importDefault(require("../controllers/comment.js"));
 const router = express_1.default.Router();
-router.get("", comment_js_1.default.getComment);
+router.get("/", comment_js_1.default.getComment);
 exports.default = router;
