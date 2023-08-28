@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FavoriteBorderOutlined, Edit, Delete, Lock, CloudDownload, ChatBubbleOutline, Favorite, Close } from '@mui/icons-material';
-import { Avatar } from '@mui/material';
+import { Avatar, Button, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import Comments from './Comments';
@@ -19,15 +19,28 @@ const ViewPost = (props: Props) => {
     const {post, onClose} = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const [showComments, setShowComments] = useState(false); 
+    const [commentText, setCommentText] = useState(''); 
 
     const commentsData = [
       { id: 1, user: 'User1', text: 'Great post!' },
       { id: 2, user: 'User2', text: 'I love this.' },
     ];
 
+    const handleCommentSubmit = () => {
+
+    }
+
     const toggleViewPost = () => {
         onClose();
     }
+
+    const textFieldStyles = {
+        border: '1px solid white', //  border color on comment input textarea
+    };
+
+    const labelStyles = {
+        color: isDarkMode ? 'blue-dark' : 'blue-light', // Change text color in comment inout
+    };
 
     return (
         <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} rounded-lg shadow-md`}>
@@ -75,6 +88,24 @@ const ViewPost = (props: Props) => {
             </div>
             <p className="text-gray-400">{post.desc}.</p>
         </div>
+        {/* Comment input form */}
+        {showComments && (
+        <div className="mt-4 flex">
+            <input
+                type="text"
+                placeholder="Add a Comment"
+                className={`${isDarkMode ? 'bg-gray-800' : ''} border border-blue-500 rounded-l-lg p-2 focus:outline-none focus:ring focus:border-blue-300 w-full text-blue-500`}
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+            />
+            <button
+                onClick={handleCommentSubmit}
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-r-lg p-2"
+            >
+                Submit
+            </button>
+        </div>
+        )}
               {/* Conditional rendering of Comments */}
             {showComments && <Comments comments={commentsData} />}
         </div>
