@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
-  currentUser: string | null; // Change to string | null
+  currentUser: string | null; 
 }
 const currentUserJSON = localStorage.getItem('currentUser');
 
@@ -29,4 +29,3 @@ const authSlice = createSlice({
 export const { login, logout } = authSlice.actions;
 
 export default authSlice.reducer;
-

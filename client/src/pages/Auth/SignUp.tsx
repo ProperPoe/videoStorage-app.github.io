@@ -5,7 +5,7 @@ import { login } from '../../store/authSlice'
 import axios from 'axios'
 
 interface Props {
-    login: (currentUser: string) => void; // Add the login action to props
+    login: (currentUser: any) => void; // Add the login action to props
   }
 interface State {}
 

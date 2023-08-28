@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { FavoriteBorderOutlined, Edit, Delete, Lock, CloudDownload, ChatBubbleOutline, Favorite, Close } from '@mui/icons-material';
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
 import { Avatar, Button, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
@@ -13,10 +15,9 @@ interface PostType{
     desc: string
 }
 
-// interface CommentType{
-//     username: string;
-//     desc: string
-// }
+interface User{
+    id: number
+}
 
 interface Props{
     post: PostType; 
@@ -26,6 +27,8 @@ interface Props{
 const ViewPost = (props: Props) => {
     const {post, onClose} = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
+    const currentUserString = localStorage.getItem('currentUser');
+    const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
     const [showComments, setShowComments] = useState(false); 
     const [desc, setDesc] = useState(''); 
 
@@ -34,6 +37,12 @@ const ViewPost = (props: Props) => {
             return res.data;
         })
     })
+
+    const { isLoading: likeLoading, error: err, data: likesData } = useQuery(["likes", post.id], () => 
+    makeRequest.get("/likes?postId=" + post.id).then((res)=>{
+        return res.data;
+    })    
+)
 
     const queryClient = useQueryClient();
 
@@ -51,11 +60,28 @@ const ViewPost = (props: Props) => {
       }
     )
 
+    const likeMutation = useMutation((liked: boolean) => {
+        if(liked) return makeRequest.delete("/likes?postId=" + post.id);
+        return makeRequest.post("/likes", {postId: post.id})
+    }, {
+        onSuccess: () => {
+            // Invalidate and refetch
+            queryClient.invalidateQueries(["likes"])
+        },
+    })
+
 
     const handleCommentSubmit = (e: any) => {
         e.preventDefault()
 
         mutation.mutate()
+    }
+
+    const handleLike = () => {
+        if(currentUser){
+            likeMutation.mutate(likesData.includes(currentUser.id))
+        }
+        
     }
 
     const toggleViewPost = () => {
@@ -91,8 +117,12 @@ const ViewPost = (props: Props) => {
 
         {/* Likes section */}
         <div className="flex items-center mb-4">
-            <Favorite className="text-red-600 text-lg mr-2 cursor-pointer" />
-            <span className="text-gray-400">100 Likes</span>
+        {isLoading ? "loading" : (currentUser && likesData && likesData.includes(currentUser.id)) ? (
+            <FavoriteOutlinedIcon className='text-red-500' onClick={handleLike} />
+            ) : (
+            <FavoriteBorderOutlinedIcon onClick={handleLike} />
+        )}
+            <span className="text-gray-400">{likesData && likesData.length}</span>
         </div>
 
         {/* Actions section */}

@@ -55,4 +55,3 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 export default connect(mapStateToProps)(App);
-
