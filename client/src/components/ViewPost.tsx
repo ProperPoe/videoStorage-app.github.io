@@ -4,7 +4,7 @@ import { Avatar, Button, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import Comments from './Comments';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '../axios';
 
 interface PostType{
@@ -27,7 +27,7 @@ const ViewPost = (props: Props) => {
     const {post, onClose} = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const [showComments, setShowComments] = useState(false); 
-    const [commentText, setCommentText] = useState(''); 
+    const [desc, setDesc] = useState(''); 
 
     const { isLoading, error, data} = useQuery(['comments'], ()=>{
         return makeRequest.get(`/comments?postId=${post.id}`).then((res)=>{
@@ -35,8 +35,27 @@ const ViewPost = (props: Props) => {
         })
     })
 
-    const handleCommentSubmit = () => {
+    const queryClient = useQueryClient();
 
+    
+    
+    const mutation = useMutation(
+      () => {
+        return makeRequest.post("/comments", {desc, postId: post.id});
+      },
+      {
+        onSuccess: () => {
+          // Invalidate and refetch
+          queryClient.invalidateQueries(["comments"])
+        }
+      }
+    )
+
+
+    const handleCommentSubmit = (e: any) => {
+        e.preventDefault()
+
+        mutation.mutate()
     }
 
     const toggleViewPost = () => {
@@ -105,8 +124,8 @@ const ViewPost = (props: Props) => {
                 type="text"
                 placeholder="Add a Comment"
                 className={`${isDarkMode ? 'bg-gray-800' : ''} border border-blue-500 rounded-l-lg p-2 focus:outline-none focus:ring focus:border-blue-300 w-full text-blue-500`}
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
             />
             <button
                 onClick={handleCommentSubmit}

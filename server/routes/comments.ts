@@ -6,5 +6,6 @@ const router = express.Router()
 
 
 router.get("/", commentController.getComment);
+router.post("/", commentController.postComment);
 
 export default router
