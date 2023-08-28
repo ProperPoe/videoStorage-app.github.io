@@ -5,32 +5,31 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 
 interface PostType {
-    id: number;
-    title: string;
-    imageUrl: string;
-    likes: number;
-    comments: number;
+    id:number
+   desc: string
+   username: string
 }
 
 interface Props {
     post: PostType;
-    showPost: ()=>void;
+    onClick: () => void;
+   
 }
 
 function Post(props: Props) {
-    const { post, showPost } = props;
+    const { post, onClick } = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
     // Define class names based on dark mode
     const cardClassName = `w-81 h-95 shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'} cursor-pointer`;
     const iconColor = isDarkMode ? 'text-white' : 'text-gray-700';
 
-    const toggleViewPost = () => {
-        showPost()
-    }
+    // const toggleViewPost = () => {
+    //     showPost()
+    // }
 
     return (
-        <Card className={cardClassName} onClick={toggleViewPost}>
+        <Card className={cardClassName} onClick={onClick} >
             {/* Thumbnail */}
             <div className="w-full h-56 bg-gray-300 relative">
                 <PlayCircleOutline className="absolute inset-1/2 text-gray-700 text-5xl transform -translate-x-1/2 -translate-y-1/2" />
@@ -39,7 +38,7 @@ function Post(props: Props) {
                 {/* User Info */}
                 <CardHeader
                     avatar={<Avatar />}
-                    title="Username"
+                    title={`${post.username}`}
                     subheader="5 minutes ago"
                     subheaderTypographyProps={{
                         style: {

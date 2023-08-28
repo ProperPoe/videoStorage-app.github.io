@@ -17,17 +17,9 @@ interface Props {
 
 interface State {
     showPostForm: boolean;
-    showPost: boolean;
 }
 
-const samplePosts = [
-    { id: 1, title: 'First Post', imageUrl: 'https://example.com/image1.jpg', likes: 10, comments: 5 },
-    { id: 2, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
-    { id: 3, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
-    { id: 4, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
-    { id: 5, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
-    { id: 6, title: 'Second Post', imageUrl: 'https://example.com/image2.jpg', likes: 20, comments: 8 },
-];
+
 
 class Homepage extends PureComponent<Props, State> {
     constructor(props: Props) {
@@ -35,7 +27,7 @@ class Homepage extends PureComponent<Props, State> {
 
         this.state = {
             showPostForm: false,
-            showPost: false
+            // showPost: false
         };
     }
 
@@ -45,11 +37,11 @@ class Homepage extends PureComponent<Props, State> {
         }))
     }
 
-    toggleShowPost = () => {
-        this.setState(prevState => ({
-            showPost: !prevState.showPost
-        }))
-    }
+    // toggleShowPost = () => {
+    //     this.setState(prevState => ({
+    //         showPost: !prevState.showPost
+    //     }))
+    // }
 
     handleClosePostForm = () => {
         this.setState({ showPostForm: false })
@@ -58,11 +50,10 @@ class Homepage extends PureComponent<Props, State> {
     render() {
         const { isDarkMode, toggleDarkMode } = this.props;
         const { showPostForm } = this.state;
-        const { showPost } = this.state;
+        // const { showPost } = this.state;
 
         return (
             <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} dark:bg-gray-900 min-h-screen transition-colors duration-300`}>
-                {showPost === false ? (
                 <>
                     <div className={`flex justify-end p-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
                         <Button
@@ -74,11 +65,8 @@ class Homepage extends PureComponent<Props, State> {
                             Create New Post
                         </Button>
                     </div>
-                    {showPostForm ? <PostForm show={this.handleClosePostForm} /> : <Posts showPost={this.toggleShowPost} posts={samplePosts} />}
+                    {showPostForm ? <PostForm show={this.handleClosePostForm} /> : <Posts  />}
                 </>
-                ):(
-                    <ViewPost showPost={this.toggleShowPost} />
-                )}
 
             </div>
         );

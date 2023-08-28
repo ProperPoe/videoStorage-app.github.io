@@ -5,12 +5,17 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import Comments from './Comments';
 
+interface PostType{
+    username: string
+}
+
 interface Props{
-    showPost: ()=>void
+    post: PostType; 
+    onClose: () => void;
 }
 
 const ViewPost = (props: Props) => {
-    const {showPost} = props;
+    const {post, onClose} = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const [showComments, setShowComments] = useState(false); 
 
@@ -20,7 +25,7 @@ const ViewPost = (props: Props) => {
     ];
 
     const toggleViewPost = () => {
-        showPost();
+        onClose();
     }
 
     return (
@@ -65,7 +70,7 @@ const ViewPost = (props: Props) => {
         <div className="border-t pt-4">
             <div className="flex items-center mb-2">
             <Avatar alt="User" src="https://via.placeholder.com/40" sx={{ width: 40, height: 40, marginRight: 2 }} />
-            <span className="font-semibold">Username:</span>
+            <span className="font-semibold">Username: {post.username}</span>
             </div>
             <p className="text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
