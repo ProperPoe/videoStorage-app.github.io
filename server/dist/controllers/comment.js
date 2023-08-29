@@ -8,7 +8,6 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const moment_1 = __importDefault(require("moment"));
 class CommentController {
     getComment(req, res) {
-        const token = req.cookies.accessToken;
         const q = `SELECT comments.*, userId, username FROM comments JOIN users ON (users.id = comments.userId) WHERE comments.postId = ? ORDER BY comments.createdAt DESC`;
         connect_1.db.query(q, [req.query.postId], (err, data) => {
             if (err)

@@ -20,6 +20,10 @@ interface Props {
 interface State {
     anchorEl: null | HTMLElement;
 }
+interface User{
+  id: number
+  username: string
+}
 
 class Navbar extends PureComponent<Props, State> {
     constructor(props: any) {
@@ -44,6 +48,9 @@ class Navbar extends PureComponent<Props, State> {
     render() {
         const {anchorEl} = this.state;
         const {isDarkMode} = this.props;
+
+        const currentUserString = localStorage.getItem('currentUser');
+        const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
 
         // Define the classes for light and dark modes
         const lightModeClasses = 'bg-white text-black';
@@ -90,7 +97,7 @@ class Navbar extends PureComponent<Props, State> {
                           <div className='flex flex-col lg:items-start items-center'>
                               <AccountCircle className={`text-gray-500 ${isDarkMode ? 'text-white' : 'text-black'}`} fontSize="small" />
                               <div className="flex items-center">
-                                  <span className={`cursor-pointer hover:text-blue-400 transition duration-300 hover:underline hover:scale-105 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>usernameuser</span>
+                                  <span className={`cursor-pointer hover:text-blue-400 transition duration-300 hover:underline hover:scale-105 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>{currentUser && currentUser.username}</span>
                                   <div className="flex items-center">
                                       <FiberManualRecord className="text-green-500 mr-1" />
                                       <span className={`text-xs ${isDarkMode ? 'text-white' : 'text-black'}`}></span>

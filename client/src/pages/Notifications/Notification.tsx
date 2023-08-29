@@ -4,9 +4,7 @@ import { RootState } from '../../store/store';
 
 interface NotificationData {
     id: number;
-    username: string;
-    likedContent: string;
-    timestamp: string;
+
 }
 
 interface Props {
@@ -22,18 +20,18 @@ function Notification({ notification }: Props) {
                 <img
                     className="h-10 w-10 rounded-full object-cover"
                     src={`https://i.pravatar.cc/100?u=${notification.id}`}
-                    alt={`${notification.username} Avatar`}
+                    alt={`USERNAMEHERE Avatar`}
                 />
-                <p className={`text-${isDarkMode ? 'white' : 'gray'}`}>{notification.username}</p>
+                <p className={`text-${isDarkMode ? 'white' : 'gray'}`}>USERNAME</p>
             </div>
             <div className="ml-3">
                 <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {notification.username} liked your post
+                    USERNAMEHERE liked your post
                 </p>
                 <p className="text-sm text-gray-500">
-                    {notification.likedContent}
+                    LIKED CONTENT HERE
                 </p>
-                <p className="text-xs text-gray-400">{notification.timestamp}</p>
+                <p className="text-xs text-gray-400">TIME STAMPS</p>
             </div>
         </div>
     );

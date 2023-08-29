@@ -6,7 +6,7 @@ import moment from "moment";
 
 
 class CommentController {
-    public getComment(req: Request, res: Response): void {        const token = req.cookies.accessToken;
+    public getComment(req: Request, res: Response): void {       
         const q =  `SELECT comments.*, userId, username FROM comments JOIN users ON (users.id = comments.userId) WHERE comments.postId = ? ORDER BY comments.createdAt DESC`;
     
         db.query(q, [req.query.postId], (err, data) => {

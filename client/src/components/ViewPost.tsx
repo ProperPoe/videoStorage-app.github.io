@@ -87,21 +87,13 @@ const ViewPost = (props: Props) => {
     const toggleViewPost = () => {
         onClose();
     }
-
-    const textFieldStyles = {
-        border: '1px solid white', //  border color on comment input textarea
-    };
-
-    const labelStyles = {
-        color: isDarkMode ? 'blue-dark' : 'blue-light', // Change text color in comment inout
-    };
     
 
     return (
         <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} rounded-lg shadow-md`}>
             {/* Close icon */}
         <button
-            className="absolute top-25 right-1 text-gray-400 hover:text-gray-600 cursor-pointer"
+            className="absolute top-25 right-40 text-gray-400 hover:text-gray-600 cursor-pointer"
             onClick={toggleViewPost}
         >
             <Close className="text-2xl" />
@@ -116,13 +108,13 @@ const ViewPost = (props: Props) => {
         </div>
 
         {/* Likes section */}
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-4 gap-2">
         {isLoading ? "loading" : (currentUser && likesData && likesData.includes(currentUser.id)) ? (
             <FavoriteOutlinedIcon className='text-red-500' onClick={handleLike} />
             ) : (
             <FavoriteBorderOutlinedIcon onClick={handleLike} />
         )}
-            <span className="text-gray-400">{likesData && likesData.length}</span>
+            <span className="text-gray-400">{likesData && likesData.length} likes</span>
         </div>
 
         {/* Actions section */}
