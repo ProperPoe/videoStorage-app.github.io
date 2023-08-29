@@ -37,8 +37,8 @@ class NotifController {
         jwt.verify(token, "theKey", (err: jwt.VerifyErrors | null, userInfo:any) => {
             if(err) return res.status(403).json("User not logged in")
     
-            const q = "INSERT INTO notifs (`userId`, `postId`, `commentId`, `likeId`) VALUES (?)"
-            const values = [userInfo.id, req.body.postId, req.body.commentId, req.body.likeId]
+            const q = "INSERT INTO notifs (toUserId, fromUserId, postId, commentId, likeId, type) VALUES (?)"
+            const values = [req.body.toUserId, req.body.fromUserId, req.body.postId, req.body.commentId, req.body.likeId, req.body.type]
             db.query(q, [values], (err, data: RowDataPacket[]) => {
                 if (err) return res.status(500).json(err)
     

@@ -32,8 +32,8 @@ class NotifController {
         jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => {
             if (err)
                 return res.status(403).json("User not logged in");
-            const q = "INSERT INTO notifs (`userId`, `postId`, `commentId`, `likeId`) VALUES (?)";
-            const values = [userInfo.id, req.body.postId, req.body.commentId, req.body.likeId];
+            const q = "INSERT INTO notifs (toUserId, fromUserId, postId, commentId, likeId, type) VALUES (?)";
+            const values = [req.body.toUserId, req.body.fromUserId, req.body.postId, req.body.commentId, req.body.likeId, req.body.type];
             connect_1.db.query(q, [values], (err, data) => {
                 if (err)
                     return res.status(500).json(err);

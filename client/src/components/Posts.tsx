@@ -9,6 +9,7 @@ interface PostType {
     id: number
     username: string
     desc: string
+    userId: string
 }
 
 // interface Props {

@@ -13,6 +13,7 @@ interface PostType{
     id: number
     username: string
     desc: string
+    userId: string
 }
 
 interface User{
@@ -56,6 +57,15 @@ const ViewPost = (props: Props) => {
         onSuccess: () => {
           // Invalidate and refetch
           queryClient.invalidateQueries(["comments"])
+
+          if (currentUser) {
+            makeRequest.post("/notifications", {
+                fromUserId: currentUser.id,
+                toUserId: post.userId, // Replace with actual user ID
+                type: 'comment',
+                postId: post.id,
+            });
+        }
         }
       }
     )
@@ -67,6 +77,15 @@ const ViewPost = (props: Props) => {
         onSuccess: () => {
             // Invalidate and refetch
             queryClient.invalidateQueries(["likes"])
+
+            if (currentUser) {
+                makeRequest.post("/notifications", {
+                    fromUserId: currentUser.id,
+                    toUserId: post.userId, // Replace with actual user ID
+                    type: 'like',
+                    postId: post.id,
+                });
+            }
         },
     })
 
