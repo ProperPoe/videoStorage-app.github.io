@@ -12,6 +12,8 @@ import Homepage from '../pages/Home/Home'
 import Profile from '../pages/Profile/Profile'
 import Notifs from '../pages/Notifications/Notifications'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query';
+import { makeRequest } from '../axios';
 
 interface Props {
     isDarkMode: boolean;
@@ -19,6 +21,7 @@ interface Props {
 }
 interface State {
     anchorEl: null | HTMLElement;
+    notifyCount: number;
 }
 interface User{
   id: number
@@ -30,8 +33,29 @@ class Navbar extends PureComponent<Props, State> {
         super(props);
         this.state = {
           anchorEl: null,
+          notifyCount: 0,
         };
       }
+      componentDidMount() {
+        // Fetch notifications data and update the state with the count
+        this.fetchNotificationsData();
+    }
+
+    fetchNotificationsData = () => {
+        const currentUserString = localStorage.getItem('currentUser');
+        const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
+
+        if (currentUser) {
+            makeRequest.get(`/notifications?userId=${currentUser.id}`)
+                .then((res) => {
+                    const notificationsData = res.data;
+                    this.setState({ notifyCount: notificationsData.length });
+                })
+                .catch((error) => {
+                    console.error('Error fetching notifications data:', error);
+                });
+        }
+    };
     
       handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         this.setState({ anchorEl: event.currentTarget });
@@ -46,6 +70,7 @@ class Navbar extends PureComponent<Props, State> {
       }
 
     render() {
+        const {notifyCount} = this.state
         const {anchorEl} = this.state;
         const {isDarkMode} = this.props;
 
@@ -58,6 +83,8 @@ class Navbar extends PureComponent<Props, State> {
 
         // Determine which classes to use based on the dark mode state
         const navbarClasses = isDarkMode ? darkModeClasses : lightModeClasses;
+
+ 
 
         return (
             <>
@@ -88,7 +115,12 @@ class Navbar extends PureComponent<Props, State> {
                       <div className='text-white space-x-4 lg:flex hidden'>
                           <Link to="/" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Home/></Link>
                           <Link to="/profile" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Person/></Link>
-                          <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Notifications/></Link>
+                          <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                            <Notifications />
+                            {notifyCount > 0 && (
+                                <span className="ml-1">{notifyCount}</span>
+                            )}
+                          </Link>
                           
                             {/* <ExitToApp className={`hover:text-blue-400 transition duration-300 hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`} /> */}
                       </div>
@@ -106,8 +138,12 @@ class Navbar extends PureComponent<Props, State> {
                           </div>
                       </div>
                       <div className='lg:hidden flex'>
-                        <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Notifications/></Link>
-
+                      <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                            <Notifications />
+                            {notifyCount > 0 && (
+                                <span className="ml-1">{notifyCount}</span>
+                            )}
+                      </Link>
                       </div>
                     </div>
                     {/* Lightmode/Darkmode */}
