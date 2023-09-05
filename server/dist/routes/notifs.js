@@ -8,4 +8,5 @@ const notif_js_1 = __importDefault(require("../controllers/notif.js"));
 const router = express_1.default.Router();
 router.get("/", notif_js_1.default.getNotif);
 router.post("/", notif_js_1.default.addNotif);
+router.delete("/", notif_js_1.default.deleteNotif);
 exports.default = router;

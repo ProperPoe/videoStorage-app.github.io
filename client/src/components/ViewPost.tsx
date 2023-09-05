@@ -28,7 +28,7 @@ interface Props{
 const ViewPost = (props: Props) => {
     const {post, onClose} = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
-    const currentUserString = localStorage.getItem('currentUser');
+    const currentUserString = sessionStorage.getItem('currentUser');
     const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
     const [showComments, setShowComments] = useState(false); 
     const [desc, setDesc] = useState(''); 
@@ -61,7 +61,7 @@ const ViewPost = (props: Props) => {
           if (currentUser) {
             makeRequest.post("/notifications", {
                 fromUserId: currentUser.id,
-                toUserId: post.userId, // Replace with actual user ID
+                toUserId: post.userId, 
                 type: 'comment',
                 postId: post.id,
             });
@@ -70,22 +70,27 @@ const ViewPost = (props: Props) => {
       }
     )
 
-    const likeMutation = useMutation((liked: boolean) => {
-        if(liked) return makeRequest.delete("/likes?postId=" + post.id);
-        return makeRequest.post("/likes", {postId: post.id})
-    }, {
-        onSuccess: () => {
-            // Invalidate and refetch
-            queryClient.invalidateQueries(["likes"])
-
-            if (currentUser) {
+    const likeMutation = useMutation(async (liked: boolean) => {
+        if (liked) {
+            await makeRequest.delete("/likes?postId=" + post.id);
+            await makeRequest.delete("/notifications?postId=" + post.id);
+        } else {
+            await makeRequest.post("/likes", { postId: post.id });
+            if (currentUser && !liked) {
                 makeRequest.post("/notifications", {
                     fromUserId: currentUser.id,
-                    toUserId: post.userId, // Replace with actual user ID
+                    toUserId: post.userId, 
                     type: 'like',
                     postId: post.id,
                 });
             }
+        }
+    }, {
+        onSuccess: (data, variables, context) => {
+    
+            // Invalidate and refetch
+            queryClient.invalidateQueries(["likes"]);
+
         },
     })
 

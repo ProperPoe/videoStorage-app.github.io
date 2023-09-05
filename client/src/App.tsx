@@ -9,9 +9,11 @@ import Login from './pages/Auth/Login';
 import { connect } from 'react-redux';
 import { RootState } from './store/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { logout } from './store/authSlice'; // Import the logout action
 
 interface Props {
   currentUser: string | null;
+  //logout: () => void; // Add the logout action to props
 }
 interface State {}
 
@@ -22,6 +24,9 @@ class App extends Component<Props, State> {
     super(props);
     this.state = {};
   }
+
+
+
 
   render() {
     const { currentUser } = this.props;
@@ -54,4 +59,5 @@ const mapStateToProps = (state: RootState) => ({
   currentUser: state.auth.currentUser,
 });
 
-export default connect(mapStateToProps)(App);
+
+export default connect(mapStateToProps, {logout})(App);

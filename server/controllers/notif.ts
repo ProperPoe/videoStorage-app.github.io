@@ -46,6 +46,36 @@ class NotifController {
             })
         })
     }
+
+    public deleteNotif(req: Request, res: Response): void {
+        const token = req.cookies.accessToken;
+
+        if(!token){
+            res.status(401).json("Not logged in!");
+            return;
+        }
+    
+        jwt.verify(token, "theKey", (err: jwt.VerifyErrors | null, userInfo:any) => {
+            if(err){
+                return res.status(403).json("Token is not valid!")
+            }
+        
+    
+            const q = "DELETE FROM notifs WHERE `fromUserId` = ? AND `postId` = ? AND `type` = 'like'"
+    
+            const values = [
+                userInfo.id,
+                req.query.postId
+            ]
+            db.query(q, values, (err, data) => {
+                if(err){
+                    return res.status(500).json(err)
+                }
+            
+                return res.status(200).json("Post has been unliked!")
+            })
+        })
+    }
 }
 
 export default new NotifController()

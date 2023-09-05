@@ -12,6 +12,7 @@ interface User {
 
 interface NotificationType {
     id: number;
+    username: string;
 }
 
 function Notifications() {

@@ -4,7 +4,7 @@ import { RootState } from '../../store/store';
 
 interface NotificationData {
     id: number;
-
+    username: string
 }
 
 interface Props {
@@ -26,7 +26,7 @@ function Notification({ notification }: Props) {
             </div>
             <div className="ml-3">
                 <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    USERNAMEHERE liked your post
+                    {notification.username} liked your post
                 </p>
                 <p className="text-sm text-gray-500">
                     LIKED CONTENT HERE

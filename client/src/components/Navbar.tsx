@@ -42,7 +42,7 @@ class Navbar extends PureComponent<Props, State> {
     }
 
     fetchNotificationsData = () => {
-        const currentUserString = localStorage.getItem('currentUser');
+        const currentUserString = sessionStorage.getItem('currentUser');
         const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
 
         if (currentUser) {
@@ -74,7 +74,7 @@ class Navbar extends PureComponent<Props, State> {
         const {anchorEl} = this.state;
         const {isDarkMode} = this.props;
 
-        const currentUserString = localStorage.getItem('currentUser');
+        const currentUserString = sessionStorage.getItem('currentUser');
         const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
 
         // Define the classes for light and dark modes
