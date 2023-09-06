@@ -78,18 +78,20 @@ class Navbar extends PureComponent<Props, State> {
       handleLogoutView = (event: React.MouseEvent<HTMLElement>) => {
         this.setState((prevState) => ({
           isLogoutMenuOpen: !prevState.isLogoutMenuOpen,
-      }));
-        // Use a separate variable to toggle the menu
+        }));
+        
         const shouldOpenMenu = this.state.anchorLogoutMenu !== event.currentTarget;
     
         this.setState({
             anchorLogoutMenu: shouldOpenMenu ? event.currentTarget : null,
         });
     };
-    
+  
       handleConfirmLogout = () => {
-        sessionStorage.removeItem('currentUser');
-        //this.props.navigation.navigate('/')
+        makeRequest.post('/auth/logout').then((res)=>{
+          sessionStorage.removeItem('currentUser');
+          window.location.href = '/login'
+        })
       };
 
     render() {
