@@ -45,7 +45,7 @@ class App extends Component<Props, State> {
               <>
                 <Route path="/" element={<Homepage />} />
                 <Route path="/notifications" element={<Notifs />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/:id" element={<Profile />} />
               </>
             )}
           </Routes>

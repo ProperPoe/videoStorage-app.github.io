@@ -4,6 +4,9 @@ import { Edit, Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-materia
 import Posts from '../../components/Posts'; 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import { makeRequest } from '../../axios';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
 
 interface Props {}
 
@@ -16,6 +19,16 @@ const specificPosts = [
 
 function Profile(props: Props) {
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
+    const userId = useParams()
+    
+    const { isLoading, error, data } = useQuery(['user'], () => 
+        makeRequest.get("/users/find/" + userId.id).then((res)=>{
+            console.log(res.data)
+            return res.data;
+        })
+    )    
+
+
     return (
         <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} min-h-screen`}>
             {/* Cover Photo */}
@@ -27,8 +40,8 @@ function Profile(props: Props) {
                 <Avatar className="w-20 h-20 border-4 border-white" />
 
                 <div className="ml-4">
-                    <h1 className="text-2xl font-semibold">Your Name</h1>
-                    <p className="text-gray-600">@username</p>
+                    <h1 className="text-2xl font-semibold">{data && data.username}</h1>
+                    <p className="text-gray-600">@{data && data.username}</p>
                     
                 </div>
             </div>

@@ -140,7 +140,7 @@ class Navbar extends PureComponent<Props, State> {
 
                       <div className='text-white space-x-4 lg:flex hidden'>
                           <Link to="/" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Home/></Link>
-                          <Link to="/profile" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Person/></Link>
+                          <Link to={`/profile/${currentUser && currentUser.id}`} className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Person/></Link>
                           <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}>
                             <Notifications />
                             {notifyCount > 0 && (
@@ -210,7 +210,7 @@ class Navbar extends PureComponent<Props, State> {
                     </button>
                 </MenuItem>
                 <MenuItem onClick={this.handleClose}><Link to="/">Home</Link></MenuItem>
-                <MenuItem onClick={this.handleClose}><Link to="/profile">Profile</Link></MenuItem>
+                <MenuItem onClick={this.handleClose}><Link to={`/profile/${currentUser && currentUser.id}`}>Profile</Link></MenuItem>
                 <MenuItem onClick={this.handleClose}><Link to="/notifications">Notifications</Link></MenuItem>
                 <MenuItem onClick={this.handleClose}><Link to="/login">Login</Link></MenuItem>
             </Menu>
