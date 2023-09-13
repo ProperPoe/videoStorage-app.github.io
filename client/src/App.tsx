@@ -15,18 +15,25 @@ interface Props {
   currentUser: string | null;
   //logout: () => void; // Add the logout action to props
 }
-interface State {}
+interface State {
+  searchQuery: string
+}
 
 const queryClient = new QueryClient();
 
 class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = {
+      searchQuery: '',
+    };
   }
-
-
-
+  handleSearch = (searchQuery: string) => {
+    // Implement your search logic here.
+    // You can filter posts, make API requests, or perform any other action.
+    console.log('Search query:', searchQuery);
+    this.setState({ searchQuery });
+  };
 
   render() {
     const { currentUser } = this.props;
@@ -34,7 +41,7 @@ class App extends Component<Props, State> {
     return (
       <QueryClientProvider client={queryClient}>
         <Router>
-          {currentUser && <Navbar />} {/* Render Navbar only when authenticated */}
+          {currentUser && <Navbar onSearch={this.handleSearch}/>} {/* Render Navbar only when authenticated */}
           <Routes>
             {/* The first page for non-authenticated users */}
             {!currentUser && 
@@ -43,7 +50,7 @@ class App extends Component<Props, State> {
             {/* Authenticated routes */}
             {currentUser && (
               <>
-                <Route path="/" element={<Homepage />} />
+                <Route path="/" element={<Homepage searchQuery={this.state.searchQuery} />} />
                 <Route path="/notifications" element={<Notifs />} />
                 <Route path="/profile/:id" element={<Profile />} />
               </>

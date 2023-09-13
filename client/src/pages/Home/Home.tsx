@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 interface Props {
     isDarkMode: boolean;
     toggleDarkMode: () => void;
+    searchQuery: string;
 }
 
 interface State {
@@ -47,6 +48,14 @@ class Homepage extends PureComponent<Props, State> {
         this.setState({ showPostForm: false })
     }
 
+    handleSearch = (searchQuery: string) => {
+        // Call the callback function passed as a prop
+        // if (this.props.onSearch) {
+        //   this.props.onSearch(searchQuery);
+        // }
+        console.log('Search query:', searchQuery);
+      };
+
     render() {
         const { isDarkMode, toggleDarkMode } = this.props;
         const { showPostForm } = this.state;
@@ -65,7 +74,7 @@ class Homepage extends PureComponent<Props, State> {
                             Create New Post
                         </Button>
                     </div>
-                    {showPostForm ? <PostForm show={this.handleClosePostForm} /> : <Posts  />}
+                    {showPostForm ? <PostForm show={this.handleClosePostForm} /> : <Posts searchQuery={this.props.searchQuery}  />}
                 </>
 
             </div>

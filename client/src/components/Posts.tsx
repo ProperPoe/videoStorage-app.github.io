@@ -14,15 +14,7 @@ interface PostType {
     userId: string
 }
 
-// interface Props {
-//     showPost: ()=>void;
-// }
-
-
-
-
-
-function Posts(props: any) {
+function Posts(props: { searchQuery: string }) {
     const {  } = props;
     const [showPost, setShowPost] = useState<PostType | null>(null); 
     
@@ -42,20 +34,27 @@ function Posts(props: any) {
         setShowPost(null);
     };
 
+    // Filter the posts based on the searchQuery
+    const filteredData = data?.filter((post) =>
+    post.desc.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
+    post.username.toLowerCase().includes(props.searchQuery.toLowerCase())
+    );
 
     return (
         <>
-        <div>
-            {showPost ? (
-                <ViewPost post={showPost} onClose={closePost} />
-            ) : (
-                <div className="grid md:grid-cols-2 gap-4 p-4 sm:grid-cols-1">
-                    {isLoading ? "loading.." : data?.map((post) => (
-                        <Post key={post.id} post={post} onClick={() => openPost(post)} />
-                    ))}
-                </div>
-            )}
-        </div>
+            <div>
+                {showPost ? (
+                    <ViewPost post={showPost} onClose={closePost} />
+                ) : (
+                    <div className="grid md:grid-cols-2 gap-4 p-4 sm:grid-cols-1">
+                        {isLoading
+                            ? "loading.."
+                            : filteredData?.map((post) => (
+                                <Post key={post.id} post={post} onClick={() => openPost(post)} />
+                            ))}
+                    </div>
+                )}
+            </div>
         </>
     );
 }

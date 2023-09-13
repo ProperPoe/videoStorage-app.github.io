@@ -18,6 +18,7 @@ import { makeRequest } from '../axios';
 interface Props {
     isDarkMode: boolean;
     toggleDarkMode: () => void
+    onSearch: (searchQuery: string) => void
 }
 interface State {
     anchorEl: null | HTMLElement;
@@ -25,6 +26,7 @@ interface State {
     logout: boolean;
     anchorLogoutMenu: HTMLElement | null;
     isLogoutMenuOpen: boolean;
+    searchQuery: string
 }
 interface User{
   id: number
@@ -39,7 +41,8 @@ class Navbar extends PureComponent<Props, State> {
           notifyCount: 0,
           logout: false,
           anchorLogoutMenu: null,
-          isLogoutMenuOpen: false
+          isLogoutMenuOpen: false,
+          searchQuery: ''
         };
       }
       componentDidMount() {
@@ -93,12 +96,31 @@ class Navbar extends PureComponent<Props, State> {
           window.location.href = '/login'
         })
       };
+      //Search Functionality
+      handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // Update the search query in the component state as the user types
+        this.setState({ searchQuery: event.target.value });
+    };
+
+    handleSearch = () => {
+        // Perform the search based on this.state.searchQuery
+        // You can make an API request to filter posts on the Home page
+        // with the search query and update the posts accordingly.
+        // Implement this logic in your Posts component.
+        const { searchQuery } = this.state;
+        
+        // Call the callback function passed as a prop
+        if (this.props.onSearch) {
+            this.props.onSearch(searchQuery);
+        }
+    };
 
     render() {
         const {notifyCount} = this.state
         const {anchorEl} = this.state;
         const {anchorLogoutMenu,logout} = this.state;
         const {isDarkMode} = this.props;
+        const { searchQuery } = this.state;
 
         const currentUserString = sessionStorage.getItem('currentUser');
         const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
@@ -184,8 +206,8 @@ class Navbar extends PureComponent<Props, State> {
 
                      {/* Seach Input */}
                      <div className='flex items-center lg:flex hidden'>
-                        <input type="text" placeholder='Search' className={`rounded-l-lg px-3 py-2  ${isDarkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'} focus:outline-none`} />
-                        <button className={`rounded-r-lg px-4 py-2 ${isDarkMode ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-blue-200 text-gray-800 hover:bg-blue-300'} bg-blue-500 text-white hover:bg-blue-600 transition duration-300`}><Search /></button>
+                        <input type="text" placeholder='Search' className={`rounded-l-lg px-3 py-2  ${isDarkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'} focus:outline-none`} value={searchQuery} onChange={this.handleSearchInputChange}/>
+                        <button className={`rounded-r-lg px-4 py-2 ${isDarkMode ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-blue-200 text-gray-800 hover:bg-blue-300'} bg-blue-500 text-white hover:bg-blue-600 transition duration-300`} onClick={this.handleSearch}><Search /></button>
                      </div>
                 </div>
             </div>
