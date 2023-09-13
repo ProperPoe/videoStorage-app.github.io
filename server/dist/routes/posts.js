@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const post_js_1 = __importDefault(require("../controllers/post.js"));
+const multer_1 = __importDefault(require("multer"));
 const router = express_1.default.Router();
+const upload = (0, multer_1.default)();
 router.get("/", post_js_1.default.getPost);
-router.post("/", post_js_1.default.addPost);
+router.post("/", upload.single("media"), post_js_1.default.addPost);
 exports.default = router;

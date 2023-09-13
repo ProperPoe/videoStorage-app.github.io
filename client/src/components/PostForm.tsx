@@ -16,10 +16,20 @@ function PostForm(props: Props) {
     const queryClient = useQueryClient();
 
     const [desc, setDesc] = useState("");
+    const [mediaFile, setMediaFile] = useState<File | null>(null);
     
     const mutation = useMutation(
-      () => {
-        return makeRequest.post("/posts", {desc});
+      async () => {
+        const formData = new FormData();
+        formData.append('desc', desc);
+        if(mediaFile){
+          formData.append('media', mediaFile)
+        }
+        return makeRequest.post("/posts", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
       },
       {
         onSuccess: () => {
@@ -29,7 +39,13 @@ function PostForm(props: Props) {
       }
     )
 
-    const handleSubmit = (e: any) => {
+    const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files[0]) {
+        setMediaFile(e.target.files[0]);
+      }
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault()
 
       mutation.mutate()
@@ -79,6 +95,7 @@ function PostForm(props: Props) {
               name="media"
               className="mt-1 p-3 w-full border rounded-md focus:ring focus:ring-blue-300"
               accept="image/*, video/*"
+              onChange={handleMediaChange}
             />
           </div>
           <button

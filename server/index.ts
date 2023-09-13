@@ -6,7 +6,8 @@ import likeRoutes from "./routes/likes.js"
 import postRoutes from "./routes/posts.js"
 import notifRoutes from "./routes/notifs.js"
 import cors from "cors";
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
+import multer from "multer"
 
 class Server {
     private app: Express;
@@ -31,6 +32,9 @@ class Server {
             origin: "http://localhost:3000",
         }));
         this.app.use(cookieParser());
+
+        const storage = multer.memoryStorage(); 
+        const upload = multer({ storage });
     }
 
     private configureRoutes(){
@@ -53,12 +57,3 @@ class Server {
 const port = 4000;
 const server = new Server(port);
 server.start()
-
-// import express, {Express} from "express";
-// const port = 4000;
-
-// const app: Express = express();
-
-// app.listen(port, () => {
-//     console.log(`${port}`)
-// })

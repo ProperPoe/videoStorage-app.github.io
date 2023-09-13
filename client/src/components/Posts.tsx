@@ -7,6 +7,8 @@ import ViewPost from './ViewPost';
 
 interface PostType {
     id: number
+    mediaUrl: string
+    mediaType: string
     username: string
     desc: string
     userId: string

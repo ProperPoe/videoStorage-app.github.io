@@ -7,6 +7,8 @@ import { RootState } from '../store/store';
 interface PostType {
     id:number
    desc: string
+   mediaUrl: string
+   mediaType: string
    username: string
 }
 
@@ -27,12 +29,17 @@ function Post(props: Props) {
     // const toggleViewPost = () => {
     //     showPost()
     // }
-
+    console.log("Media Type:", post.mediaType);
+    console.log("Media URL:", post.mediaUrl);
     return (
         <Card className={cardClassName} onClick={onClick} >
             {/* Thumbnail */}
             <div className="w-full h-56 bg-gray-300 relative">
-                <PlayCircleOutline className="absolute inset-1/2 text-gray-700 text-5xl transform -translate-x-1/2 -translate-y-1/2" />
+            {post.mediaType && post.mediaType === 'image' ? (
+                <img src={post.mediaUrl} alt="media" className="w-full h-56 bg-gray-300 relative" />
+            ) : (
+                <video src={post.mediaUrl} className="w-full h-56 bg-gray-300 relative" controls />
+            )}
             </div>
             <CardContent className={`p-2 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} m-0` }>
                 {/* User Info */}

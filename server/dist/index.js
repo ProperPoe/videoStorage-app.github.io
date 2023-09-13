@@ -12,6 +12,7 @@ const posts_js_1 = __importDefault(require("./routes/posts.js"));
 const notifs_js_1 = __importDefault(require("./routes/notifs.js"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const multer_1 = __importDefault(require("multer"));
 class Server {
     constructor(port) {
         this.app = (0, express_1.default)();
@@ -29,6 +30,8 @@ class Server {
             origin: "http://localhost:3000",
         }));
         this.app.use((0, cookie_parser_1.default)());
+        const storage = multer_1.default.memoryStorage();
+        const upload = (0, multer_1.default)({ storage });
     }
     configureRoutes() {
         this.app.use("/api/auth", auth_js_1.default);
@@ -47,9 +50,3 @@ class Server {
 const port = 4000;
 const server = new Server(port);
 server.start();
-// import express, {Express} from "express";
-// const port = 4000;
-// const app: Express = express();
-// app.listen(port, () => {
-//     console.log(`${port}`)
-// })
