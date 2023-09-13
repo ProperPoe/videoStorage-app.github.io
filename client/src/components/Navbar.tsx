@@ -163,12 +163,14 @@ class Navbar extends PureComponent<Props, State> {
                       <div className='text-white space-x-4 lg:flex hidden'>
                           <Link to="/" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Home/></Link>
                           <Link to={`/profile/${currentUser && currentUser.id}`} className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Person/></Link>
-                          <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                          <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 relative ${isDarkMode ? 'text-white' : 'text-black'}`}>
                             <Notifications />
                             {notifyCount > 0 && (
-                                <span className="ml-1">{notifyCount}</span>
+                                <span className="ml-1 bg-red-500 text-white rounded-full px-1.5 py-0.5 text-xs absolute top-0 right-1 transform translate-x-1/2 -translate-y-1/2">
+                                {notifyCount}
+                                </span>
                             )}
-                          </Link>
+                            </Link>
 
                           
                             {/* <ExitToApp className={`hover:text-blue-400 transition duration-300 hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`} /> */}
