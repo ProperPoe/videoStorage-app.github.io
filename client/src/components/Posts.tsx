@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Post from './Post';
 import { makeRequest } from '../axios';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import ViewPost from './ViewPost';
 
 
@@ -17,6 +17,9 @@ interface PostType {
 function Posts(props: { searchQuery: string }) {
     const {  } = props;
     const [showPost, setShowPost] = useState<PostType | null>(null); 
+    const [posts, setPosts] = useState<PostType[]>([]);
+
+
     
     const {isLoading, error, data} = useQuery<PostType[]>(['posts'], () => {
         return makeRequest.get("/posts").then((res)=>{
@@ -25,6 +28,9 @@ function Posts(props: { searchQuery: string }) {
 
         })
     })
+
+    const queryClient = useQueryClient();
+
 
     const openPost = (post: PostType) => {
         setShowPost(post);
@@ -40,11 +46,21 @@ function Posts(props: { searchQuery: string }) {
     post.username.toLowerCase().includes(props.searchQuery.toLowerCase())
     );
 
+    
+
+    // Function to delete a post
+    const deletePost = (postId: number) => {
+      // Remove the post from the local state
+      const updatedData = data?.filter((post) => post.id !== postId);
+      // Update the data using React Query's cache
+      queryClient.setQueryData(['posts'], updatedData);
+    };
+
     return (
         <>
             <div>
                 {showPost ? (
-                    <ViewPost post={showPost} onClose={closePost} />
+                    <ViewPost post={showPost} onClose={closePost} onDeletePost={deletePost}/>
                 ) : (
                     <div className="grid md:grid-cols-2 gap-4 p-4 sm:grid-cols-1">
                         {isLoading

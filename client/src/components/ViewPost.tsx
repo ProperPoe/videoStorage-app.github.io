@@ -23,10 +23,11 @@ interface User{
 interface Props{
     post: PostType; 
     onClose: () => void;
+    onDeletePost: (postId: any) => void
 }
 
 const ViewPost = (props: Props) => {
-    const {post, onClose} = props;
+    const {post, onClose, onDeletePost} = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const currentUserString = sessionStorage.getItem('currentUser');
     const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
@@ -111,6 +112,18 @@ const ViewPost = (props: Props) => {
     const toggleViewPost = () => {
         onClose();
     }
+
+    const handleDeletePost = async () => {
+        try {
+          await makeRequest.delete(`/posts/${post.id}`);
+
+          onDeletePost(post.id);
+        
+          onClose();
+        } catch (error) {
+          console.error('Error deleting post:', error);
+        }
+      };
     
 
     return (
@@ -144,7 +157,7 @@ const ViewPost = (props: Props) => {
         {/* Actions section */}
         <div className="flex items-center mb-4">
             <Edit className="text-gray-400 text-lg cursor-pointer hover:text-blue-500 mr-4" />
-            <Delete className="text-gray-400 text-lg cursor-pointer hover:text-red-500 mr-4" />
+            <Delete className="text-gray-400 text-lg cursor-pointer hover:text-red-500 mr-4" onClick={handleDeletePost} />
             <Lock className="text-gray-400 text-lg cursor-pointer hover:text-blue-500 mr-4" />
             <CloudDownload className="text-gray-400 text-lg cursor-pointer hover:text-green-500" />
         </div>

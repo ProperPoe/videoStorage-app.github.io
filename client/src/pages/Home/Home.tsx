@@ -8,7 +8,9 @@ import { RootState } from '../../store/store';
 import { toggleDarkMode } from '../../store/darkModeSlice'; 
 import { connect } from 'react-redux';
 
-
+// interface Posts {
+//     id: number
+// }
 
 interface Props {
     isDarkMode: boolean;
@@ -18,6 +20,7 @@ interface Props {
 
 interface State {
     showPostForm: boolean;
+    // posts: Posts[]
 }
 
 
@@ -29,6 +32,7 @@ class Homepage extends PureComponent<Props, State> {
         this.state = {
             showPostForm: false,
             // showPost: false
+            // posts: []
         };
     }
 
@@ -55,6 +59,12 @@ class Homepage extends PureComponent<Props, State> {
         // }
         console.log('Search query:', searchQuery);
       };
+
+    //   deletePost = (postId: any) => {
+    //     // Implement the logic to delete the post from the posts state
+    //     const updatedPosts = this.state.posts.filter((post) => post.id !== postId);
+    //     this.setState({ posts: updatedPosts });
+    // };
 
     render() {
         const { isDarkMode, toggleDarkMode } = this.props;

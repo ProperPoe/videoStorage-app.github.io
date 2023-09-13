@@ -80,5 +80,71 @@ class PostController {
         });
     }
     ;
+    deletePost(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const token = req.cookies.accessToken;
+            if (!token) {
+                res.status(401).json("Not logged in");
+                return;
+            }
+            jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
+                if (err) {
+                    res.status(403).json("Token is not valid");
+                    return;
+                }
+                const q = "DELETE FROM posts WHERE `id`=? AND `userId`=?";
+                // const postId = req.params.id;
+                connect_1.db.query(q, [req.params.id, userInfo.id], (err, data) => __awaiter(this, void 0, void 0, function* () {
+                    if (err) {
+                        return res.status(500).json(err);
+                    }
+                    if (typeof data === 'object' && 'affectedRows' in data && data.affectedRows !== undefined && data.affectedRows > 0) {
+                        // Delete the file from S3
+                        const s3Key = `user_${userInfo.id}_${req.params.id}`; // Assuming this is the S3 key format
+                        const s3Params = {
+                            Bucket: 'videostorage-app',
+                            Key: s3Key,
+                        };
+                        try {
+                            yield aws_1.default.deleteObject(s3Params).promise();
+                            return res.status(200).json("Post deleted!");
+                        }
+                        catch (s3Error) {
+                            console.error('Error deleting file from S3:', s3Error);
+                            return res.status(500).json(s3Error);
+                        }
+                    }
+                    return res.status(403).json("You can only delete your post!");
+                }));
+            }));
+        });
+    }
+    ;
+    updatePost(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const token = req.cookies.accessToken;
+            if (!token) {
+                res.status(401).json("Not logged in");
+                return;
+            }
+            jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
+                if (err) {
+                    res.status(403).json("Token is not valid");
+                    return;
+                }
+                const q = "UPDATE posts SET `desc`=? WHERE `id`=?";
+                connect_1.db.query(q, [req.body.desc, req.params.id], (err, data) => {
+                    if (err) {
+                        return res.status(500).json(err);
+                    }
+                    if (typeof data === 'object' && 'affectedRows' in data && data.affectedRows !== undefined && data.affectedRows > 0) {
+                        return res.status(200).json("Post update!");
+                    }
+                    return res.status(403).json("You can only update your post!");
+                });
+            }));
+        });
+    }
+    ;
 }
 exports.default = new PostController();

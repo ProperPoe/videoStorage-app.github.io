@@ -10,4 +10,6 @@ const router = express_1.default.Router();
 const upload = (0, multer_1.default)();
 router.get("/", post_js_1.default.getPost);
 router.post("/", upload.single("media"), post_js_1.default.addPost);
+router.delete("/:id", post_js_1.default.deletePost);
+router.put("/:id", post_js_1.default.updatePost);
 exports.default = router;
