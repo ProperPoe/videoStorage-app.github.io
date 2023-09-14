@@ -5,6 +5,7 @@ import commentRoutes from "./routes/comments.js"
 import likeRoutes from "./routes/likes.js"
 import postRoutes from "./routes/posts.js"
 import notifRoutes from "./routes/notifs.js"
+import countRoutes from "./routes/count.js"
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import multer from "multer"
@@ -44,6 +45,7 @@ class Server {
         this.app.use("/api/likes", likeRoutes);
         this.app.use("/api/comments", commentRoutes);
         this.app.use("/api/notifications", notifRoutes);
+        this.app.use("/api/count", countRoutes);
         
     }
 

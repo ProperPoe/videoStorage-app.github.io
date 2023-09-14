@@ -10,6 +10,7 @@ const comments_js_1 = __importDefault(require("./routes/comments.js"));
 const likes_js_1 = __importDefault(require("./routes/likes.js"));
 const posts_js_1 = __importDefault(require("./routes/posts.js"));
 const notifs_js_1 = __importDefault(require("./routes/notifs.js"));
+const count_js_1 = __importDefault(require("./routes/count.js"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const multer_1 = __importDefault(require("multer"));
@@ -40,6 +41,7 @@ class Server {
         this.app.use("/api/likes", likes_js_1.default);
         this.app.use("/api/comments", comments_js_1.default);
         this.app.use("/api/notifications", notifs_js_1.default);
+        this.app.use("/api/count", count_js_1.default);
     }
     start() {
         this.app.listen(this.port, () => {

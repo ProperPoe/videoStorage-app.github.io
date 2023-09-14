@@ -19,14 +19,15 @@ interface Props {
     isDarkMode: boolean;
     toggleDarkMode: () => void
     onSearch: (searchQuery: string) => void
+    notifyCount: number
 }
 interface State {
     anchorEl: null | HTMLElement;
-    notifyCount: number;
     logout: boolean;
     anchorLogoutMenu: HTMLElement | null;
     isLogoutMenuOpen: boolean;
     searchQuery: string
+    count: number;
 }
 interface User{
   id: number
@@ -34,37 +35,28 @@ interface User{
 }
 
 class Navbar extends PureComponent<Props, State> {
-    constructor(props: any) {
+    constructor(props: Props) {
         super(props);
         this.state = {
           anchorEl: null,
-          notifyCount: 0,
           logout: false,
           anchorLogoutMenu: null,
           isLogoutMenuOpen: false,
-          searchQuery: ''
+          searchQuery: '',
+          count: 0
         };
       }
+
+
       componentDidMount() {
-        // Fetch notifications data and update the state with the count
-        this.fetchNotificationsData();
+        // Make the GET request to fetch the count data
+        makeRequest.get('/count').then((response) => {
+            // Assuming the response contains the count in the 'count' property
+            console.log(response.data)
+            this.setState({ count: response.data[0].notificationCount });
+        });
     }
 
-    fetchNotificationsData = () => {
-        const currentUserString = sessionStorage.getItem('currentUser');
-        const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
-
-        if (currentUser) {
-            makeRequest.get(`/notifications?userId=${currentUser.id}`)
-                .then((res) => {
-                    const notificationsData = res.data;
-                    this.setState({ notifyCount: notificationsData.length });
-                })
-                .catch((error) => {
-                    console.error('Error fetching notifications data:', error);
-                });
-        }
-    };
     
       handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         this.setState({ anchorEl: event.currentTarget });
@@ -103,10 +95,7 @@ class Navbar extends PureComponent<Props, State> {
     };
 
     handleSearch = () => {
-        // Perform the search based on this.state.searchQuery
-        // You can make an API request to filter posts on the Home page
-        // with the search query and update the posts accordingly.
-        // Implement this logic in your Posts component.
+
         const { searchQuery } = this.state;
         
         // Call the callback function passed as a prop
@@ -116,7 +105,8 @@ class Navbar extends PureComponent<Props, State> {
     };
 
     render() {
-        const {notifyCount} = this.state
+        //const {notifyCount} = this.state
+        const {count} = this.state
         const {anchorEl} = this.state;
         const {anchorLogoutMenu,logout} = this.state;
         const {isDarkMode} = this.props;
@@ -165,9 +155,9 @@ class Navbar extends PureComponent<Props, State> {
                           <Link to={`/profile/${currentUser && currentUser.id}`} className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 ${isDarkMode ? 'text-white' : 'text-black'}`}><Person/></Link>
                           <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 relative ${isDarkMode ? 'text-white' : 'text-black'}`}>
                             <Notifications />
-                            {notifyCount > 0 && (
+                            {count > 0 && (
                                 <span className="ml-1 bg-red-500 text-white rounded-full px-1.5 py-0.5 text-xs absolute top-0 right-1 transform translate-x-1/2 -translate-y-1/2">
-                                {notifyCount}
+                                {count}
                                 </span>
                             )}
                             </Link>
@@ -191,9 +181,9 @@ class Navbar extends PureComponent<Props, State> {
                       <div className='lg:hidden flex'>
                       <Link to="/notifications" className={`hover:text-blue-400 transition duration-300 hover:underline hover:scale-110 relative ${isDarkMode ? 'text-white' : 'text-black'}`}>
                             <Notifications />
-                            {notifyCount > 0 && (
+                            {count > 0 && (
                                 <span className="ml-1 bg-red-500 text-white rounded-full px-1.5 py-0.5 text-xs absolute top-0 right-1 transform translate-x-1/2 -translate-y-1/2">
-                                {notifyCount}
+                                {count}
                                 </span>
                             )}
                             </Link>

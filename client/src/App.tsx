@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { RootState } from './store/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { logout } from './store/authSlice'; // Import the logout action
+import { makeRequest } from './axios';
 
 interface Props {
   currentUser: string | null;
@@ -17,6 +18,7 @@ interface Props {
 }
 interface State {
   searchQuery: string
+  notifyCount: number
 }
 
 const queryClient = new QueryClient();
@@ -26,22 +28,22 @@ class App extends Component<Props, State> {
     super(props);
     this.state = {
       searchQuery: '',
+      notifyCount: 0
     };
   }
   handleSearch = (searchQuery: string) => {
-    // Implement your search logic here.
-    // You can filter posts, make API requests, or perform any other action.
     console.log('Search query:', searchQuery);
     this.setState({ searchQuery });
   };
 
   render() {
     const { currentUser } = this.props;
+    const { notifyCount } = this.state;
 
     return (
       <QueryClientProvider client={queryClient}>
         <Router>
-          {currentUser && <Navbar onSearch={this.handleSearch}/>} {/* Render Navbar only when authenticated */}
+          {currentUser && <Navbar onSearch={this.handleSearch} notifyCount={this.state.notifyCount} />} {/* Render Navbar only when authenticated */}
           <Routes>
             {/* The first page for non-authenticated users */}
             {!currentUser && 
@@ -51,7 +53,7 @@ class App extends Component<Props, State> {
             {currentUser && (
               <>
                 <Route path="/" element={<Homepage searchQuery={this.state.searchQuery} />} />
-                <Route path="/notifications" element={<Notifs />} />
+                <Route path="/notifications" element={<Notifs  />} />
                 <Route path="/profile/:id" element={<Profile />} />
               </>
             )}

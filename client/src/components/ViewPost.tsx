@@ -58,15 +58,6 @@ const ViewPost = (props: Props) => {
         onSuccess: () => {
           // Invalidate and refetch
           queryClient.invalidateQueries(["comments"])
-
-          if (currentUser) {
-            makeRequest.post("/notifications", {
-                fromUserId: currentUser.id,
-                toUserId: post.userId, 
-                type: 'comment',
-                postId: post.id,
-            });
-        }
         }
       }
     )
@@ -77,14 +68,6 @@ const ViewPost = (props: Props) => {
             await makeRequest.delete("/notifications?postId=" + post.id);
         } else {
             await makeRequest.post("/likes", { postId: post.id });
-            if (currentUser && !liked) {
-                makeRequest.post("/notifications", {
-                    fromUserId: currentUser.id,
-                    toUserId: post.userId, 
-                    type: 'like',
-                    postId: post.id,
-                });
-            }
         }
     }, {
         onSuccess: (data, variables, context) => {
@@ -96,18 +79,43 @@ const ViewPost = (props: Props) => {
     })
 
 
-    const handleCommentSubmit = (e: any) => {
-        e.preventDefault()
-
-        mutation.mutate()
-    }
-
-    const handleLike = () => {
-        if(currentUser){
-            likeMutation.mutate(likesData.includes(currentUser.id))
+    const handleCommentSubmit = async (e: any) => {
+        e.preventDefault();
+    
+        mutation.mutate();
+    
+        try {
+                await makeRequest.post("/notifications", {
+                fromUserId: currentUser?.id,
+                toUserId: post.userId,
+                type: 'comment',
+                postId: post.id,
+            });
+    
+            makeRequest.post("/count", { toUserId: post.userId, type: 'comment', postId: post.id});
+        } catch (error) {
+            console.error('Error creating notification:', error);
         }
-        
-    }
+    };
+    
+    const handleLike = async () => {
+        if (currentUser) {
+            likeMutation.mutate(likesData.includes(currentUser.id));
+            
+            try {
+                    await makeRequest.post("/notifications", {
+                    fromUserId: currentUser.id,
+                    toUserId: post.userId,
+                    type: 'like',
+                    postId: post.id,
+                });
+    
+                makeRequest.post("/count", { toUserId: post.userId, type: 'like', postId: post.id, fromUserId: currentUser.id});
+            } catch (error) {
+                console.error('Error creating notification:', error);
+            }
+        }
+    };
 
     const toggleViewPost = () => {
         onClose();
