@@ -153,7 +153,34 @@ class PostController {
 
 
     };
-    
+
+        public async getPostsByUser(req: Request, res: Response): Promise<void> {
+        const token = req.cookies.accessToken;
+        if (!token) {
+            res.status(401).json("Not logged in");
+            return;
+        }
+
+        jwt.verify(token, "theKey", (err: jwt.VerifyErrors | null, userInfo: any) => {
+            if (err) {
+                res.status(403).json("Token is not valid");
+                return;
+            }
+
+            const userId = req.params.userId;
+
+            // const q = `SELECT * FROM posts WHERE userId = ? ORDER BY createdAt DESC`;
+            const q = `SELECT posts.*, userId, username FROM posts JOIN users ON (users.id = posts.userId) WHERE posts.userId = ? ORDER BY createdAt DESC`;
+
+            db.query(q, [userId], (err, data) => {
+                if (err) {
+                    return res.status(500).json(err);
+                }
+
+                return res.status(200).json(data);
+            });
+        });
+    }
 }
 
 export default new PostController()

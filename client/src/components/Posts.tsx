@@ -13,21 +13,22 @@ interface PostType {
     desc: string
     userId: string
 }
+interface PostsProps {
+    searchQuery: string;
+}
 
-function Posts(props: { searchQuery: string }) {
-    const {  } = props;
+function Posts(props: PostsProps) {
     const [showPost, setShowPost] = useState<PostType | null>(null); 
     const [posts, setPosts] = useState<PostType[]>([]);
 
 
     
-    const {isLoading, error, data} = useQuery<PostType[]>(['posts'], () => {
-        return makeRequest.get("/posts").then((res)=>{
-            console.log(res.data)
-            return res.data
-
-        })
-    })
+    const { isLoading, error, data } = useQuery<PostType[]>(['posts'], () => {
+        return makeRequest.get('/posts').then((res) => {
+            console.log(res.data);
+            return res.data;
+        });
+    });
 
     const queryClient = useQueryClient();
 

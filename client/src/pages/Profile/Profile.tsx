@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
 import { Avatar, Button, IconButton } from '@mui/material';
 import { Edit, Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-material';
-import Posts from '../../components/Posts'; 
+import Posts from '../../components/Posts';
+import Post from '../../components/Post';
+import ViewPost from '../../components/ViewPost';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { makeRequest } from '../../axios';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 interface Props {}
 
-const specificPosts = [
-    { id: 1, title: 'First Post', imageUrl: 'https://example.com/image1.jpg', likes: 10, comments: 5 },
-    { id: 2, title: 'Second Post', imageUrl: 'https://example.com/image1.jpg', likes: 10, comments: 5 },
-    { id: 3, title: 'Third Post', imageUrl: 'https://example.com/image1.jpg', likes: 10, comments: 5 },
+interface PostType {
+    id: number
+    mediaUrl: string
+    mediaType: string
+    username: string
+    desc: string
+    userId: string
+}
 
-]
 
 function Profile(props: Props) {
+    const [showPost, setShowPost] = useState<PostType | null>(null); 
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const userId = useParams()
     
@@ -27,6 +33,30 @@ function Profile(props: Props) {
             return res.data;
         })
     )    
+
+    const { isLoading: postsLoading, error: postsError, data: userPosts } = useQuery<PostType[]>(['userPosts', userId.id], () =>
+        makeRequest.get(`/posts/user/${userId.id}`).then((res) => {
+            console.log(res.data);
+            return res.data;
+        })
+    );
+
+    const openPost = (post: PostType) => {
+        setShowPost(post);
+    };
+
+    const closePost = () => {
+        setShowPost(null);
+    };
+    
+    const queryClient = useQueryClient();
+    // Function to delete a post
+    const deletePost = (postId: number) => {
+        // Remove the post from the local state
+        const updatedData = userPosts?.filter((post) => post.id !== postId);
+        // Update the data using React Query's cache
+        queryClient.setQueryData(['posts'], updatedData);
+        };
 
 
     return (
@@ -63,8 +93,25 @@ function Profile(props: Props) {
                 </Button>
             </div>
             {/* User Posts */}
-            <div className="p-4">
-                {/* <Posts posts={specificPosts} /> */}
+            <div>
+                {showPost ? (
+                    <ViewPost post={showPost} onClose={closePost} onDeletePost={deletePost} />
+                ) : (
+
+                <div className="p-4">
+                    {postsLoading ? (
+                        "Loading..."
+                    ) : postsError ? (
+                        "An error occurred while fetching posts."
+                    ) : (
+                        <div className="grid md:grid-cols-2 gap-4 p-4 sm:grid-cols-1">
+                            {userPosts?.map((post: PostType) => (
+                                <Post key={post.id} post={post} onClick={()=>openPost(post)}/>
+                            ))}
+                        </div>
+                    )}
+                </div>
+                )}
             </div>
         </div>
     );

@@ -12,4 +12,5 @@ router.get("/", post_js_1.default.getPost);
 router.post("/", upload.single("media"), post_js_1.default.addPost);
 router.delete("/:id", post_js_1.default.deletePost);
 router.put("/:id", post_js_1.default.updatePost);
+router.get('/user/:userId', post_js_1.default.getPostsByUser);
 exports.default = router;
