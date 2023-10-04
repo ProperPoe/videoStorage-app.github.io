@@ -21,9 +21,14 @@ function Notification({ notification, notifyCount }: Props) {
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
 
-    const handleDeleteClick = () => {
+    const handleSeenClick = () => {
         console.log(notification.fromUserId, notification.postId, notification.type)
         makeRequest.delete(`/count?postId=${notification.postId}&type=${notification.type}&fromUserId=${notification.fromUserId}`);
+        
+
+    };
+    const handleDeleteClick = () => {
+        makeRequest.delete(`/notifications?postId=${notification.postId}&fromUserId=${notification.fromUserId}`);
         
 
     };
@@ -51,7 +56,7 @@ function Notification({ notification, notifyCount }: Props) {
             </div>
             <div className="flex justify-end space-x-2">
                 {/* Eye Icon */}
-                <Visibility className="text-blue-500 cursor-pointer" onClick={handleDeleteClick} />
+                <Visibility className="text-blue-500 cursor-pointer" onClick={handleSeenClick} />
                 
                 {/* Trash Icon */}
                 <Delete className="text-red-500 cursor-pointer" onClick={handleDeleteClick}/>

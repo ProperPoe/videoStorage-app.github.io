@@ -61,18 +61,15 @@ class NotifController {
             }
         
     
-            const q = "DELETE FROM notifs WHERE `fromUserId` = ? AND `postId` = ? AND `type` = 'like'"
+            const q = "DELETE FROM notifs WHERE `postId` = ? AND `fromUserId` = ?"
     
-            const values = [
-                userInfo.id,
-                req.query.postId
-            ]
+            const values = [req.query.postId, req.query.fromUserId]
             db.query(q, values, (err, data) => {
                 if(err){
                     return res.status(500).json(err)
                 }
             
-                return res.status(200).json("Post has been unliked!")
+                return res.status(200).json("Notification has been deleted!")
             })
         })
     }
