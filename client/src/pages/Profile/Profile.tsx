@@ -9,6 +9,7 @@ import { RootState } from '../../store/store';
 import { makeRequest } from '../../axios';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import EditProfile from './EditProfile';
 
 interface Props {}
 
@@ -24,6 +25,7 @@ interface PostType {
 
 function Profile(props: Props) {
     const [showPost, setShowPost] = useState<PostType | null>(null); 
+    const [showEdit, setShowEdit] = useState(false)
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const userId = useParams()
     
@@ -56,10 +58,16 @@ function Profile(props: Props) {
         const updatedData = userPosts?.filter((post) => post.id !== postId);
         // Update the data using React Query's cache
         queryClient.setQueryData(['posts'], updatedData);
-        };
+    };
+
+    const handleShowEdit = () => {
+        setShowEdit(true)
+    }
 
 
     return (
+        <>
+        {showEdit && <EditProfile setShowEdit={setShowEdit} />}
         <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} min-h-screen`}>
             {/* Cover Photo */}
             <div className={`h-40 ${isDarkMode ? 'bg-blue-500' : 'bg-blue-300'}`}></div>
@@ -88,6 +96,7 @@ function Profile(props: Props) {
                     variant="outlined"
                     startIcon={<Edit />}
                     className="transition duration-300 bg-transparent hover:bg-blue-500 hover:text-white border-blue-500 text-blue-500 hover:border-transparent"
+                    onClick={handleShowEdit}
                 >
                     Edit Profile
                 </Button>
@@ -114,6 +123,7 @@ function Profile(props: Props) {
                 )}
             </div>
         </div>
+        </>
     );
 }
 

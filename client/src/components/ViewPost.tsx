@@ -8,6 +8,7 @@ import { RootState } from '../store/store';
 import Comments from './Comments';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '../axios';
+import EditPost from './EditPost';
 
 interface PostType{
     id: number
@@ -33,6 +34,7 @@ const ViewPost = (props: Props) => {
     const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
     const [showComments, setShowComments] = useState(false); 
     const [desc, setDesc] = useState(''); 
+    const [showEdit, setShowEdit] = useState(false);
 
     const { isLoading, error, data} = useQuery(['comments'], ()=>{
         return makeRequest.get(`/comments?postId=${post.id}`).then((res)=>{
@@ -120,6 +122,13 @@ const ViewPost = (props: Props) => {
     const toggleViewPost = () => {
         onClose();
     }
+    const handleShowEdit = () => {
+        if(!showEdit){
+            setShowEdit(true)
+        }else{
+            setShowEdit(false)
+        }
+    }
 
     const handleDeletePost = async () => {
         try {
@@ -135,18 +144,20 @@ const ViewPost = (props: Props) => {
     
 
     return (
+        <>
+        {showEdit && <EditPost setShowEdit={setShowEdit} />}
         <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} rounded-lg shadow-md`}>
             {/* Close icon */}
         <button
             className="absolute top-25 right-40 text-gray-400 hover:text-gray-600 cursor-pointer"
             onClick={toggleViewPost}
-        >
+            >
             <Close className="text-2xl" />
         </button>
         {/* Placeholder for video/image */}
         <div
             className="w-full h-60 bg-gray-300 rounded-lg mb-4 flex items-center justify-center text-gray-600"
-        >
+            >
             <span className="text-5xl">
             <i className="material-icons">videocam</i>
             </span>
@@ -157,14 +168,14 @@ const ViewPost = (props: Props) => {
         {isLoading ? "loading" : (currentUser && likesData && likesData.includes(currentUser.id)) ? (
             <FavoriteOutlinedIcon className='text-red-500' onClick={handleLike} />
             ) : (
-            <FavoriteBorderOutlinedIcon onClick={handleLike} />
-        )}
+                <FavoriteBorderOutlinedIcon onClick={handleLike} />
+                )}
             <span className="text-gray-400">{likesData && likesData.length} likes</span>
         </div>
 
         {/* Actions section */}
         <div className="flex items-center mb-4">
-            <Edit className="text-gray-400 text-lg cursor-pointer hover:text-blue-500 mr-4" />
+            <Edit className="text-gray-400 text-lg cursor-pointer hover:text-blue-500 mr-4" onClick={handleShowEdit}/>
             <Delete className="text-gray-400 text-lg cursor-pointer hover:text-red-500 mr-4" onClick={handleDeletePost} />
             <Lock className="text-gray-400 text-lg cursor-pointer hover:text-blue-500 mr-4" />
             <CloudDownload className="text-gray-400 text-lg cursor-pointer hover:text-green-500" />
@@ -186,25 +197,26 @@ const ViewPost = (props: Props) => {
         </div>
         {/* Comment input form */}
         {showComments && (
-        <div className="mt-4 flex">
+            <div className="mt-4 flex">
             <input
                 type="text"
                 placeholder="Add a Comment"
                 className={`${isDarkMode ? 'bg-gray-800' : ''} border border-blue-500 rounded-l-lg p-2 focus:outline-none focus:ring focus:border-blue-300 w-full text-blue-500`}
                 value={desc}
                 onChange={(e) => setDesc(e.target.value)}
-            />
+                />
             <button
                 onClick={handleCommentSubmit}
                 className="bg-blue-500 hover:bg-blue-600 text-white rounded-r-lg p-2"
-            >
+                >
                 Submit
             </button>
         </div>
         )}
               {/* Conditional rendering of Comments */}
             {showComments && <Comments comments={data}/>}
-        </div>
+        </div>        
+        </>
     );
 };
 
