@@ -86,10 +86,10 @@ function Profile(props: Props) {
 
             {/* Social Media Links */}
             <div className="flex justify-center mt-4 space-x-4">
-                <IconButton ><Facebook className={`${isDarkMode ? 'text-white' : 'bg-white'}`} /></IconButton>
+                {/* <IconButton ><Facebook className={`${isDarkMode ? 'text-white' : 'bg-white'}`} /></IconButton>
                 <IconButton><Twitter  className={`${isDarkMode ? 'text-white' : 'bg-white'}`} /></IconButton>
                 <IconButton><Instagram className={`${isDarkMode ? 'text-white' : 'bg-white'}`}  /></IconButton>
-                <IconButton><LinkedIn  className={`${isDarkMode ? 'text-white' : 'bg-white'}`} /></IconButton>
+                <IconButton><LinkedIn  className={`${isDarkMode ? 'text-white' : 'bg-white'}`} /></IconButton> */}
             </div>
             <div className="flex justify-center mt-2">
                 <Button

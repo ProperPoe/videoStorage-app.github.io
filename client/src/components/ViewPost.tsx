@@ -10,6 +10,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '../axios';
 import EditPost from './EditPost';
 
+//type UpdateDescFunction = (newDesc: string) => void;
+
 interface PostType{
     id: number
     username: string
@@ -33,8 +35,10 @@ const ViewPost = (props: Props) => {
     const currentUserString = sessionStorage.getItem('currentUser');
     const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
     const [showComments, setShowComments] = useState(false); 
-    const [desc, setDesc] = useState(''); 
+    const [desc, setDesc] = useState(""); 
+    const [postDesc, setPostDesc] = useState(post.desc); 
     const [showEdit, setShowEdit] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
     const { isLoading, error, data} = useQuery(['comments'], ()=>{
         return makeRequest.get(`/comments?postId=${post.id}`).then((res)=>{
@@ -141,11 +145,15 @@ const ViewPost = (props: Props) => {
           console.error('Error deleting post:', error);
         }
       };
+
+      const updateDesc = (newDesc: string) => {
+        setPostDesc(newDesc); // Update the desc in ViewPost
+      };
     
 
     return (
         <>
-        {showEdit && <EditPost setShowEdit={setShowEdit} />}
+        {showEdit && <EditPost setShowEdit={setShowEdit} desc={postDesc} postId={post.id} updateDesc={updateDesc} />}
         <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} rounded-lg shadow-md`}>
             {/* Close icon */}
         <button
@@ -193,7 +201,7 @@ const ViewPost = (props: Props) => {
             <Avatar alt="User" src="https://via.placeholder.com/40" sx={{ width: 40, height: 40, marginRight: 2 }} />
             <span className="font-semibold">Username: {post.username}</span>
             </div>
-            <p className="text-gray-400">{post.desc}.</p>
+            <p className="text-gray-400">{postDesc}</p>
         </div>
         {/* Comment input form */}
         {showComments && (

@@ -170,5 +170,41 @@ class PostController {
             });
         });
     }
+    getPostById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            //const postId = req.params.id;
+            const token = req.cookies.accessToken;
+            if (!token) {
+                res.status(401).json("Not logged in");
+                return;
+            }
+            jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
+                if (err) {
+                    res.status(403).json("Token is not valid");
+                    return;
+                }
+                // Query to fetch the post data by postId, including the updated description
+                const q = "SELECT * FROM posts WHERE `id` = ? LIMIT 1";
+                connect_1.db.query(q, [req.query.postId], (err, data) => __awaiter(this, void 0, void 0, function* () {
+                    if (err) {
+                        return res.status(500).json(err);
+                    }
+                    if (data && data.length > 0) {
+                        const post = data[0];
+                        // Check if the user requesting this post is the owner
+                        if (post.userId === userInfo.id) {
+                            return res.status(200).json(post);
+                        }
+                        else {
+                            return res.status(403).json("You can only access your own post!");
+                        }
+                    }
+                    else {
+                        return res.status(404).json("Post not found");
+                    }
+                }));
+            }));
+        });
+    }
 }
 exports.default = new PostController();
