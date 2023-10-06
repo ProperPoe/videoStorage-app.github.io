@@ -26,15 +26,20 @@ interface PostType {
 function Profile(props: Props) {
     const [showPost, setShowPost] = useState<PostType | null>(null); 
     const [showEdit, setShowEdit] = useState(false)
+    const [username, setUserName] = useState("")
+    const [profilePicUrl, setProfilePicUrl] = useState<string | null>(null)
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const userId = useParams()
     
     const { isLoading, error, data } = useQuery(['user'], () => 
         makeRequest.get("/users/find/" + userId.id).then((res)=>{
             console.log(res.data)
+            setUserName(res.data.username)
+            setProfilePicUrl(res.data.profilePic)
             return res.data;
         })
     )    
+    
 
     const { isLoading: postsLoading, error: postsError, data: userPosts } = useQuery<PostType[]>(['userPosts', userId.id], () =>
         makeRequest.get(`/posts/user/${userId.id}`).then((res) => {
@@ -75,7 +80,10 @@ function Profile(props: Props) {
 
             {/* Profile Info */}
             <div className="relative -mt-16 mx-4 flex justify-center items-center">
-                <Avatar className="w-20 h-20 border-4 border-white" />
+            <Avatar
+                    className="w-20 h-20 border-4 border-white"
+                    src={profilePicUrl || undefined} // Set the src attribute based on profilePicUrl
+                />
 
                 <div className="ml-4">
                     <h1 className="text-2xl font-semibold">{data && data.username}</h1>
