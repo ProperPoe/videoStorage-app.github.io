@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { updateUser } from '../../store/userSlice';
+
 
 
 const Login: React.FC = () => {
@@ -25,6 +27,7 @@ const Login: React.FC = () => {
       });
       console.log(res.data)
       dispatch(login(res.data));
+      dispatch(updateUser(res.data))
       
       navigate('/');
     } catch (error) {

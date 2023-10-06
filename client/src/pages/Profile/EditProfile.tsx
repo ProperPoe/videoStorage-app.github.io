@@ -6,6 +6,9 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
 import { makeRequest } from '../../axios';
 import { useQueryClient } from '@tanstack/react-query';
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../../store/userSlice';
+
 
 interface Props {
     setShowEdit: any
@@ -19,6 +22,8 @@ function EditProfile(props: Props) {
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode)
 
     const queryClient = useQueryClient()
+
+    const dispatch = useDispatch()
 
     const handleShow = () => {
         setShowEdit(false)
@@ -62,6 +67,8 @@ function EditProfile(props: Props) {
   
       // Invalidate the 'user' query to trigger a refetch
       queryClient.invalidateQueries(["user"]);
+  
+      dispatch(updateUser({ username: newUsername, profilePic: newProfilePic }))
   
       // Close the edit profile form
       setShowEdit(false);

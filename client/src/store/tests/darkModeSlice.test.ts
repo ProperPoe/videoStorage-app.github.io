@@ -1,6 +1,7 @@
 import { configureStore, Store } from '@reduxjs/toolkit';
 import darkModeReducer, { toggleDarkMode } from '../darkModeSlice';
 import authReducer from "../authSlice"
+import userReducer from '../userSlice';
 import { RootState } from '../store';
 import 'jest-localstorage-mock';
 
@@ -18,7 +19,7 @@ describe('darkModeSlice', () => {
 
   it('should toggle dark mode', () => {
     const store: Store<RootState> = configureStore({
-      reducer: { darkMode: darkModeReducer, auth: authReducer },
+      reducer: { darkMode: darkModeReducer, auth: authReducer, user: userReducer },
     });
 
     // Initial state should be false (light mode)

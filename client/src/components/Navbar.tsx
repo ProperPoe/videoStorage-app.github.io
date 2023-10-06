@@ -7,19 +7,27 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined'
 //import { HomeOutlined } from '@mui/icons-material';
 import {Menu, MenuItem, IconButton, Popover} from '@mui/material'
-import {Home, Person, Notifications, Search, Menu as MenuIcon, AccountCircle, FiberManualRecord, ExitToApp} from '@mui/icons-material'
+import {Home, Person, Notifications, Search, Menu as MenuIcon, AccountCircle, FiberManualRecord, ExitToApp, StarRateOutlined} from '@mui/icons-material'
 import Homepage from '../pages/Home/Home'
 import Profile from '../pages/Profile/Profile'
 import Notifs from '../pages/Notifications/Notifications'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query';
 import { makeRequest } from '../axios';
+import {updateUser} from '../store/userSlice';
+
 
 interface Props {
     isDarkMode: boolean;
     toggleDarkMode: () => void
     onSearch: (searchQuery: string) => void
     notifyCount: number
+    user: {
+      id: number;
+      username: string;
+      profilePic: string | null;
+    }; // Define user property properly
+
 }
 interface State {
     anchorEl: null | HTMLElement;
@@ -43,7 +51,7 @@ class Navbar extends PureComponent<Props, State> {
           anchorLogoutMenu: null,
           isLogoutMenuOpen: false,
           searchQuery: '',
-          count: 0
+          count: 0,
         };
       }
 
@@ -111,6 +119,7 @@ class Navbar extends PureComponent<Props, State> {
         const {anchorLogoutMenu,logout} = this.state;
         const {isDarkMode} = this.props;
         const { searchQuery } = this.state;
+        const {username, profilePic, id} = this.props.user
 
         const currentUserString = sessionStorage.getItem('currentUser');
         const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
@@ -122,7 +131,7 @@ class Navbar extends PureComponent<Props, State> {
         // Determine which classes to use based on the dark mode state
         const navbarClasses = isDarkMode ? darkModeClasses : lightModeClasses;
 
- 
+        
 
         return (
             <>
@@ -168,9 +177,16 @@ class Navbar extends PureComponent<Props, State> {
 
                       <div className="flex items-center space-x-2">
                           <div className='flex flex-col lg:items-start items-center'>
-                              <AccountCircle className={`text-gray-500 ${isDarkMode ? 'text-white' : 'text-black'}`} fontSize="small" />
+                              {/* <AccountCircle className={`text-gray-500 ${isDarkMode ? 'text-white' : 'text-black'}`} fontSize="small" /> */}
+                              {profilePic && (
+                                <img
+                                  src={profilePic}
+                                  alt={`${username}'s profile`}
+                                  className="w-5 h-5 rounded-full "
+                                />
+                              )}
                               <div className="flex items-center">
-                                  <span className={`cursor-pointer hover:text-blue-400 transition duration-300 hover:underline hover:scale-105 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`} onClick={this.handleLogoutView}>{currentUser && currentUser.username}</span>
+                                  <span className={`cursor-pointer hover:text-blue-400 transition duration-300 hover:underline hover:scale-105 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`} onClick={this.handleLogoutView}>{username}</span>
                                   <div className="flex items-center">
                                       <FiberManualRecord className={`${this.state.isLogoutMenuOpen ? 'text-red-500' : 'text-green-500'} mr-1`} />
                                       <span className={`text-xs ${isDarkMode ? 'text-white' : 'text-black'}`}></span>
@@ -256,12 +272,14 @@ class Navbar extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({
     isDarkMode: state.darkMode.isDarkMode,
+    user: state.user,
   });
 
 const mapDispatchToProps = (dispatch: AppDispatch) =>
   bindActionCreators(
     {
       toggleDarkMode,
+      updateUser,
     },
     dispatch
   );
