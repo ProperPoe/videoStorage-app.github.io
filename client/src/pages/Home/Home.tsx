@@ -70,7 +70,11 @@ class Homepage extends PureComponent<Props, State> {
         const { isDarkMode, toggleDarkMode } = this.props;
         const { showPostForm } = this.state;
         // const { showPost } = this.state;
-
+        const noPostsMessage = this.props.searchQuery && !showPostForm ? (
+            <div className={`text-${isDarkMode ? 'white' : 'black'} text-center mt-4`}>
+                No posts matching your search.
+            </div>
+        ) : null;
         return (
             <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} dark:bg-gray-900 min-h-screen transition-colors duration-300`}>
                 <>
@@ -85,6 +89,7 @@ class Homepage extends PureComponent<Props, State> {
                         </Button>
                     </div>
                     {showPostForm ? <PostForm show={this.handleClosePostForm} /> : <Posts searchQuery={this.props.searchQuery}  />}
+                    {noPostsMessage}
                 </>
 
             </div>
