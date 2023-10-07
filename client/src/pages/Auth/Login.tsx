@@ -1,5 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store/store';
 import { login } from '../../store/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -10,6 +11,14 @@ import { updateUser } from '../../store/userSlice';
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isAuthenticated = useSelector((state: RootState) => state.auth.currentUser);
+  
+  useEffect(() => {
+    // Check if the user is already authenticated, and if so, redirect to a different page.
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
