@@ -14,7 +14,7 @@ const Login: React.FC = () => {
   const isAuthenticated = useSelector((state: RootState) => state.auth.currentUser);
   
   useEffect(() => {
-    // Check if the user is already authenticated, and if so, redirect to a different page.
+    // Check if the user is already authenticated, and if so, redirect to homepage.
     if (isAuthenticated) {
       navigate('/');
     }

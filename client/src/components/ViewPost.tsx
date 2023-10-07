@@ -171,22 +171,25 @@ const ViewPost = (props: Props) => {
     return (
         <>
         {showEdit && <EditPost setShowEdit={setShowEdit} desc={postDesc} postId={post.id} updateDesc={updateDesc} />}
-        <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} rounded-lg shadow-md`}>
-            {/* Close icon */}
-        <button
-            className="absolute top-25 right-40 text-gray-400 hover:text-gray-600 cursor-pointer"
-            onClick={toggleViewPost}
-            >
-            <Close className="text-2xl" />
-        </button>
-        {/* Placeholder for video/image */}
-        <div
-            className="w-full h-60 bg-gray-300 rounded-lg mb-4 flex items-center justify-center text-gray-600"
-            >
-            <span className="text-5xl">
-            <i className="material-icons">videocam</i>
-            </span>
-        </div>
+        <div className={`max-w-2xl mx-auto p-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} rounded-lg shadow-md relative`}>
+
+                    {/* Close icon */}
+                <button
+                    className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                    onClick={toggleViewPost}
+                    >
+                    <Close className="text-2xl" />
+                </button>
+                 
+                {/* Placeholder for video/image */}
+                <div
+                    className="w-full h-60 bg-gray-300 rounded-lg mb-4 flex items-center justify-center text-gray-600"
+                    >
+                    <span className="text-5xl">
+                    <i className="material-icons">videocam</i>
+                    </span>
+                </div>
+            
 
         {/* Likes section */}
         <div className="flex items-center mb-4 gap-2">
@@ -240,7 +243,8 @@ const ViewPost = (props: Props) => {
         )}
               {/* Conditional rendering of Comments */}
             {showComments && <Comments comments={data}/>}
-        </div>        
+        </div>   
+             
         </>
     );
 };
