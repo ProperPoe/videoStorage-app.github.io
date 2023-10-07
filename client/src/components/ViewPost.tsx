@@ -75,9 +75,18 @@ const ViewPost = (props: Props) => {
     const likeMutation = useMutation(async (liked: boolean) => {
         if (liked) {
             await makeRequest.delete("/likes?postId=" + post.id);
-            await makeRequest.delete("/notifications?postId=" + post.id);
+            await makeRequest.delete(`/notifications?postId=${post.id}&fromUserId=${currentUser && currentUser.id}`);
+            await makeRequest.delete(`/count?postId=${post.id}&type=${'like'}&fromUserId=${currentUser && currentUser.id}`);
+
         } else {
             await makeRequest.post("/likes", { postId: post.id });
+            await makeRequest.post("/count", { toUserId: post.userId, type: 'like', postId: post.id, fromUserId: currentUser && currentUser.id});
+            await makeRequest.post("/notifications", {
+                fromUserId: currentUser && currentUser.id,
+                toUserId: post.userId,
+                type: 'like',
+                postId: post.id,
+            });
         }
     }, {
         onSuccess: (data, variables, context) => {
@@ -115,14 +124,14 @@ const ViewPost = (props: Props) => {
             likeMutation.mutate(likesData.includes(currentUser.id));
             
             try {
-                    await makeRequest.post("/notifications", {
-                    fromUserId: currentUser.id,
-                    toUserId: post.userId,
-                    type: 'like',
-                    postId: post.id,
-                });
+                //     await makeRequest.post("/notifications", {
+                //     fromUserId: currentUser.id,
+                //     toUserId: post.userId,
+                //     type: 'like',
+                //     postId: post.id,
+                // });
     
-                makeRequest.post("/count", { toUserId: post.userId, type: 'like', postId: post.id, fromUserId: currentUser.id});
+                // makeRequest.post("/count", { toUserId: post.userId, type: 'like', postId: post.id, fromUserId: currentUser.id});
 
                 dispatch(fetchCount())
             } catch (error) {
