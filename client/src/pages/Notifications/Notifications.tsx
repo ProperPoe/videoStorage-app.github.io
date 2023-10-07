@@ -24,9 +24,19 @@ function Notifications() {
     const currentUser: User = currentUserString ? JSON.parse(currentUserString) : null;
     const userId = currentUser?.id ?? null;
     const [notifyCount, setNotifyCount] = useState(0); 
+    const [notifications, setNotifications] = useState<NotificationType[]>([]);
+
+    const removeNotification = (notificationId: number) => {
+        setNotifications((prevNotifications) =>
+            prevNotifications.filter((notification) => notification.id !== notificationId)
+        );
+        setNotifyCount((prevCount) => prevCount - 1);
+    };
+
     const {isLoading, error, data} = useQuery(["notifications"] , () => 
         makeRequest.get("/notifications?userId=" + userId).then((res) => {
         console.log(res.data)
+        setNotifications(res.data);
         setNotifyCount(res.data.length)
         return res.data
     })
@@ -35,8 +45,8 @@ function Notifications() {
         <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'} min-h-screen p-8`}>
             <h1 className={`${isDarkMode ? 'text-white' : ''} text-3xl font-semibold mb-4`}>Notifications</h1>
             <div className="space-y-4">
-                {isLoading? "loading" : data.map((notification: NotificationType) => (
-                    <Notification key={notification.id} notification={notification} notifyCount={setNotifyCount} />
+                {isLoading? "loading" : notifications.map((notification: NotificationType) => (
+                    <Notification key={notification.id} notification={notification} notifyCount={setNotifyCount} removeNotification={removeNotification} />
                 ))}
             </div>
         </div>

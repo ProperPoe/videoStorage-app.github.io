@@ -15,9 +15,10 @@ interface NotificationData {
 interface Props {
     notification: NotificationData;
     notifyCount: (countUpdater: (prevCount: number) => number) => void;
+    removeNotification: (notificationId: number) => void
 }
 
-function Notification({ notification, notifyCount }: Props) {
+function Notification({ notification, notifyCount, removeNotification }: Props) {
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
 
@@ -29,7 +30,8 @@ function Notification({ notification, notifyCount }: Props) {
     };
     const handleDeleteClick = () => {
         makeRequest.delete(`/notifications?postId=${notification.postId}&fromUserId=${notification.fromUserId}`);
-        
+        makeRequest.delete(`/count?postId=${notification.postId}&type=${notification.type}&fromUserId=${notification.fromUserId}`);
+        removeNotification(notification.id)
 
     };
 
