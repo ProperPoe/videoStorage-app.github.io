@@ -3,12 +3,15 @@ import { FavoriteBorderOutlined, Edit, Delete, Lock, CloudDownload, ChatBubbleOu
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
 import { Avatar, Button, TextField } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import Comments from './Comments';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '../axios';
 import EditPost from './EditPost';
+import { fetchCount } from '../store/countSlice';
+import { ThunkDispatch } from '@reduxjs/toolkit'
+
 
 //type UpdateDescFunction = (newDesc: string) => void;
 
@@ -39,6 +42,7 @@ const ViewPost = (props: Props) => {
     const [postDesc, setPostDesc] = useState(post.desc); 
     const [showEdit, setShowEdit] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
 
     const { isLoading, error, data} = useQuery(['comments'], ()=>{
         return makeRequest.get(`/comments?postId=${post.id}`).then((res)=>{
@@ -99,6 +103,8 @@ const ViewPost = (props: Props) => {
             });
     
             makeRequest.post("/count", { toUserId: post.userId, type: 'comment', postId: post.id});
+
+            dispatch(fetchCount())
         } catch (error) {
             console.error('Error creating notification:', error);
         }
@@ -117,6 +123,8 @@ const ViewPost = (props: Props) => {
                 });
     
                 makeRequest.post("/count", { toUserId: post.userId, type: 'like', postId: post.id, fromUserId: currentUser.id});
+
+                dispatch(fetchCount())
             } catch (error) {
                 console.error('Error creating notification:', error);
             }

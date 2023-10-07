@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux';
 import store, {AppDispatch, RootState} from '../store/store';
 import { toggleDarkMode } from '../store/darkModeSlice';
@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query';
 import { makeRequest } from '../axios';
 import {updateUser} from '../store/userSlice';
+import { fetchCount } from '../store/countSlice';
 
 
 interface Props {
@@ -27,6 +28,8 @@ interface Props {
       username: string;
       profilePic: string | null;
     }; // Define user property properly
+    fetchCount: () => void; // Add this prop for fetching the count
+    count: number; // Add this prop for accessing the count from Redux
 
 }
 interface State {
@@ -35,7 +38,7 @@ interface State {
     anchorLogoutMenu: HTMLElement | null;
     isLogoutMenuOpen: boolean;
     searchQuery: string
-    count: number;
+    // count: number;
 }
 interface User{
   id: number
@@ -51,21 +54,25 @@ class Navbar extends PureComponent<Props, State> {
           anchorLogoutMenu: null,
           isLogoutMenuOpen: false,
           searchQuery: '',
-          count: 0,
+          // count: 0,
         };
       }
 
 
-      componentDidMount() {
-        // Make the GET request to fetch the count data
-        makeRequest.get('/count').then((response) => {
-            // Assuming the response contains the count in the 'count' property
-            console.log(response.data)
-            this.setState({ count: response.data[0].notificationCount });
-        });
+    //   componentDidMount() {
+    //     // Make the GET request to fetch the count data
+    //     makeRequest.get('/count').then((response) => {
+    //         // Assuming the response contains the count in the 'count' property
+    //         console.log(response.data)
+    //         this.setState({ count: response.data[0].notificationCount });
+    //     });
+    // }
+
+    componentDidMount() {
+      // Call the fetchCount action to get the count from Redux
+      this.props.fetchCount();
     }
 
-    
       handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         this.setState({ anchorEl: event.currentTarget });
       };
@@ -114,7 +121,7 @@ class Navbar extends PureComponent<Props, State> {
 
     render() {
         //const {notifyCount} = this.state
-        const {count} = this.state
+        const {count} = this.props
         const {anchorEl} = this.state;
         const {anchorLogoutMenu,logout} = this.state;
         const {isDarkMode} = this.props;
@@ -177,8 +184,8 @@ class Navbar extends PureComponent<Props, State> {
 
                       <div className="flex items-center space-x-2">
                           <div className='flex flex-col lg:items-start items-center'>
-                              {/* <AccountCircle className={`text-gray-500 ${isDarkMode ? 'text-white' : 'text-black'}`} fontSize="small" /> */}
-                              {profilePic && (
+                              {!profilePic ? <AccountCircle className={`text-gray-500 ${isDarkMode ? 'text-white' : 'text-black'}`} fontSize="small" /> :
+                              profilePic && (
                                 <img
                                   src={profilePic}
                                   alt={`${username}'s profile`}
@@ -273,6 +280,7 @@ class Navbar extends PureComponent<Props, State> {
 const mapStateToProps = (state: RootState) => ({
     isDarkMode: state.darkMode.isDarkMode,
     user: state.user,
+    count: state.count.count
   });
 
 const mapDispatchToProps = (dispatch: AppDispatch) =>
@@ -280,6 +288,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) =>
     {
       toggleDarkMode,
       updateUser,
+      fetchCount
     },
     dispatch
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { FavoriteBorderOutlined, Edit, Delete, Lock, CloudDownload, ChatBubbleOutline, Favorite, Close } from '@mui/icons-material';
@@ -12,18 +12,29 @@ import { updateUser } from '../../store/userSlice';
 
 interface Props {
     setShowEdit: any
+    prevUserName: string
+    picture: string
 }
 
 function EditProfile(props: Props) {
-    const {setShowEdit} = props
+    const {setShowEdit, prevUserName, picture} = props
     const [newUsername, setNewUsername] = useState("");
     const [newProfilePic, setNewProfilePic] = useState<File | null>(null); 
+    const [profilePicPreview, setProfilePicPreview] = useState<string | null>(
+      null
+    );
     
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode)
 
     const queryClient = useQueryClient()
 
     const dispatch = useDispatch()
+
+    useEffect(() => { 
+      // When the component mounts, set the initial state of the form fields
+      setNewUsername(prevUserName);
+      setProfilePicPreview(picture);
+    }, [prevUserName, picture]);
 
     const handleShow = () => {
         setShowEdit(false)
@@ -32,8 +43,11 @@ function EditProfile(props: Props) {
     const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
       if (files && files.length > 0) {
-        // Only use the first selected file
-        setNewProfilePic(files[0]);
+        const selectedFile = files[0];
+        // Update the profile picture preview
+        setProfilePicPreview(URL.createObjectURL(selectedFile));
+        // Update the profile picture file state
+        setNewProfilePic(selectedFile);
       }
     };
 
@@ -100,6 +114,13 @@ function EditProfile(props: Props) {
           accept="image/*"
           onChange={handleProfilePicChange}
         />
+        {profilePicPreview && (
+              <img
+                src={profilePicPreview}
+                alt="Profile Preview"
+                className="mt-2 w-16 h-16 rounded-full object-cover"
+              />
+            )}
           </div>
           <button
             type="submit"

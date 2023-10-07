@@ -17,7 +17,7 @@ const getSessionStorageValue = (key: string, defaultValue: any) => {
 export const fetchUserData = createAsyncThunk("user/fetchUserData", async () => {
     try {
       const response = await makeRequest.get("/users"); // Replace with your backend endpoint
-      console.log(response.data)
+    //   console.log(response.data)
       return response.data; // Assuming the response contains username and profilePic
     } catch (error) {
       throw error;
@@ -26,7 +26,7 @@ export const fetchUserData = createAsyncThunk("user/fetchUserData", async () => 
 
   const what = sessionStorage.getItem("currentUser")
 
-  console.log(what)
+//   console.log(what)
 
 const userSlice = createSlice({
     name: 'user',
