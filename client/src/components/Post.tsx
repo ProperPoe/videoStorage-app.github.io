@@ -3,6 +3,10 @@ import { Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typogra
 import { CommentOutlined, FavoriteBorderOutlined, PlayCircleOutline, FavoriteOutlined } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+import moment from 'moment';
+import { makeRequest } from '../axios';
+import { useQuery } from '@tanstack/react-query';
+
 
 interface PostType {
     id:number
@@ -10,6 +14,8 @@ interface PostType {
    mediaUrl: string
    mediaType: string
    username: string
+   createdAt: string
+   profilePic: string
 }
 
 interface Props {
@@ -26,11 +32,17 @@ function Post(props: Props) {
     const cardClassName = `w-81 h-95 shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'} cursor-pointer`;
     const iconColor = isDarkMode ? 'text-white' : 'text-gray-700';
 
+    const { isLoading, error, data} = useQuery(['comments'], ()=>{
+        return makeRequest.get(`/comments?postId=${post.id}`).then((res)=>{
+            console.log(res.data)
+            return res.data;
+        })
+    })
     // const toggleViewPost = () => {
     //     showPost()
     // }
-    console.log("Media Type:", post.mediaType);
-    console.log("Media URL:", post.mediaUrl);
+    // console.log("Media Type:", post.mediaType);
+    // console.log("Media URL:", post.mediaUrl);
     return (
         <Card className={cardClassName} onClick={onClick} >
             {/* Thumbnail */}
@@ -44,9 +56,9 @@ function Post(props: Props) {
             <CardContent className={`p-2 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} m-0` }>
                 {/* User Info */}
                 <CardHeader
-                    avatar={<Avatar />}
+                    avatar={<Avatar src={post.profilePic}/>}
                     title={`${post.username}`}
-                    subheader="5 minutes ago"
+                    subheader={`${moment(post.createdAt).fromNow()}`}
                     subheaderTypographyProps={{
                         style: {
                             color: isDarkMode ? 'white' : 'gray',

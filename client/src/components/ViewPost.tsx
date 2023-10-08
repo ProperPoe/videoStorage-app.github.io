@@ -11,6 +11,7 @@ import { makeRequest } from '../axios';
 import EditPost from './EditPost';
 import { fetchCount } from '../store/countSlice';
 import { ThunkDispatch } from '@reduxjs/toolkit'
+import { StringMappingType } from 'typescript';
 
 
 //type UpdateDescFunction = (newDesc: string) => void;
@@ -20,6 +21,9 @@ interface PostType{
     username: string
     desc: string
     userId: string
+    profilePic: string
+    mediaUrl: string
+    mediaType: string
 }
 
 interface User{
@@ -183,11 +187,16 @@ const ViewPost = (props: Props) => {
                  
                 {/* Placeholder for video/image */}
                 <div
-                    className="w-full h-60 bg-gray-300 rounded-lg mb-4 flex items-center justify-center text-gray-600"
+                    className="w-full h-full bg-gray-300 rounded-lg mb-4 flex items-center justify-center text-gray-600"
                     >
-                    <span className="text-5xl">
+                    {/* <span className="text-5xl">
                     <i className="material-icons">videocam</i>
-                    </span>
+                    </span> */}
+                    {post.mediaType && post.mediaType === 'image' ? (
+                        <img src={post.mediaUrl} alt="media" className="w-full h-56 bg-gray-300 relative" />
+                    ) : (
+                        <video src={post.mediaUrl} className="w-full h-56 bg-gray-300 relative" controls />
+                    )}
                 </div>
             
 
@@ -212,13 +221,13 @@ const ViewPost = (props: Props) => {
         {/* Comments section */}
         <div className="flex items-center mb-4" onClick={() => setShowComments(!showComments)} style={{ cursor: 'pointer' }}>
             <ChatBubbleOutline className="text-gray-400 text-lg mr-2" />
-            <span className="text-gray-400">10 Comments</span>
+            <span className="text-gray-400">{data.length} Comments</span>
         </div>
 
         {/* Placeholder for comments */}
         <div className="border-t pt-4">
             <div className="flex items-center mb-2">
-            <Avatar alt="User" src="https://via.placeholder.com/40" sx={{ width: 40, height: 40, marginRight: 2 }} />
+            <Avatar alt="User" src={post.profilePic} sx={{ width: 40, height: 40, marginRight: 2 }} />
             <span className="font-semibold">Username: {post.username}</span>
             </div>
             <p className="text-gray-400">{postDesc}</p>

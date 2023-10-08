@@ -28,7 +28,7 @@ class PostController {
                 res.status(403).json("Token is not valid");
                 return;
             }
-            const q = `SELECT posts.*, userId, username FROM posts JOIN users ON (users.id = posts.userId) ORDER BY createdAt DESC`;
+            const q = `SELECT posts.*, userId, username, profilePic FROM posts JOIN users ON (users.id = posts.userId) ORDER BY createdAt DESC`;
             connect_1.db.query(q, [userInfo.id], (err, data) => {
                 if (err)
                     return res.status(500).json(err);

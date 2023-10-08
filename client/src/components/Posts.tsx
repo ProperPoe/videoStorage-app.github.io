@@ -12,6 +12,8 @@ interface PostType {
     username: string
     desc: string
     userId: string
+    createdAt: string
+    profilePic: string
 }
 interface PostsProps {
     searchQuery: string;
