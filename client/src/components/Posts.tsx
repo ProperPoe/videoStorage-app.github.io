@@ -14,6 +14,8 @@ interface PostType {
     userId: string
     createdAt: string
     profilePic: string
+    likesCount: number
+    commentsCount: number
 }
 interface PostsProps {
     searchQuery: string;

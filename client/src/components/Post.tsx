@@ -10,12 +10,14 @@ import { useQuery } from '@tanstack/react-query';
 
 interface PostType {
     id:number
-   desc: string
+    desc: string
    mediaUrl: string
    mediaType: string
    username: string
    createdAt: string
    profilePic: string
+   likesCount: number
+   commentsCount: number
 }
 
 interface Props {
@@ -72,13 +74,13 @@ function Post(props: Props) {
                         <IconButton size="small">
                             <FavoriteBorderOutlined fontSize="small" className={iconColor} />
                         </IconButton>
-                        <Typography variant="body2" className={isDarkMode ? 'text-white' : 'text-gray-700'}>12</Typography>
+                        <Typography variant="body2" className={isDarkMode ? 'text-white' : 'text-gray-700'}>{post.likesCount}</Typography>
                     </div>
                     <div className="flex items-center">
                         <IconButton size="small">
                             <CommentOutlined fontSize="small" className={iconColor} />
                         </IconButton>
-                        <Typography variant="body2" className={isDarkMode ? 'text-white' : 'text-gray-700'}>5</Typography>
+                        <Typography variant="body2" className={isDarkMode ? 'text-white' : 'text-gray-700'}>{post.commentsCount}</Typography>
                     </div>
                 </div>
             </CardContent>

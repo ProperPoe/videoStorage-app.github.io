@@ -22,6 +22,8 @@ interface PostType {
     userId: string
     createdAt: string
     profilePic: string
+    likesCount: number
+    commentsCount: number
 }
 
 
