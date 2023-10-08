@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { login } from '../../store/authSlice';
@@ -7,11 +7,11 @@ import axios from 'axios';
 import { updateUser } from '../../store/userSlice';
 
 
-
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state: RootState) => state.auth.currentUser);
+  const [err, setErr] = useState("")
   
   useEffect(() => {
     // Check if the user is already authenticated, and if so, redirect to homepage.
@@ -39,8 +39,9 @@ const Login: React.FC = () => {
       dispatch(updateUser(res.data))
       
       navigate('/');
-    } catch (error) {
-      console.log(error)  
+    } catch (error: any) {
+      console.log(error.response.data)
+      setErr(error.response.data)  
     }
 
   };
@@ -74,7 +75,8 @@ const Login: React.FC = () => {
             className="mt-1 p-3 w-full border rounded-md focus:ring focus:ring-blue-300"
             />
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end space-x-12 items-center">
+            <strong className='text-red-500 '>{err}</strong>
             <button
             type="submit"
             className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"

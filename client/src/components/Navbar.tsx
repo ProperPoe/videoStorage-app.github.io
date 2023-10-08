@@ -119,6 +119,12 @@ class Navbar extends PureComponent<Props, State> {
         }
     };
 
+    handleLogo = (e: any) => {
+      e.preventDefault();
+
+      window.location.href = '/'
+    }
+
     render() {
         //const {notifyCount} = this.state
         const {count} = this.props
@@ -157,7 +163,7 @@ class Navbar extends PureComponent<Props, State> {
                         <MenuIcon />
                     </IconButton>
                     {/* Logo */}
-                    <div className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Logo</div>
+                    <div className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'} cursor-pointer`} onClick={this.handleLogo}>Logo</div>
 
 
                     </div>

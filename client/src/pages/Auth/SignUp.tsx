@@ -7,14 +7,16 @@ import axios from 'axios'
 interface Props {
     login: (currentUser: any) => void; // Add the login action to props
   }
-interface State {}
+interface State {
+    err: string
+}
 
 class SignUp extends PureComponent<Props, State> {
     constructor(props: any) {
         super(props)
 
         this.state = {
-            
+            err: ""
         }
     }
     handleFormSubmit = async (event: React.FormEvent) => {
@@ -31,8 +33,9 @@ class SignUp extends PureComponent<Props, State> {
             await axios.post('http://localhost:4000/api/auth/register' , formValues)
             
             this.props.login(formValues.username);
-        } catch (error) {
-            console.log(error)
+        } catch (error: any) {
+            console.log(error.response.data)
+            this.setState({err: error.response.data})
         }
         console.log('Form values:', formValues);
     };
@@ -89,7 +92,8 @@ class SignUp extends PureComponent<Props, State> {
                         className="mt-1 p-3 w-full border rounded-md focus:ring focus:ring-blue-300"
                         />
                     </div>
-                    <div className="flex justify-end">
+                    <div className="flex justify-end space-x-12 items-center">
+                        <strong className='text-red-500'>{this.state.err}</strong>
                         <button
                         type="submit"
                         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
