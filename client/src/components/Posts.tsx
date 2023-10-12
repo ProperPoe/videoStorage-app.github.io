@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Post from './Post';
 import { makeRequest } from '../axios';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -19,11 +19,21 @@ interface PostType {
 }
 interface PostsProps {
     searchQuery: string;
+    setFilteredDataLength: (length: number) => void;
 }
 
 function Posts(props: PostsProps) {
     const [showPost, setShowPost] = useState<PostType | null>(null); 
     const [posts, setPosts] = useState<PostType[]>([]);
+    //const [filteredDataLength, setFilteredDataLength] = useState(0);
+    //const [filteredData, setFilteredData] = useState<PostType[]>([]);
+    // const [myState, setMyState] = useState(initialValue);
+
+    // useEffect(() => {
+    //   // This code will run after the initial render
+    //   // and can safely update state.
+    //   setMyState(newValue);
+    // }, []); // The empty dependency array mimics componentDidMount
 
 
     
@@ -49,8 +59,17 @@ function Posts(props: PostsProps) {
     const filteredData = data?.filter((post) =>
     post.desc.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
     post.username.toLowerCase().includes(props.searchQuery.toLowerCase())
-    );
 
+    );
+    // setFilteredData(data?.filter((post) =>
+    //     post.desc.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
+    //     post.username.toLowerCase().includes(props.searchQuery.toLowerCase())
+    //     ) || []);
+    useEffect(() => {
+        if (filteredData) {
+            props.setFilteredDataLength(filteredData.length);
+        }
+    }, [filteredData, props]);
     
 
     // Function to delete a post

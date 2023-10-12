@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Homepage from './pages/Home/Home';
 import Notifs from './pages/Notifications/Notifications';
@@ -11,6 +11,7 @@ import { RootState } from './store/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { logout } from './store/authSlice'; // Import the logout action
 import { makeRequest } from './axios';
+
 
 interface Props {
   currentUser: string | null;
@@ -40,10 +41,12 @@ class App extends Component<Props, State> {
     const { currentUser } = this.props;
     const { notifyCount } = this.state;
 
+    
+
     return (
       <QueryClientProvider client={queryClient}>
         <Router>
-          {currentUser && <Navbar onSearch={this.handleSearch} notifyCount={this.state.notifyCount} />} {/* Render Navbar only when authenticated */}
+          {currentUser && <Navbar onSearch={this.handleSearch} notifyCount={this.state.notifyCount} />}{/* Render Navbar only when authenticated */}
           <Routes>
             {/* The first page for non-authenticated users */}
             {!currentUser && 
@@ -69,4 +72,5 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 
-export default connect(mapStateToProps, {logout})(App);
+// export default connect(mapStateToProps, {logout})(App);
+export default connect(mapStateToProps, { logout })(App)

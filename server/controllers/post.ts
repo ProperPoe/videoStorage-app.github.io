@@ -186,7 +186,21 @@ class PostController {
             const userId = req.params.userId;
 
             // const q = `SELECT * FROM posts WHERE userId = ? ORDER BY createdAt DESC`;
-            const q = `SELECT posts.*, userId, username, profilePic FROM posts JOIN users ON (users.id = posts.userId) WHERE posts.userId = ? ORDER BY createdAt DESC`;
+            // const q = `SELECT posts.*, userId, username, profilePic FROM posts JOIN users ON (users.id = posts.userId) WHERE posts.userId = ? ORDER BY createdAt DESC`;
+
+            const q = `
+                SELECT
+                    posts.*,
+                    users.id AS userId,
+                    users.username,
+                    users.profilePic,
+                    (SELECT COUNT(*) FROM likes WHERE likes.postId = posts.id) AS likesCount,
+                    (SELECT COUNT(*) FROM comments WHERE comments.postId = posts.id) AS commentsCount
+                    FROM posts
+                    JOIN users ON users.id = posts.userId
+                    WHERE posts.userId = ?
+                    ORDER BY createdAt DESC;
+            `
 
             db.query(q, [userId], (err, data) => {
                 if (err) {
