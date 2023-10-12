@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { makeRequest } from '../axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FavoriteBorderOutlined, Edit, Delete, Lock, CloudDownload, ChatBubbleOutline, Favorite, Close } from '@mui/icons-material';
 
 
 type UpdateDescFunction = (newDesc: string) => void;
@@ -63,6 +64,12 @@ function EditPost(props: Props) {
     return (
         <div className={`fixed inset-0 flex items-center justify-center z-50 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white'} bg-opacity-80`}>
         <div className={`w-96 p-8 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`} >
+        <button
+            className="absolute top-20 right-20 text-gray-400 hover:text-gray-600 cursor-pointer"
+            onClick={handleShow}
+            >
+            <Close className="text-3xl" />
+        </button>
         <h2 className="text-2xl font-semibold mb-4">Upload New Post</h2>
         <form className="space-y-4" onSubmit={handleEditPost}>
           <div>
