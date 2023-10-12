@@ -28,6 +28,7 @@ interface PostType{
 
 interface User{
     id: number
+    username: string
 }
 
 interface Props{
@@ -222,8 +223,13 @@ const ViewPost = (props: Props) => {
 
         {/* Actions section */}
         <div className="flex items-center mb-4">
-            <Edit className="text-gray-400 text-lg cursor-pointer hover:text-blue-500 mr-4" onClick={handleShowEdit}/>
-            <Delete className="text-gray-400 text-lg cursor-pointer hover:text-red-500 mr-4" onClick={handleDeletePost} />
+            {currentUser && currentUser.username === post.username ? (
+                <div>
+
+                    <Edit className="text-gray-400 text-lg cursor-pointer hover:text-blue-500 mr-4" onClick={handleShowEdit}/>
+                    <Delete className="text-gray-400 text-lg cursor-pointer hover:text-red-500 mr-4" onClick={handleDeletePost} />
+                </div>)
+            : ""}
             <Lock className="text-gray-400 text-lg cursor-pointer hover:text-blue-500 mr-4" />
             <CloudDownload className="text-gray-400 text-lg cursor-pointer hover:text-green-500" />
         </div>
