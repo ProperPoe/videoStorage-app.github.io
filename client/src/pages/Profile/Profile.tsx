@@ -77,7 +77,7 @@ function Profile(props: Props) {
     return (
         <>
         {showEdit && <EditProfile setShowEdit={setShowEdit} prevUserName={data.username} picture={data.profilePic}/>}
-        <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} min-h-screen`}>
+        <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} min-h-screen`} style={{marginTop: '76px'}}>
             {/* Cover Photo */}
             <div className={`h-40 ${isDarkMode ? 'bg-blue-500' : 'bg-blue-300'}`}></div>
 

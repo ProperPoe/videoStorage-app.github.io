@@ -15,7 +15,7 @@ class NotifController {
         jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => {
             if (err)
                 return res.status(403).json("User not logged in");
-            const q = "SELECT notifs.*, users.username, users.profilePic FROM notifs JOIN users ON users.id = notifs.fromUserId WHERE notifs.toUserId = ?";
+            const q = "SELECT notifs.*, users.username, users.profilePic FROM notifs JOIN users ON users.id = notifs.fromUserId WHERE notifs.toUserId = ? ORDER BY createdAt DESC";
             connect_1.db.query(q, [userInfo.id], (err, data) => {
                 if (err)
                     return res.status(500).json(err);

@@ -44,7 +44,7 @@ function Notifications() {
     })
 )
     return (
-        <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'} min-h-screen p-8`}>
+        <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'} min-h-screen p-8`} style={{marginTop: '76px'}}>
             <h1 className={`${isDarkMode ? 'text-white' : ''} text-3xl font-semibold mb-4`}>Notifications</h1>
             <div className="space-y-4">
                 {isLoading? "loading" : notifications.map((notification: NotificationType) => (
