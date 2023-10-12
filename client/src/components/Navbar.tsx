@@ -117,6 +117,8 @@ class Navbar extends PureComponent<Props, State> {
         if (this.props.onSearch) {
             this.props.onSearch(searchQuery);
         }
+
+        // window.location.href ="/"
     };
 
     handleLogo = (e: any) => {

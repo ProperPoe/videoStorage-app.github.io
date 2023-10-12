@@ -37,13 +37,13 @@ class PostController {
                 users.profilePic,
                 COUNT(DISTINCT likes.id) AS likesCount,
                 COUNT(DISTINCT comments.id) AS commentsCount
-            FROM posts
-            LEFT JOIN users ON users.id = posts.userId
-            LEFT JOIN likes ON likes.postId = posts.id
-            LEFT JOIN comments ON comments.postId = posts.id
-            GROUP BY posts.id
-            ORDER BY posts.createdAt DESC
-        `;
+                FROM posts
+                LEFT JOIN users ON users.id = posts.userId
+                LEFT JOIN likes ON likes.postId = posts.id
+                LEFT JOIN comments ON comments.postId = posts.id
+                GROUP BY posts.id
+                ORDER BY posts.createdAt DESC
+            `;
             connect_1.db.query(q, [userInfo.id], (err, data) => {
                 if (err)
                     return res.status(500).json(err);
@@ -175,7 +175,7 @@ class PostController {
                 }
                 const userId = req.params.userId;
                 // const q = `SELECT * FROM posts WHERE userId = ? ORDER BY createdAt DESC`;
-                const q = `SELECT posts.*, userId, username FROM posts JOIN users ON (users.id = posts.userId) WHERE posts.userId = ? ORDER BY createdAt DESC`;
+                const q = `SELECT posts.*, userId, username, profilePic FROM posts JOIN users ON (users.id = posts.userId) WHERE posts.userId = ? ORDER BY createdAt DESC`;
                 connect_1.db.query(q, [userId], (err, data) => {
                     if (err) {
                         return res.status(500).json(err);
