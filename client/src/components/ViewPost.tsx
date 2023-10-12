@@ -112,7 +112,7 @@ const ViewPost = (props: Props) => {
     const handleCommentSubmit = async (e: any) => {
         e.preventDefault();
     
-        mutation.mutate();
+        // mutation.mutate();
     
         try {
             //     await makeRequest.post("/notifications", {
@@ -123,11 +123,14 @@ const ViewPost = (props: Props) => {
             // });
     
             // makeRequest.post("/count", { toUserId: post.userId, type: 'comment', postId: post.id});
-
+            await mutation.mutateAsync();
+            setDesc("")
             dispatch(fetchCount())
         } catch (error) {
             console.error('Error creating notification:', error);
         }
+
+    
     };
     
     const handleLike = async () => {

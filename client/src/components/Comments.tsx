@@ -5,6 +5,7 @@ interface CommentType {
   id: number;
   username: string;
   desc: string;
+  profilePic: string
 }
 
 interface CommentsProps {
@@ -17,7 +18,7 @@ function Comments(props: CommentsProps) {
     return (
         <div>
         {comments.map((comment) => (
-          <Comment key={comment.id} user={comment.username} text={comment.desc} />
+          <Comment key={comment.id} user={comment.username} text={comment.desc} pic={comment.profilePic} />
         ))}
       </div>
     )

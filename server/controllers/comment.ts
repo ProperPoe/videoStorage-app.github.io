@@ -7,7 +7,7 @@ import moment from "moment";
 
 class CommentController {
     public getComment(req: Request, res: Response): void {       
-        const q =  `SELECT comments.*, userId, username FROM comments JOIN users ON (users.id = comments.userId) WHERE comments.postId = ? ORDER BY comments.createdAt DESC`;
+        const q =  `SELECT comments.*, userId, username, profilePic FROM comments JOIN users ON (users.id = comments.userId) WHERE comments.postId = ? ORDER BY comments.createdAt DESC`;
     
         db.query(q, [req.query.postId], (err, data) => {
             if(err) return res.status(500).json(err)
