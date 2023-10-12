@@ -23,6 +23,7 @@ function EditProfile(props: Props) {
     const [profilePicPreview, setProfilePicPreview] = useState<string | null>(
       null
     );
+    const [err, SetErr] = useState("")
     
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode)
 
@@ -64,28 +65,36 @@ function EditProfile(props: Props) {
       //   username: newUsername, // Add username if you want to update it too
       //   profilePic: newProfilePic, // Initialize as null if no new profilePic is selected
       // };
-  
-      // Create FormData for handling the file upload
-      const formData = new FormData();
-      formData.append("username", newUsername);
-      if (newProfilePic) {
-        formData.append("profilePic", newProfilePic);
-      }
-      
-      // Make a PUT request to update the user's profile
-      await makeRequest.put("/users", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      try {
+        // Create FormData for handling the file upload
+        const formData = new FormData();
+        formData.append("username", newUsername);
+        if (newProfilePic) {
+          formData.append("profilePic", newProfilePic);
         }
-      });
-  
-      // Invalidate the 'user' query to trigger a refetch
-      queryClient.invalidateQueries(["user"]);
-  
-      dispatch(updateUser({ username: newUsername, profilePic: newProfilePic }))
-  
-      // Close the edit profile form
-      setShowEdit(false);
+    
+        // Make a PUT request to update the user's profile
+        await makeRequest.put("/users", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+    
+        // Invalidate the 'user' query to trigger a refetch
+        queryClient.invalidateQueries(["user"]);
+    
+        dispatch(updateUser({ username: newUsername, profilePic: newProfilePic }))
+    
+        if (newUsername.length === 0) {
+          console.log("error")
+        } else {
+          setShowEdit(false);
+        }
+      } catch (error: any) {
+        console.log(error.response.data)
+        SetErr(error.response.data)
+
+      }
     }
 
     return (
@@ -114,14 +123,15 @@ function EditProfile(props: Props) {
           accept="image/*"
           onChange={handleProfilePicChange}
         />
-        {profilePicPreview && (
+        {/* {profilePicPreview && (
               <img
                 src={profilePicPreview}
                 alt="Profile Preview"
                 className="mt-2 w-16 h-16 rounded-full object-cover"
               />
-            )}
+            )} */}
           </div>
+          <strong className='text-red-500'>{err}</strong>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"

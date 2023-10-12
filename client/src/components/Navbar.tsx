@@ -163,7 +163,7 @@ class Navbar extends PureComponent<Props, State> {
                         <MenuIcon />
                     </IconButton>
                     {/* Logo */}
-                    <div className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'} cursor-pointer`} onClick={this.handleLogo}>Logo</div>
+                    <div className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'} cursor-pointer`} onClick={this.handleLogo}>ClipFlow</div>
 
 
                     </div>

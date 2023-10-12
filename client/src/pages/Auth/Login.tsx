@@ -96,8 +96,7 @@ const Login: React.FC = () => {
     <div className="bg-blue-500 w-1/2 p-8">
         <h2 className="text-2xl font-semibold text-white mb-4">Welcome Back</h2>
         <p className="text-white">
-        Log in to your account and explore our app. Lorem ipsum dolor sit amet,
-        consectetur adipiscing elit. Sed ac ante vel nunc ullamcorper lacinia eu a dolor.
+        Log in to your account and explore ClipFlow. Share and discover new visuals from around the world.
         </p>
         <a href="#" className="text-blue-300 hover:underline">Forgot password?</a>
     </div>

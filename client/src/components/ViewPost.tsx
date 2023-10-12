@@ -65,8 +65,15 @@ const ViewPost = (props: Props) => {
     
     
     const mutation = useMutation(
-      () => {
-        return makeRequest.post("/comments", {desc, postId: post.id});
+      async() => {
+        await makeRequest.post("/comments", {desc, postId: post.id});
+        await makeRequest.post("/count", { toUserId: post.userId, type: 'comment', postId: post.id, fromUserId: currentUser && currentUser.id});
+        await makeRequest.post("/notifications", {
+            fromUserId: currentUser && currentUser.id,
+            toUserId: post.userId,
+            type: 'comment',
+            postId: post.id,
+        });
       },
       {
         onSuccess: () => {
@@ -108,14 +115,14 @@ const ViewPost = (props: Props) => {
         mutation.mutate();
     
         try {
-                await makeRequest.post("/notifications", {
-                fromUserId: currentUser?.id,
-                toUserId: post.userId,
-                type: 'comment',
-                postId: post.id,
-            });
+            //     await makeRequest.post("/notifications", {
+            //     fromUserId: currentUser?.id,
+            //     toUserId: post.userId,
+            //     type: 'comment',
+            //     postId: post.id,
+            // });
     
-            makeRequest.post("/count", { toUserId: post.userId, type: 'comment', postId: post.id});
+            // makeRequest.post("/count", { toUserId: post.userId, type: 'comment', postId: post.id});
 
             dispatch(fetchCount())
         } catch (error) {

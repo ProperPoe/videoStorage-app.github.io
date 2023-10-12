@@ -46,10 +46,10 @@ class SignUp extends PureComponent<Props, State> {
                 <div className="flex w-97 bg-white rounded-lg shadow-md overflow-hidden">
                 {/* Container on the Left with Blue Background */}
                 <div className="bg-blue-500 w-1/2 p-8">
-                    <h2 className="text-2xl font-semibold text-white mb-4">Welcome to Our App</h2>
+                    <h2 className="text-2xl font-semibold text-white mb-4">Welcome to ClipFlow!</h2>
                     <p className="text-white">
-                    Discover amazing features and benefits of our app. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed ac ante vel nunc ullamcorper lacinia eu a dolor.
+                    Discover amazing features and benefits of this app. Share videos, clips, and images 
+                    with other members from around the world.
                     </p>
                     <Link to="/login" className="text-blue-300 hover:underline">
                         Already have an account? Sign In

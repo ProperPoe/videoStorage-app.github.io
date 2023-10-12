@@ -15,7 +15,12 @@ class UserController {
             return res.json(info)
         })
     }
-    public updateUser(req: Request, res: Response): void {
+    public updateUser(req: Request, res: Response): Promise<Response> {
+      return new Promise((resolve, reject)=> {
+        if (!req.body.username) {
+          return res.status(400).json("Field cannot be empty!");
+        }
+
         const token = req.cookies.accessToken;
         if (!token) {
           res.status(401).json("Not logged in");
@@ -78,6 +83,10 @@ class UserController {
             res.status(500).json(error);
           }
         });
+      })
+
+
+
       }
 }
 
