@@ -103,7 +103,7 @@ class Homepage extends PureComponent<Props, State> {
         ) : null;
         return (
             <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} dark:bg-gray-900 min-h-screen transition-colors duration-300`}>
-                <>
+                <div style={{marginTop: '76px'}}>
                     <div className={`flex justify-end p-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
                         <Button
                             variant="contained"
@@ -116,7 +116,7 @@ class Homepage extends PureComponent<Props, State> {
                     </div>
                     {showPostForm ? <PostForm show={this.handleClosePostForm} /> : <Posts searchQuery={this.props.searchQuery} setFilteredDataLength={this.setFilteredDataLength} />}
                     {noPostsMessage}
-                </>
+                </div>
 
             </div>
         );
