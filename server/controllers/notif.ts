@@ -17,7 +17,7 @@ class NotifController {
         jwt.verify(token, "theKey", (err: jwt.VerifyErrors | null, userInfo:any) => {
             if(err) return res.status(403).json("User not logged in")
     
-            const q = "SELECT notifs.*, users.username FROM notifs JOIN users ON users.id = notifs.fromUserId WHERE notifs.toUserId = ?";
+            const q = "SELECT notifs.*, users.username, users.profilePic FROM notifs JOIN users ON users.id = notifs.fromUserId WHERE notifs.toUserId = ?";
             db.query(q, [userInfo.id], (err, data: RowDataPacket[]) => {
                 if (err) return res.status(500).json(err)
     

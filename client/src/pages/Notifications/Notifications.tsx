@@ -16,6 +16,8 @@ interface NotificationType {
     type: string;
     username: string;
     postId: number
+    createdAt: string
+    profilePic: string
 }
 
 function Notifications() {

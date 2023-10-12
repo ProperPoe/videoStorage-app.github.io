@@ -26,8 +26,8 @@ class PostController {
                 users.id AS userId,
                 users.username,
                 users.profilePic,
-                COUNT(likes.id) AS likesCount,
-                COUNT(comments.id) AS commentsCount
+                COUNT(DISTINCT likes.id) AS likesCount,
+                COUNT(DISTINCT comments.id) AS commentsCount
             FROM posts
             LEFT JOIN users ON users.id = posts.userId
             LEFT JOIN likes ON likes.postId = posts.id

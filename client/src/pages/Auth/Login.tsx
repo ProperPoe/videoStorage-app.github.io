@@ -98,7 +98,7 @@ const Login: React.FC = () => {
         <p className="text-white">
         Log in to your account and explore ClipFlow. Share and discover new visuals from around the world.
         </p>
-        <a href="#" className="text-blue-300 hover:underline">Forgot password?</a>
+        {/* <a href="#" className="text-blue-300 hover:underline">Forgot password?</a> */}
     </div>
     </div>
 </div>

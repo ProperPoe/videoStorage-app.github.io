@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { Visibility, Delete } from '@mui/icons-material';
 import { makeRequest } from '../../axios';
+import moment from "moment"
 
 interface NotificationData {
     id: number;
@@ -10,6 +11,8 @@ interface NotificationData {
     type: string
     username: string
     postId: number
+    createdAt: string
+    profilePic: string
 }
 
 interface Props {
@@ -46,12 +49,12 @@ function Notification({ notification, notifyCount, removeNotification }: Props) 
             <div className="">
                 <img
                     className="h-10 w-10 rounded-full object-cover"
-                    src={`https://i.pravatar.cc/100?u=${notification.id}`}
+                    src={`${notification.profilePic}`}
                     alt={`USERNAMEHERE Avatar`}
                 />
-                <p className={`text-${isDarkMode ? 'white' : 'gray'}`}>USERNAME</p>
+                <p className={`text-${isDarkMode ? 'white' : 'gray'}`}>{notification.username}</p>
             </div>
-            <div className="ml-3 flex flex-col justify-start">
+            <div className="ml-3 border-2 flex flex-col">
                 <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     {currentUser.username === notification.username ? `YOU left a ${notification.type} on your post`
                     :
@@ -61,7 +64,7 @@ function Notification({ notification, notifyCount, removeNotification }: Props) 
                 <p className="text-sm text-gray-500">
                     LIKED CONTENT HERE
                 </p>
-                <p className="text-xs text-gray-400">TIME STAMPS</p>
+                <p className="text-xs text-gray-400">{`${moment(notification.createdAt).fromNow()}`}</p>
             </div>
             <div className="flex justify-end space-x-2">
                 {/* Eye Icon */}
