@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Button, IconButton } from '@mui/material';
 import { Edit, Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-material';
 import Posts from '../../components/Posts';
@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { makeRequest } from '../../axios';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import EditProfile from './EditProfile';
 
 interface Props {}
@@ -32,8 +32,19 @@ function Profile(props: Props) {
     const [showEdit, setShowEdit] = useState(false)
     const [username, setUserName] = useState("")
     const [profilePicUrl, setProfilePicUrl] = useState<string | null>(null)
+    const isAuthenticated = useSelector((state: RootState) => state.auth.currentUser);
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const userId = useParams()
+
+    const navigate = useNavigate()
+
+    if (!isAuthenticated) {
+      window.location.href = "/login"
+    }
+    // useEffect(() => {
+    //     // Check if the user is already authenticated, and if so, redirect to homepage.
+    //     }
+    //   }, [isAuthenticated, navigate]);
     
     const { isLoading, error, data } = useQuery(['user'], () => 
         makeRequest.get("/users/find/" + userId.id).then((res)=>{
