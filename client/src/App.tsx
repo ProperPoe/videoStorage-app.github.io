@@ -42,66 +42,28 @@ class App extends Component<Props, State> {
     const { currentUser } = this.props;
     const { notifyCount } = this.state;
 
-        //     {/* <Router>
-        //   {currentUser && <Navbar onSearch={this.handleSearch} notifyCount={this.state.notifyCount} />}{/* Render Navbar only when authenticated */}
-        //   <Routes>
-        //     {/* The first page for non-authenticated users */}
-        //     {!currentUser && 
-        //       <Route path="/" element={<SignUp />}/>}
-        //       <Route path="/login" element={<Login />} />
-        //     {/* Authenticated routes */}
 
-        //     {currentUser && (
-        //       <>
-        //         <Route path="/" element={<Homepage searchQuery={this.state.searchQuery} />} />
-        //         <Route path="/notifications" element={<Notifs  />} />
-        //         <Route path="/profile/:id" element={<Profile />} />
-        //       </>
-        //     )}
-        //   </Routes>
-        // </Router> */}
 
     
 
     return (
       <QueryClientProvider client={queryClient}>
-                <Router>
-          {currentUser && <Navbar onSearch={this.handleSearch} notifyCount={this.state.notifyCount} />}
+            <Router>
+          {currentUser && <Navbar onSearch={this.handleSearch} notifyCount={this.state.notifyCount} />}{/* Render Navbar only when authenticated */}
           <Routes>
-            {/* Display the SignUp page if the user is not authenticated */}
-            {!currentUser && <Route path="/" element={<SignUp />} />}
+            {/* The first page for non-authenticated users */}
+            {!currentUser && 
+              <Route path="/" element={<SignUp />}/>}
+              <Route path="/login" element={<Login />} />
+            {/* Authenticated routes */}
 
-            {/* The login route, outside of AuthGuard */}
-            <Route path="/login" element={<Login />} />
             {currentUser && (
               <>
-            <Route
-            path="/"
-            element={
-              <AuthGuard>
-                <Homepage searchQuery={this.state.searchQuery} />
-              </AuthGuard>
-            }
-          />
-          <Route
-            path="/notifications"
-            element={
-              <AuthGuard>
-                <Notifs />
-              </AuthGuard>
-            }
-          />
-          <Route
-            path="/profile/:id"
-            element={
-              <AuthGuard>
-                <Profile />
-              </AuthGuard>
-            }
-          />
-          </>
+                <Route path="/" element={<Homepage searchQuery={this.state.searchQuery} />} />
+                <Route path="/notifications" element={<Notifs  />} />
+                <Route path="/profile/:id" element={<Profile />} />
+              </>
             )}
-
           </Routes>
         </Router>
 

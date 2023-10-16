@@ -16,7 +16,13 @@ interface Props {
     picture: string
 }
 
+interface User {
+  id: number
+}
+
 function EditProfile(props: Props) {
+  const currentUserString = sessionStorage.getItem('currentUser');
+  const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
     const {setShowEdit, prevUserName, picture} = props
     const [newUsername, setNewUsername] = useState("");
     const [newProfilePic, setNewProfilePic] = useState<File | null>(null); 
@@ -83,7 +89,7 @@ function EditProfile(props: Props) {
         // Invalidate the 'user' query to trigger a refetch
         queryClient.invalidateQueries(["user"]);
     
-        dispatch(updateUser({ username: newUsername, profilePic: newProfilePic }))
+        dispatch(updateUser({ id: currentUser && currentUser.id, username: newUsername, profilePic: newProfilePic }))
     
         if (newUsername.length === 0) {
           console.log("error")

@@ -36,15 +36,15 @@ function Profile(props: Props) {
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const userId = useParams()
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
-    if (!isAuthenticated) {
-      window.location.href = "/login"
-    }
-    // useEffect(() => {
-    //     // Check if the user is already authenticated, and if so, redirect to homepage.
-    //     }
-    //   }, [isAuthenticated, navigate]);
+    // if (!isAuthenticated) {
+    //   window.location.href = "/login"
+    // }
+    // // useEffect(() => {
+    // //     // Check if the user is already authenticated, and if so, redirect to homepage.
+    // //     }
+    // //   }, [isAuthenticated, navigate]);
     
     const { isLoading, error, data } = useQuery(['user'], () => 
         makeRequest.get("/users/find/" + userId.id).then((res)=>{
