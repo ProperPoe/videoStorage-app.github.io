@@ -17,6 +17,7 @@ function PostForm(props: Props) {
 
     const [desc, setDesc] = useState("");
     const [mediaFile, setMediaFile] = useState<File | null>(null);
+    const [err, setErr] = useState("")
     
     const mutation = useMutation(
       async () => {
@@ -30,6 +31,7 @@ function PostForm(props: Props) {
             'Content-Type': 'multipart/form-data'
           }
         });
+
       },
       {
         onSuccess: () => {
@@ -48,8 +50,16 @@ function PostForm(props: Props) {
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault()
 
+      // mutation.mutate()
+
+      if(mediaFile === null){
+        setErr("Must upload image or video")
+      }else{
+        show()
+      }
       mutation.mutate()
-      show()
+
+
 
     }
     return (
@@ -105,6 +115,12 @@ function PostForm(props: Props) {
             Upload Post
           </button>
         </form>
+        <div className='flex justify-center'>
+          <strong className='text-red-500'>
+
+          {err}
+          </strong>
+        </div>
       </div>        
     )
 }

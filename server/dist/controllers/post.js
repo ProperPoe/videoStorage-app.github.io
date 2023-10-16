@@ -54,44 +54,49 @@ class PostController {
     ;
     addPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const token = req.cookies.accessToken;
-            if (!token) {
-                res.status(401).json("Not logged in");
-                return;
-            }
-            jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
-                if (err) {
-                    res.status(403).json("Token is not valid");
-                    return;
-                }
+            return new Promise((resolve, reject) => {
                 if (!req.file) {
-                    res.status(400).json('No file uploaded');
+                    return res.status(400).json('No file uploaded');
+                }
+                const token = req.cookies.accessToken;
+                if (!token) {
+                    res.status(401).json("Not logged in");
                     return;
                 }
-                //Define S3 parameters
-                const params = {
-                    Bucket: 'videostorage-app',
-                    Key: `user_${userInfo.id}_${Date.now()}_${req.file.originalname}`,
-                    Body: req.file.buffer,
-                    ContentType: req.file.mimetype,
-                    ContentDisposition: 'inline',
-                };
-                try {
-                    yield aws_1.default.upload(params).promise();
-                    const s3Url = `https://videostorage-app.s3.amazonaws.com/${params.Key}`;
-                    const q = "INSERT INTO posts (`desc`, `mediaType`, `mediaUrl`, `userId`, `createdAt`) VALUES (?)";
-                    const values = [req.body.desc, req.file.mimetype.startsWith('image/') ? 'image' : 'video', s3Url, userInfo.id, (0, moment_1.default)(Date.now()).format("YYYY-MM-DD HH:mm:ss")];
-                    connect_1.db.query(q, [values], (err, data) => {
-                        if (err)
-                            return res.status(500).json(err);
-                        return res.status(200).json("post created!");
-                    });
-                }
-                catch (error) {
-                    console.error('Error uploading file to S3:', error);
-                    res.status(500).json(error);
-                }
-            }));
+                jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
+                    if (err) {
+                        res.status(403).json("Token is not valid");
+                        return;
+                    }
+                    if (!req.file) {
+                        res.status(400).json('No file uploaded');
+                        return;
+                    }
+                    //Define S3 parameters
+                    const params = {
+                        Bucket: 'videostorage-app',
+                        Key: `user_${userInfo.id}_${Date.now()}_${req.file.originalname}`,
+                        Body: req.file.buffer,
+                        ContentType: req.file.mimetype,
+                        ContentDisposition: 'inline',
+                    };
+                    try {
+                        yield aws_1.default.upload(params).promise();
+                        const s3Url = `https://videostorage-app.s3.amazonaws.com/${params.Key}`;
+                        const q = "INSERT INTO posts (`desc`, `mediaType`, `mediaUrl`, `userId`, `createdAt`) VALUES (?)";
+                        const values = [req.body.desc, req.file.mimetype.startsWith('image/') ? 'image' : 'video', s3Url, userInfo.id, (0, moment_1.default)(Date.now()).format("YYYY-MM-DD HH:mm:ss")];
+                        connect_1.db.query(q, [values], (err, data) => {
+                            if (err)
+                                return res.status(500).json(err);
+                            return res.status(200).json("post created!");
+                        });
+                    }
+                    catch (error) {
+                        console.error('Error uploading file to S3:', error);
+                        res.status(500).json(error);
+                    }
+                }));
+            });
         });
     }
     ;
