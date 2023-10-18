@@ -31,7 +31,7 @@ function Profile(props: Props) {
     const [showPost, setShowPost] = useState<PostType | null>(null); 
     const [showEdit, setShowEdit] = useState(false)
     const [username, setUserName] = useState("")
-    const [profilePicUrl, setProfilePicUrl] = useState<string | null>(null)
+    const [profilePicUrl, setProfilePicUrl] = useState<string>("")
     const isAuthenticated = useSelector((state: RootState) => state.auth.currentUser);
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
     const userId = useParams()
@@ -54,7 +54,6 @@ function Profile(props: Props) {
             return res.data;
         })
     )    
-    
 
     const { isLoading: postsLoading, error: postsError, data: userPosts } = useQuery<PostType[]>(['userPosts', userId.id], () =>
         makeRequest.get(`/posts/user/${userId.id}`).then((res) => {
@@ -72,6 +71,9 @@ function Profile(props: Props) {
     };
     
     const queryClient = useQueryClient();
+
+    const userData: any = queryClient.getQueryData(['user']); // Access the same 'user' query
+
     // Function to delete a post
     const deletePost = (postId: number) => {
         // Remove the post from the local state
@@ -87,7 +89,7 @@ function Profile(props: Props) {
 
     return (
         <>
-        {showEdit && <EditProfile setShowEdit={setShowEdit} prevUserName={data.username} picture={data.profilePic}/>}
+        {showEdit && <EditProfile setShowEdit={setShowEdit} prevUserName={username} picture={profilePicUrl}/>}
         <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} min-h-screen`} style={{marginTop: '76px'}}>
             {/* Cover Photo */}
             <div className={`h-40 ${isDarkMode ? 'bg-blue-500' : 'bg-blue-300'}`}></div>
@@ -101,8 +103,8 @@ function Profile(props: Props) {
                 />
 
                 <div className="ml-4">
-                    <h1 className="text-2xl font-semibold">{data && data.username}</h1>
-                    <p className="text-gray-600">@{data && data.username}</p>
+                    <h1 className="text-2xl font-semibold">{username && username}</h1>
+                    <p className="text-gray-600">@{username && username}</p>
                     
                 </div>
             </div>
@@ -151,4 +153,3 @@ function Profile(props: Props) {
 }
 
 export default Profile;
-

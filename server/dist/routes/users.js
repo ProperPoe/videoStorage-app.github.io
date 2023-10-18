@@ -9,5 +9,6 @@ const multer_1 = __importDefault(require("multer"));
 const router = express_1.default.Router();
 const upload = (0, multer_1.default)();
 router.get("/find/:userId", user_js_1.default.getUser);
+router.get("/nav/:userId", user_js_1.default.getNav);
 router.put("/", upload.single("profilePic"), user_js_1.default.updateUser);
 exports.default = router;

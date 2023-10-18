@@ -49,7 +49,7 @@ class App extends Component<Props, State> {
     return (
       <QueryClientProvider client={queryClient}>
             <Router>
-          {currentUser && <Navbar onSearch={this.handleSearch} notifyCount={this.state.notifyCount} />}{/* Render Navbar only when authenticated */}
+          {currentUser && <Navbar onSearch={this.handleSearch} notifyCount={notifyCount}  />}{/* Render Navbar only when authenticated */}
           <Routes>
             {/* The first page for non-authenticated users */}
             {!currentUser && 

@@ -11,7 +11,7 @@ import Homepage from '../pages/Home/Home';
 import Profile from '../pages/Profile/Profile';
 import Notifs from '../pages/Notifications/Notifications';
 import { Link, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '../axios';
 import { updateUser } from '../store/userSlice';
 import { fetchCount } from '../store/countSlice';
@@ -28,7 +28,13 @@ interface Props {
   };
   fetchCount: () => void;
   count: number;
+  //profilePic: string
 }
+
+interface DataType{
+  profilePic: string
+}
+
 
 const Navbar: React.FC<Props> = (props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -36,6 +42,10 @@ const Navbar: React.FC<Props> = (props) => {
   const [anchorLogoutMenu, setAnchorLogoutMenu] = useState<HTMLElement | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [count, setCount] = useState<number | undefined>(undefined);
+const [pic, setPic] = useState<string | null>(null)
+
+    
+  
   
     // Create a useEffect to fetch the count when the component mounts
     useEffect(() => {
@@ -48,7 +58,14 @@ const Navbar: React.FC<Props> = (props) => {
         setCount(props.count);
       }
     }, [props.count]);
-  
+    
+    const { isLoading, error, data } = useQuery(['nav'], () => 
+    makeRequest.get("/users/nav/" + props.user.id).then((res)=>{
+        console.log(res.data)
+        setPic(res.data.profilePic)
+        return res.data;
+    })
+)    
 
   const navigate = useNavigate();
 
@@ -131,11 +148,11 @@ const Navbar: React.FC<Props> = (props) => {
 
             <div className="flex items-center space-x-2">
               <div className="flex flex-col lg:items-start items-center">
-                {!props.user.profilePic ? (
+                {!pic ? (
                   <AccountCircle className={`text-gray-500 ${props.isDarkMode ? 'text-white' : 'text-black'}`} fontSize="small" />
                 ) : (
-                  props.user.profilePic && (
-                    <img src={props.user.profilePic} alt={`${props.user.username}'s profile`} className="w-5 h-5 rounded-full" />
+                  pic && (
+                    <img src={pic} alt={`${props.user.username}'s profile`} className="w-5 h-5 rounded-full" />
                   )
                 )}
                 <div className="flex items-center">

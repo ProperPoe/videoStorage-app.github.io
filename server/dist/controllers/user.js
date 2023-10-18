@@ -99,5 +99,15 @@ class UserController {
             }));
         });
     }
+    getNav(req, res) {
+        const userId = req.params.userId;
+        const q = "SELECT * FROM users WHERE id=?";
+        connect_1.db.query(q, [userId], (err, data) => {
+            if (err)
+                return res.status(500).json(err);
+            const _a = data[0], { password } = _a, info = __rest(_a, ["password"]);
+            return res.json(info);
+        });
+    }
 }
 exports.default = new UserController();

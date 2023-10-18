@@ -37,6 +37,10 @@ function EditProfile(props: Props) {
 
     const dispatch = useDispatch()
 
+    const userData: any = queryClient.getQueryData(['user']); // Access the same 'user' query
+
+    console.log(userData.profilePic)
+
     useEffect(() => { 
       // When the component mounts, set the initial state of the form fields
       setNewUsername(prevUserName);
@@ -88,8 +92,18 @@ function EditProfile(props: Props) {
     
         // Invalidate the 'user' query to trigger a refetch
         queryClient.invalidateQueries(["user"]);
+        queryClient.invalidateQueries(["nav"]);
+        
     
-        dispatch(updateUser({ id: currentUser && currentUser.id, username: newUsername, profilePic: newProfilePic }))
+        // if (newProfilePic) {
+        //   // let profilePics = JSON.stringify(newProfilePic)
+
+        //   dispatch(updateUser({ id: currentUser && currentUser.id, username: newUsername, profilePic: userData.profilePic, userNameChange: true }));
+        // } else {
+        //   dispatch(updateUser({ id: currentUser && currentUser.id, username: newUsername, profilePic: picture, userNameChange: true }));
+        // }
+        dispatch(updateUser({ id: currentUser && currentUser.id, username: newUsername }));
+
     
         if (newUsername.length === 0) {
           console.log("error")

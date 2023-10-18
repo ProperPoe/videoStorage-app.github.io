@@ -88,6 +88,16 @@ class UserController {
 
 
       }
+      public getNav(req: Request, res: Response): void {
+        const userId = req.params.userId;
+        const q = "SELECT * FROM users WHERE id=?";
+
+        db.query(q, [userId], (err, data: RowDataPacket[]) =>{
+            if(err) return res.status(500).json(err);
+            const { password, ...info } = data[0];
+            return res.json(info)
+        })
+    }
 }
 
 export default new UserController()
