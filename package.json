@@ -9,8 +9,10 @@
   "main": "index.js",
   "scripts": {
     "start": "cd client && npm install && npm run build && cd ../server && npm install && npm start"
-
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
 }
