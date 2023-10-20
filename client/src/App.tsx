@@ -10,8 +10,6 @@ import { connect } from 'react-redux';
 import { RootState } from './store/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { logout } from './store/authSlice'; // Import the logout action
-import { makeRequest } from './axios';
-import AuthGuard from './components/AuthGuard';
 
 
 interface Props {
