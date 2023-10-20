@@ -6,7 +6,7 @@
     "typescript": "5.2.2"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "index.js",
+  "main": "server/index.ts",
   "scripts": {
     "postinstall": "cd client && npm install && npm run build && cd ../server && npm install",
     "start": "node server/index.js",
