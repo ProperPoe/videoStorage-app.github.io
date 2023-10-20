@@ -7,9 +7,6 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import { Menu, MenuItem, IconButton, Popover } from '@mui/material';
 import { Home, Person, Notifications, Search, Menu as MenuIcon, AccountCircle, FiberManualRecord, ExitToApp, WindowSharp } from '@mui/icons-material';
-import Homepage from '../pages/Home/Home';
-import Profile from '../pages/Profile/Profile';
-import Notifs from '../pages/Notifications/Notifications';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '../axios';
@@ -47,9 +44,9 @@ const [pic, setPic] = useState<string | null>(null)
     
   
   
-    // Create a useEffect to fetch the count when the component mounts
+    // useEffect to fetch the count when the component mounts
     useEffect(() => {
-      props.fetchCount(); // Assuming fetchCount dispatches the action to get the count
+      props.fetchCount(); // fetchCount dispatches the action to get the count
     }, []);
   
     // Use this useEffect to update the local state when props.count changes
@@ -84,6 +81,7 @@ const [pic, setPic] = useState<string | null>(null)
       sessionStorage.removeItem('currentUser');
       window.location.href = '/login'; // Use navigate to redirect
     });
+    setAnchorEl(null)
   };
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -214,6 +212,8 @@ const [pic, setPic] = useState<string | null>(null)
             type="text"
             placeholder="Search"
             className={`rounded-l-lg px-3 py-2 ${props.isDarkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'} focus:outline-none`}
+            value={searchQuery}
+            onChange={handleSearchInputChange}
           />
           <button
             className={`rounded-r-lg px-4 py-2 ${props.isDarkMode ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-blue-200 text-gray-800 hover:bg-blue-300'} bg-blue-500 text-white hover:bg-blue-600 transition duration-300`}
@@ -231,8 +231,8 @@ const [pic, setPic] = useState<string | null>(null)
         <MenuItem onClick={() => setAnchorEl(null)}>
           <Link to="/notifications">Notifications</Link>
         </MenuItem>
-        <MenuItem onClick={() => setAnchorEl(null)}>
-          <Link to="/login">Login</Link>
+        <MenuItem onClick={handleConfirmLogout}>
+          <Link to="/login">Logout</Link>
         </MenuItem>
       </Menu>
 

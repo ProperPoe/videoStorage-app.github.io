@@ -25,6 +25,8 @@ interface PostsProps {
 function Posts(props: PostsProps) {
     const [showPost, setShowPost] = useState<PostType | null>(null); 
     const [posts, setPosts] = useState<PostType[]>([]);
+    const [name, SetName] = useState<string>("")
+    const [pic, setPic] = useState<string>("")
     //const [filteredDataLength, setFilteredDataLength] = useState(0);
     //const [filteredData, setFilteredData] = useState<PostType[]>([]);
     // const [myState, setMyState] = useState(initialValue);
@@ -90,7 +92,7 @@ function Posts(props: PostsProps) {
                         {isLoading
                             ? "loading.."
                             : filteredData?.map((post) => (
-                                <Post key={post.id} post={post} onClick={() => openPost(post)} />
+                                <Post key={post.id} post={post} name={name} pic={pic} onClick={() => openPost(post)} />
                             ))}
                     </div>
                 )}

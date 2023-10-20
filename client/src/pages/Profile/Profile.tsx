@@ -140,7 +140,7 @@ function Profile(props: Props) {
                     ) : (
                         <div className="grid md:grid-cols-2 gap-4 p-4 sm:grid-cols-1">
                             {userPosts?.map((post: PostType) => (
-                                <Post key={post.id} post={post} onClick={()=>openPost(post)}/>
+                                <Post key={post.id} post={post} name={username} pic={profilePicUrl} onClick={()=>openPost(post)}/>
                             ))}
                         </div>
                     )}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography } from '@mui/material';
 import { CommentOutlined, FavoriteBorderOutlined, PlayCircleOutline, FavoriteOutlined } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
@@ -23,12 +23,15 @@ interface PostType {
 interface Props {
     post: PostType;
     onClick: () => void;
-   
+    name: string;
+    pic: string;
 }
 
 function Post(props: Props) {
-    const { post, onClick } = props;
+    const { post, onClick, name, pic } = props;
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
+    // const [pic, setPic] = useState<string>(post.profilePic)
+    // const [name, setName] = useState<string>(post.username)
 
     // Define class names based on dark mode
     const cardClassName = `w-81 h-95 shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'} cursor-pointer`;
@@ -58,8 +61,8 @@ function Post(props: Props) {
             <CardContent className={`p-2 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} m-0` }>
                 {/* User Info */}
                 <CardHeader
-                    avatar={<Avatar src={post.profilePic}/>}
-                    title={`${post.username}`}
+                    avatar={<Avatar src={pic}/>}
+                    title={`${name}`}
                     subheader={`${moment(post.createdAt).fromNow()}`}
                     subheaderTypographyProps={{
                         style: {
