@@ -61,8 +61,8 @@ function Post(props: Props) {
             <CardContent className={`p-2 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} m-0` }>
                 {/* User Info */}
                 <CardHeader
-                    avatar={<Avatar src={pic}/>}
-                    title={`${name}`}
+                    avatar={<Avatar src={pic ? pic : post.profilePic}/>}
+                    title={`${name ? name : post.username}`}
                     subheader={`${moment(post.createdAt).fromNow()}`}
                     subheaderTypographyProps={{
                         style: {
