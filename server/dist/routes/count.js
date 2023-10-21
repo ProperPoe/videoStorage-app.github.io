@@ -1,12 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const count_js_1 = __importDefault(require("../controllers/count.js"));
-const router = express_1.default.Router();
-router.get("/", count_js_1.default.getCount);
-router.post("/", count_js_1.default.addCount);
-router.delete("/", count_js_1.default.deleteCount);
-exports.default = router;
+import express from "express";
+import countController from "../controllers/count.js";
+const router = express.Router();
+router.get("/", countController.getCount);
+router.post("/", countController.addCount);
+router.delete("/", countController.deleteCount);
+export default router;
