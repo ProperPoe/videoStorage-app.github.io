@@ -1,9 +1,14 @@
-import { db } from "../connect";
-import jwt from "jsonwebtoken";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const connect_1 = require("../connect");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class LikeController {
     getLikes(req, res) {
         const q = "SELECT userId FROM likes WHERE postId = ?";
-        db.query(q, [req.query.postId], (err, data) => {
+        connect_1.db.query(q, [req.query.postId], (err, data) => {
             if (err) {
                 return res.status(500).json(err);
             }
@@ -16,7 +21,7 @@ class LikeController {
             res.status(401).json("Not logged in!");
             return;
         }
-        jwt.verify(token, "theKey", (err, userInfo) => {
+        jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => {
             if (err) {
                 return res.status(403).json("Token is not valid!");
             }
@@ -25,7 +30,7 @@ class LikeController {
                 userInfo.id,
                 req.body.postId
             ];
-            db.query(q, [values], (err, data) => {
+            connect_1.db.query(q, [values], (err, data) => {
                 if (err) {
                     return res.status(500).json(err);
                 }
@@ -39,7 +44,7 @@ class LikeController {
             res.status(401).json("Not logged in!");
             return;
         }
-        jwt.verify(token, "theKey", (err, userInfo) => {
+        jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => {
             if (err) {
                 return res.status(403).json("Token is not valid!");
             }
@@ -48,7 +53,7 @@ class LikeController {
                 userInfo.id,
                 req.body.postId
             ];
-            db.query(q, [userInfo.id, req.query.postId], (err, data) => {
+            connect_1.db.query(q, [userInfo.id, req.query.postId], (err, data) => {
                 if (err) {
                     return res.status(500).json(err);
                 }
@@ -57,4 +62,4 @@ class LikeController {
         });
     }
 }
-export default new LikeController();
+exports.default = new LikeController();

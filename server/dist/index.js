@@ -1,17 +1,22 @@
-import express from "express";
-import userRoutes from "./routes/users.js";
-import authRoutes from "./routes/auth.js";
-import commentRoutes from "./routes/comments.js";
-import likeRoutes from "./routes/likes.js";
-import postRoutes from "./routes/posts.js";
-import notifRoutes from "./routes/notifs.js";
-import countRoutes from "./routes/count.js";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import multer from "multer";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const users_js_1 = __importDefault(require("./routes/users.js"));
+const auth_js_1 = __importDefault(require("./routes/auth.js"));
+const comments_js_1 = __importDefault(require("./routes/comments.js"));
+const likes_js_1 = __importDefault(require("./routes/likes.js"));
+const posts_js_1 = __importDefault(require("./routes/posts.js"));
+const notifs_js_1 = __importDefault(require("./routes/notifs.js"));
+const count_js_1 = __importDefault(require("./routes/count.js"));
+const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const multer_1 = __importDefault(require("multer"));
 class Server {
     constructor(port) {
-        this.app = express();
+        this.app = (0, express_1.default)();
         this.port = port;
         this.configureMiddleware();
         this.configureRoutes();
@@ -21,22 +26,22 @@ class Server {
             res.header("Access-Control-Allow-Credentials", "true");
             next();
         });
-        this.app.use(express.json());
-        this.app.use(cors({
+        this.app.use(express_1.default.json());
+        this.app.use((0, cors_1.default)({
             origin: "http://localhost:3000",
         }));
-        this.app.use(cookieParser());
-        const storage = multer.memoryStorage();
-        const upload = multer({ storage });
+        this.app.use((0, cookie_parser_1.default)());
+        const storage = multer_1.default.memoryStorage();
+        const upload = (0, multer_1.default)({ storage });
     }
     configureRoutes() {
-        this.app.use("/api/auth", authRoutes);
-        this.app.use("/api/users", userRoutes);
-        this.app.use("/api/posts", postRoutes);
-        this.app.use("/api/likes", likeRoutes);
-        this.app.use("/api/comments", commentRoutes);
-        this.app.use("/api/notifications", notifRoutes);
-        this.app.use("/api/count", countRoutes);
+        this.app.use("/api/auth", auth_js_1.default);
+        this.app.use("/api/users", users_js_1.default);
+        this.app.use("/api/posts", posts_js_1.default);
+        this.app.use("/api/likes", likes_js_1.default);
+        this.app.use("/api/comments", comments_js_1.default);
+        this.app.use("/api/notifications", notifs_js_1.default);
+        this.app.use("/api/count", count_js_1.default);
     }
     start() {
         this.app.listen(this.port, () => {
