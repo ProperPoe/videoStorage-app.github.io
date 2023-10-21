@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Notification from './Notification';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { makeRequest } from '../../axios';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 
 interface User {
@@ -22,11 +23,19 @@ interface NotificationType {
 
 function Notifications() {
     const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
+    const isAuthenticated = useSelector((state: RootState) => state.auth.currentUser);
     const currentUserString = localStorage.getItem('currentUser');
     const currentUser: User = currentUserString ? JSON.parse(currentUserString) : null;
     const userId = currentUser?.id ?? null;
     const [notifyCount, setNotifyCount] = useState(0); 
     const [notifications, setNotifications] = useState<NotificationType[]>([]);
+    const navigate = useNavigate()
+    useEffect(() => {
+        // Check if the user is already authenticated, and if so, redirect to homepage.
+        if (!isAuthenticated) {
+          navigate("/login")
+        }
+      }, [isAuthenticated, navigate]);
 
     const removeNotification = (notificationId: number) => {
         setNotifications((prevNotifications) =>
