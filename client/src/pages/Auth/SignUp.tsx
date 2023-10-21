@@ -30,7 +30,8 @@ class SignUp extends PureComponent<Props, State> {
         });
         
         try {
-            await axios.post('http://localhost:4000/api/auth/register' , formValues)
+            await axios.post('https://clip-flow-c44deb5c5c24.herokuapp.com/api/auth/register' , formValues)
+            // await axios.post('http://localhost:4000/api/auth/register' , formValues)
             
             this.props.login(formValues.username);
         } catch (error: any) {

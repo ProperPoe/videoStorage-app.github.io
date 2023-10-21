@@ -33,7 +33,8 @@ const Login: React.FC = () => {
     });
 
     try {
-      const res = await axios.post('http://localhost:4000/api/auth/login', formValues, {
+      const res = await axios.post('https://clip-flow-c44deb5c5c24.herokuapp.com/api/auth/login', formValues, {
+      // const res = await axios.post('http://localhost:4000/api/auth/login', formValues, {
         withCredentials: true,
       });
       console.log(res.data)

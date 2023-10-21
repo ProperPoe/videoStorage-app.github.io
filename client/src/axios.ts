@@ -2,7 +2,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export const makeRequest = axios.create({
-    baseURL: "http://localhost:4000/api",
+    // baseURL: "http://localhost:4000/api",
+    baseURL: "https://clip-flow-c44deb5c5c24.herokuapp.com/api",
     withCredentials: true,
 })
 
