@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // import { db } from "../connect";
-const connects_1 = require("../connects");
+const connects_1 = __importDefault(require("../connects"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class LikeController {
     getLikes(req, res) {
         const q = "SELECT userId FROM likes WHERE postId = ?";
-        connects_1.db.query(q, [req.query.postId], (err, data) => {
+        connects_1.default.query(q, [req.query.postId], (err, data) => {
             if (err) {
                 return res.status(500).json(err);
             }
@@ -31,7 +31,7 @@ class LikeController {
                 userInfo.id,
                 req.body.postId
             ];
-            connects_1.db.query(q, [values], (err, data) => {
+            connects_1.default.query(q, [values], (err, data) => {
                 if (err) {
                     return res.status(500).json(err);
                 }
@@ -54,7 +54,7 @@ class LikeController {
                 userInfo.id,
                 req.body.postId
             ];
-            connects_1.db.query(q, [userInfo.id, req.query.postId], (err, data) => {
+            connects_1.default.query(q, [userInfo.id, req.query.postId], (err, data) => {
                 if (err) {
                     return res.status(500).json(err);
                 }

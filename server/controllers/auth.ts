@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 // import { db } from "../connect";
-import { db } from "../connects";
+import db  from "../connects";
 import { OkPacket, RowDataPacket } from "mysql2";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
