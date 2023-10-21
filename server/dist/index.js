@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
 const users_js_1 = __importDefault(require("./routes/users.js"));
 const auth_js_1 = __importDefault(require("./routes/auth.js"));
 const comments_js_1 = __importDefault(require("./routes/comments.js"));
@@ -22,18 +23,21 @@ class Server {
         this.configureRoutes();
     }
     configureMiddleware() {
-        this.app.use((req, res, next) => {
-            res.header("Access-Control-Allow-Credentials", "true");
-            next();
-        });
+        // this.app.use((req, res, next) => {
+        //     res.header("Access-Control-Allow-Credentials", "true")
+        //     next()
+        // })
         this.app.use(express_1.default.json());
         this.app.use((0, cors_1.default)({
             // origin: "http://localhost:3000",
             origin: "https://clip-flow-c44deb5c5c24.herokuapp.com",
+            credentials: true
         }));
         this.app.use((0, cookie_parser_1.default)());
         const storage = multer_1.default.memoryStorage();
         const upload = (0, multer_1.default)({ storage });
+        // Serve static React build files
+        this.app.use(express_1.default.static(path_1.default.join(__dirname, "client/build")));
     }
     configureRoutes() {
         this.app.use("/api/auth", auth_js_1.default);
@@ -45,6 +49,10 @@ class Server {
         this.app.use("/api/count", count_js_1.default);
     }
     start() {
+        // Handle React's routing
+        this.app.get("*", (req, res) => {
+            res.sendFile(path_1.default.join(__dirname, "client/build", "index.html"));
+        });
         this.app.listen(this.port, () => {
             console.log(`Server on ${this.port}`);
         });
