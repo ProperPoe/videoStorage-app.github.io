@@ -42,7 +42,7 @@ class Server {
         const upload = multer({ storage });
 
             // Serve static React build files
-    this.app.use(express.static(path.join(__dirname, "../client/build")));
+    this.app.use(express.static(path.join(__dirname, "../../client/build")));
 
 
 
@@ -62,7 +62,7 @@ class Server {
     public start(){
                             // Handle React's routing
     this.app.get("*", (req, res) => {
-        res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
+        res.sendFile(path.join(__dirname, "../../client/build/index.html"));
       });
       
       

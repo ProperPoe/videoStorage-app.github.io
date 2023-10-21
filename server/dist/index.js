@@ -37,7 +37,7 @@ class Server {
         const storage = multer_1.default.memoryStorage();
         const upload = (0, multer_1.default)({ storage });
         // Serve static React build files
-        this.app.use(express_1.default.static(path_1.default.join(__dirname, "../client/build")));
+        this.app.use(express_1.default.static(path_1.default.join(__dirname, "../../client/build")));
     }
     configureRoutes() {
         this.app.use("/api/auth", auth_js_1.default);
@@ -51,7 +51,7 @@ class Server {
     start() {
         // Handle React's routing
         this.app.get("*", (req, res) => {
-            res.sendFile(path_1.default.join(__dirname, "../client", "build", "index.html"));
+            res.sendFile(path_1.default.join(__dirname, "../../client/build/index.html"));
         });
         this.app.listen(this.port, () => {
             console.log(`Server on ${this.port}`);
