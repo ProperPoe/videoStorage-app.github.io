@@ -79,7 +79,7 @@ const [pic, setPic] = useState<string | null>(null)
   const handleConfirmLogout = () => {
     makeRequest.post('/auth/logout').then((res) => {
       sessionStorage.removeItem('currentUser');
-      window.location.href = '/login'; // Use navigate to redirect
+      navigate('/login'); // Use navigate to redirect
     });
     setAnchorEl(null)
   };
