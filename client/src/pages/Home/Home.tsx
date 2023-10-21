@@ -40,8 +40,12 @@ class Homepage extends PureComponent<Props, State> {
     }
 
     componentDidMount() {
+        if (!sessionStorage.getItem('currentUser')) {
+            // Redirect to the login page
+            window.location.href = '/login';
+        }
         // Perform initial data fetching or state updates here
-        this.setFilteredDataLength(0); // For example, set an initial value
+        this.setFilteredDataLength(0); 
     }
 
     // // This method is called when you need to update filtered data length
