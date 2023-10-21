@@ -1,6 +1,11 @@
-import express from "express";
-import commentController from "../controllers/comment.js";
-const router = express.Router();
-router.get("/", commentController.getComment);
-router.post("/", commentController.postComment);
-export default router;
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const comment_js_1 = __importDefault(require("../controllers/comment.js"));
+const router = express_1.default.Router();
+router.get("/", comment_js_1.default.getComment);
+router.post("/", comment_js_1.default.postComment);
+exports.default = router;
