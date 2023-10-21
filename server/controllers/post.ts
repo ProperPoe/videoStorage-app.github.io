@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { db } from "../connect";
+// import { db } from "../connect";
+import { db } from "../connects";
 import jwt from "jsonwebtoken";
 import s3 from "../aws";
 import moment from "moment";

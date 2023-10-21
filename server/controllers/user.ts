@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
-import { db } from "../connect";
+// import { db } from "../connect";
+import { db } from "../connects";
 import { OkPacket, RowDataPacket } from "mysql2";
 import s3 from "../aws";
 

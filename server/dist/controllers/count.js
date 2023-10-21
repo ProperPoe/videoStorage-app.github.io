@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const connect_1 = require("../connect");
+// import { db } from "../connect";
+const connects_1 = require("../connects");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class CountController {
     getCount(req, res) {
@@ -16,7 +17,7 @@ class CountController {
             if (err)
                 return res.status(403).json("User not logged in");
             const q = "SELECT COUNT(*) AS notificationCount FROM notify WHERE toUserId = ?";
-            connect_1.db.query(q, [userInfo.id], (err, data) => {
+            connects_1.db.query(q, [userInfo.id], (err, data) => {
                 if (err)
                     return res.status(500).json(err);
                 return res.status(200).json(data);
@@ -34,7 +35,7 @@ class CountController {
                 return res.status(403).json("User not logged in");
             const q = "INSERT INTO notify (toUserId, postId, type, fromUserId) VALUES (?)";
             const values = [req.body.toUserId, req.body.postId, req.body.type, req.body.fromUserId];
-            connect_1.db.query(q, [values], (err, data) => {
+            connects_1.db.query(q, [values], (err, data) => {
                 if (err)
                     return res.status(500).json(err);
                 return res.status(200).json(data);
@@ -53,7 +54,7 @@ class CountController {
             }
             const q = "DELETE FROM notify WHERE postId = ? AND type = ? AND fromUserId = ?";
             const values = [req.query.postId, req.query.type, req.query.fromUserId];
-            connect_1.db.query(q, values, (err, data) => {
+            connects_1.db.query(q, values, (err, data) => {
                 if (err) {
                     return res.status(500).json(err);
                 }

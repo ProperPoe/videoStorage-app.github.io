@@ -24,13 +24,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const connect_1 = require("../connect");
+// import { db } from "../connect";
+const connects_1 = require("../connects");
 const aws_1 = __importDefault(require("../aws"));
 class UserController {
     getUser(req, res) {
         const userId = req.params.userId;
         const q = "SELECT * FROM users WHERE id=?";
-        connect_1.db.query(q, [userId], (err, data) => {
+        connects_1.db.query(q, [userId], (err, data) => {
             if (err)
                 return res.status(500).json(err);
             const _a = data[0], { password } = _a, info = __rest(_a, ["password"]);
@@ -68,7 +69,7 @@ class UserController {
                         // Update the user's profilePic URL in the database
                         const profilePicUrl = `https://${s3Params.Bucket}.s3.amazonaws.com/${s3Params.Key}`;
                         const q = "UPDATE users SET `username`=?, `profilePic`=? WHERE `id`=?";
-                        connect_1.db.query(q, [req.body.username, profilePicUrl, userInfo.id], (err, data) => {
+                        connects_1.db.query(q, [req.body.username, profilePicUrl, userInfo.id], (err, data) => {
                             if (err) {
                                 return res.status(500).json(err);
                             }
@@ -81,7 +82,7 @@ class UserController {
                     else {
                         // No new profilePic uploaded, only update the username
                         const q = "UPDATE users SET `username`=? WHERE `id`=?";
-                        connect_1.db.query(q, [req.body.username, userInfo.id], (err, data) => {
+                        connects_1.db.query(q, [req.body.username, userInfo.id], (err, data) => {
                             if (err) {
                                 return res.status(500).json(err);
                             }
@@ -102,7 +103,7 @@ class UserController {
     getNav(req, res) {
         const userId = req.params.userId;
         const q = "SELECT * FROM users WHERE id=?";
-        connect_1.db.query(q, [userId], (err, data) => {
+        connects_1.db.query(q, [userId], (err, data) => {
             if (err)
                 return res.status(500).json(err);
             const _a = data[0], { password } = _a, info = __rest(_a, ["password"]);

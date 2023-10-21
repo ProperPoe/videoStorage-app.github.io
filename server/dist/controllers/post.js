@@ -12,7 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const connect_1 = require("../connect");
+// import { db } from "../connect";
+const connects_1 = require("../connects");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const aws_1 = __importDefault(require("../aws"));
 const moment_1 = __importDefault(require("moment"));
@@ -44,7 +45,7 @@ class PostController {
                 GROUP BY posts.id
                 ORDER BY posts.createdAt DESC
             `;
-            connect_1.db.query(q, [userInfo.id], (err, data) => {
+            connects_1.db.query(q, [userInfo.id], (err, data) => {
                 if (err)
                     return res.status(500).json(err);
                 return res.status(200).json(data);
@@ -85,7 +86,7 @@ class PostController {
                         const s3Url = `https://videostorage-app.s3.amazonaws.com/${params.Key}`;
                         const q = "INSERT INTO posts (`desc`, `mediaType`, `mediaUrl`, `userId`, `createdAt`) VALUES (?)";
                         const values = [req.body.desc, req.file.mimetype.startsWith('image/') ? 'image' : 'video', s3Url, userInfo.id, (0, moment_1.default)(Date.now()).format("YYYY-MM-DD HH:mm:ss")];
-                        connect_1.db.query(q, [values], (err, data) => {
+                        connects_1.db.query(q, [values], (err, data) => {
                             if (err)
                                 return res.status(500).json(err);
                             return res.status(200).json("post created!");
@@ -114,7 +115,7 @@ class PostController {
                 }
                 const q = "DELETE FROM posts WHERE `id`=? AND `userId`=?";
                 // const postId = req.params.id;
-                connect_1.db.query(q, [req.params.id, userInfo.id], (err, data) => __awaiter(this, void 0, void 0, function* () {
+                connects_1.db.query(q, [req.params.id, userInfo.id], (err, data) => __awaiter(this, void 0, void 0, function* () {
                     if (err) {
                         return res.status(500).json(err);
                     }
@@ -153,7 +154,7 @@ class PostController {
                     return;
                 }
                 const q = "UPDATE posts SET `desc`=? WHERE `id`=?";
-                connect_1.db.query(q, [req.body.desc, req.params.id], (err, data) => {
+                connects_1.db.query(q, [req.body.desc, req.params.id], (err, data) => {
                     if (err) {
                         return res.status(500).json(err);
                     }
@@ -194,7 +195,7 @@ class PostController {
                     WHERE posts.userId = ?
                     ORDER BY createdAt DESC;
             `;
-                connect_1.db.query(q, [userId], (err, data) => {
+                connects_1.db.query(q, [userId], (err, data) => {
                     if (err) {
                         return res.status(500).json(err);
                     }
@@ -218,7 +219,7 @@ class PostController {
                 }
                 // Query to fetch the post data by postId, including the updated description
                 const q = "SELECT * FROM posts WHERE `id` = ? LIMIT 1";
-                connect_1.db.query(q, [req.query.postId], (err, data) => __awaiter(this, void 0, void 0, function* () {
+                connects_1.db.query(q, [req.query.postId], (err, data) => __awaiter(this, void 0, void 0, function* () {
                     if (err) {
                         return res.status(500).json(err);
                     }

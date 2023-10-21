@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken"
 import { OkPacket, RowDataPacket } from "mysql2";
-import { db } from "../connect";
+// import { db } from "../connect";
+import { db } from "../connects";
 
 
 class NotifController {
