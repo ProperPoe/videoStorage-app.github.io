@@ -51,7 +51,7 @@ class Server {
     start() {
         // Handle React's routing
         this.app.get("*", (req, res) => {
-            res.sendFile(path_1.default.join(__dirname, "client/build", "index.html"));
+            res.sendFile(path_1.default.join(__dirname, "../client", "build", "index.html"));
         });
         this.app.listen(this.port, () => {
             console.log(`Server on ${this.port}`);
