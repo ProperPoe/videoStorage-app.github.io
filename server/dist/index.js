@@ -28,7 +28,8 @@ class Server {
         });
         this.app.use(express_1.default.json());
         this.app.use((0, cors_1.default)({
-            origin: "http://localhost:3000",
+            // origin: "http://localhost:3000",
+            origin: "https://clip-flow-c44deb5c5c24.herokuapp.com/",
         }));
         this.app.use((0, cookie_parser_1.default)());
         const storage = multer_1.default.memoryStorage();
