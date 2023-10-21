@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import path from "path"; 
 import userRoutes from "./routes/users.js"
 import authRoutes from "./routes/auth.js"
 import commentRoutes from "./routes/comments.js"
@@ -13,13 +14,14 @@ import multer from "multer"
 class Server {
     private app: Express;
     private port: number;
-
+    
     constructor(port: number){
         this.app = express();
         this.port = port;
-
+        
         this.configureMiddleware();
         this.configureRoutes();
+        
     }
 
     private configureMiddleware(){
@@ -38,6 +40,12 @@ class Server {
 
         const storage = multer.memoryStorage(); 
         const upload = multer({ storage });
+
+            // Serve static React build files
+    this.app.use(express.static(path.join(__dirname, "client/build")));
+
+
+
     }
 
     private configureRoutes(){
@@ -52,11 +60,18 @@ class Server {
     }
 
     public start(){
-        this.app.listen(this.port, () => {
-            console.log(`Server on ${this.port}`)
+            // Handle React's routing
+    this.app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "client/build", "index.html"));
+      });
+      
+      
+      this.app.listen(this.port, () => {
+          console.log(`Server on ${this.port}`)
         })
     }
 }
+
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
 const server = new Server(port);
