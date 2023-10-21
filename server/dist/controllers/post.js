@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,14 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const connect_1 = require("../connect");
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const aws_1 = __importDefault(require("../aws"));
-const moment_1 = __importDefault(require("moment"));
+import { db } from "../connect";
+import jwt from "jsonwebtoken";
+import s3 from "../aws";
+import moment from "moment";
 class PostController {
     getPost(req, res) {
         const token = req.cookies.accessToken;
@@ -23,7 +18,7 @@ class PostController {
             res.status(401).json("Not logged in");
             return;
         }
-        jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => {
+        jwt.verify(token, "theKey", (err, userInfo) => {
             if (err) {
                 res.status(403).json("Token is not valid");
                 return;
@@ -44,7 +39,7 @@ class PostController {
                 GROUP BY posts.id
                 ORDER BY posts.createdAt DESC
             `;
-            connect_1.db.query(q, [userInfo.id], (err, data) => {
+            db.query(q, [userInfo.id], (err, data) => {
                 if (err)
                     return res.status(500).json(err);
                 return res.status(200).json(data);
@@ -63,7 +58,7 @@ class PostController {
                     res.status(401).json("Not logged in");
                     return;
                 }
-                jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
+                jwt.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
                     if (err) {
                         res.status(403).json("Token is not valid");
                         return;
@@ -81,11 +76,11 @@ class PostController {
                         ContentDisposition: 'inline',
                     };
                     try {
-                        yield aws_1.default.upload(params).promise();
+                        yield s3.upload(params).promise();
                         const s3Url = `https://videostorage-app.s3.amazonaws.com/${params.Key}`;
                         const q = "INSERT INTO posts (`desc`, `mediaType`, `mediaUrl`, `userId`, `createdAt`) VALUES (?)";
-                        const values = [req.body.desc, req.file.mimetype.startsWith('image/') ? 'image' : 'video', s3Url, userInfo.id, (0, moment_1.default)(Date.now()).format("YYYY-MM-DD HH:mm:ss")];
-                        connect_1.db.query(q, [values], (err, data) => {
+                        const values = [req.body.desc, req.file.mimetype.startsWith('image/') ? 'image' : 'video', s3Url, userInfo.id, moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")];
+                        db.query(q, [values], (err, data) => {
                             if (err)
                                 return res.status(500).json(err);
                             return res.status(200).json("post created!");
@@ -107,14 +102,14 @@ class PostController {
                 res.status(401).json("Not logged in");
                 return;
             }
-            jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
+            jwt.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
                 if (err) {
                     res.status(403).json("Token is not valid");
                     return;
                 }
                 const q = "DELETE FROM posts WHERE `id`=? AND `userId`=?";
                 // const postId = req.params.id;
-                connect_1.db.query(q, [req.params.id, userInfo.id], (err, data) => __awaiter(this, void 0, void 0, function* () {
+                db.query(q, [req.params.id, userInfo.id], (err, data) => __awaiter(this, void 0, void 0, function* () {
                     if (err) {
                         return res.status(500).json(err);
                     }
@@ -126,7 +121,7 @@ class PostController {
                             Key: s3Key,
                         };
                         try {
-                            yield aws_1.default.deleteObject(s3Params).promise();
+                            yield s3.deleteObject(s3Params).promise();
                             return res.status(200).json("Post deleted!");
                         }
                         catch (s3Error) {
@@ -147,13 +142,13 @@ class PostController {
                 res.status(401).json("Not logged in");
                 return;
             }
-            jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
+            jwt.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
                 if (err) {
                     res.status(403).json("Token is not valid");
                     return;
                 }
                 const q = "UPDATE posts SET `desc`=? WHERE `id`=?";
-                connect_1.db.query(q, [req.body.desc, req.params.id], (err, data) => {
+                db.query(q, [req.body.desc, req.params.id], (err, data) => {
                     if (err) {
                         return res.status(500).json(err);
                     }
@@ -173,7 +168,7 @@ class PostController {
                 res.status(401).json("Not logged in");
                 return;
             }
-            jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => {
+            jwt.verify(token, "theKey", (err, userInfo) => {
                 if (err) {
                     res.status(403).json("Token is not valid");
                     return;
@@ -194,7 +189,7 @@ class PostController {
                     WHERE posts.userId = ?
                     ORDER BY createdAt DESC;
             `;
-                connect_1.db.query(q, [userId], (err, data) => {
+                db.query(q, [userId], (err, data) => {
                     if (err) {
                         return res.status(500).json(err);
                     }
@@ -211,14 +206,14 @@ class PostController {
                 res.status(401).json("Not logged in");
                 return;
             }
-            jsonwebtoken_1.default.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
+            jwt.verify(token, "theKey", (err, userInfo) => __awaiter(this, void 0, void 0, function* () {
                 if (err) {
                     res.status(403).json("Token is not valid");
                     return;
                 }
                 // Query to fetch the post data by postId, including the updated description
                 const q = "SELECT * FROM posts WHERE `id` = ? LIMIT 1";
-                connect_1.db.query(q, [req.query.postId], (err, data) => __awaiter(this, void 0, void 0, function* () {
+                db.query(q, [req.query.postId], (err, data) => __awaiter(this, void 0, void 0, function* () {
                     if (err) {
                         return res.status(500).json(err);
                     }
@@ -240,4 +235,4 @@ class PostController {
         });
     }
 }
-exports.default = new PostController();
+export default new PostController();
