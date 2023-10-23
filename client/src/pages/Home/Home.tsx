@@ -106,7 +106,7 @@ class Homepage extends PureComponent<Props, State> {
             </div>
         ) : null;
         return (
-            <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} dark:bg-gray-900 min-h-screen transition-colors duration-300`}>
+            <div className={`bg-${isDarkMode ? 'gray-900' : 'gray-100'} min-h-screen transition-colors duration-300`}>
                 <div style={{marginTop: '76px'}}>
                     <div className={`flex justify-end p-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
                         <Button
