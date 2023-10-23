@@ -34,7 +34,7 @@ class Server {
         this.app.use(cors({
             // origin: "http://localhost:3000",
             origin: "https://clip-flow-c44deb5c5c24.herokuapp.com",
-            // credentials: true
+            credentials: true
         }));
         this.app.use(cookieParser());
 
