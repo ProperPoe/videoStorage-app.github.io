@@ -43,8 +43,14 @@ const Login: React.FC = () => {
       
       navigate('/');
     } catch (error: any) {
-      console.log(error.response.data)
-      setErr(error.response.data)  
+      console.log(error.response.data);
+      if (typeof error.response.data === 'string') {
+        // Set the error message as is if it's a string
+        setErr(error.response.data);
+      } else {
+        // Handle other cases to convert the object to a string representation
+        setErr(JSON.stringify(error.response.data));
+      }
     }
 
   };
