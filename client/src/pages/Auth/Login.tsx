@@ -51,7 +51,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-    <div className="flex w-3/4 bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="flex sm:w-3/4 bg-white sm:rounded-lg shadow-md overflow-hidden">
     {/* Signin Form */}
     <div className="p-8 w-1/2">
         <h2 className="text-2xl font-semibold mb-4">Sign In</h2>
