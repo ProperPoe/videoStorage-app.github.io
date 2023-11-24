@@ -58,7 +58,7 @@ class UserController {
                     if (req.file) {
                         // Define S3 parameters for the profilePic upload
                         const s3Params = {
-                            Bucket: "videostorage-app",
+                            Bucket: "videostorage-app", // Replace with your S3 bucket name
                             Key: `user_${userInfo.id}_${Date.now()}_${req.file.originalname}`,
                             Body: req.file.buffer,
                             ContentType: req.file.mimetype,

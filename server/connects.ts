@@ -5,10 +5,10 @@ dotenv.config();
 let dbConfig;
 
 if (process.env.JAWSDB_URL) {
-  // Use the JAWSDB_URL provided by Heroku
+  // the JAWSDB_URL provided by Heroku
   dbConfig = process.env.JAWSDB_URL;
 } else {
-  // Use local development environment variables
+  // local development environment variables
   dbConfig = {
     host: process.env.DB_PRODUCTION_HOST,
     user: process.env.DB_PRODUCTION_USER,
@@ -18,7 +18,7 @@ if (process.env.JAWSDB_URL) {
   };
 }
 
-// Create a MySQL connection
+// MySQL connection
 const db = typeof dbConfig === "string" ? mysql2.createConnection(dbConfig) : mysql2.createConnection(dbConfig);
 
 // Connect to the database

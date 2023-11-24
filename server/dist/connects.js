@@ -8,11 +8,11 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 let dbConfig;
 if (process.env.JAWSDB_URL) {
-    // Use the JAWSDB_URL provided by Heroku
+    // the JAWSDB_URL provided by Heroku
     dbConfig = process.env.JAWSDB_URL;
 }
 else {
-    // Use local development environment variables
+    // local development environment variables
     dbConfig = {
         host: process.env.DB_PRODUCTION_HOST,
         user: process.env.DB_PRODUCTION_USER,
@@ -21,7 +21,7 @@ else {
         port: process.env.DB_PRODUCTION_PORT ? parseInt(process.env.DB_PRODUCTION_PORT) : 3306,
     };
 }
-// Create a MySQL connection
+// MySQL connection
 const db = typeof dbConfig === "string" ? mysql2_1.default.createConnection(dbConfig) : mysql2_1.default.createConnection(dbConfig);
 // Connect to the database
 db.connect((err) => {

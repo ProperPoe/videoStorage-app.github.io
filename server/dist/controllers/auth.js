@@ -48,8 +48,11 @@ class AuthController {
     login(req, res) {
         const q = "SELECT * FROM users WHERE username = ?";
         connects_1.default.query(q, [req.body.username], (err, data) => {
-            if (err)
-                return res.status(500).json(err);
+            // if(err) return res.status(500).json(err);
+            if (err) {
+                console.error("Error in login route:", err);
+                return res.status(500).json({ error: "Internal Server Error" });
+            }
             if (data.length === 0)
                 return res.status(404).json("No such user exists!");
             const checkPassword = bcryptjs_1.default.compareSync(req.body.password, data[0].password);
