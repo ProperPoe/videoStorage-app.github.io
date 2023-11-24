@@ -15,7 +15,7 @@ const Login: React.FC = () => {
   const [err, setErr] = useState("")
   
   useEffect(() => {
-    // Check if the user is already authenticated, and if so, redirect to homepage.
+    // checking if the user is already authenticated, and if so, redirect to homepage.
     if (isAuthenticated) {
       navigate("/")
     }
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
         // Set the error message as is if it's a string
         setErr(error.response.data);
       } else {
-        // Handle other cases to convert the object to a string representation
+        // Handling other cases to convert the object to a string representation
         setErr(JSON.stringify(error.response.data));
       }
     }
