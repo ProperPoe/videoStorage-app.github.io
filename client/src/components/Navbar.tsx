@@ -208,7 +208,8 @@ const Navbar: React.FC<Props> = (props) => {
         </div>
       </div>
 
-      <Menu id="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+          
+      <Menu id="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)} container={containerRef.current ?? undefined}>
         <MenuItem>
           <input
             type="text"
