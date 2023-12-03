@@ -41,10 +41,10 @@ class Homepage extends PureComponent<Props, State> {
 
     componentDidMount() {
         if (!sessionStorage.getItem('currentUser')) {
-            // Redirect to the login page
+            // redirect to the login page
             window.location.href = '/login';
         }
-        // Perform initial data fetching or state updates here
+        // perform initial data fetching or state updates here
         this.setFilteredDataLength(0); 
     }
 

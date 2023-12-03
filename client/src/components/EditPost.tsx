@@ -40,7 +40,7 @@ function EditPost(props: Props) {
     
     const handleEditPost = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // Call the editPostMutation with the new desc
+      // editPostMutation with the new desc
       await editPostMutation.mutateAsync(editDesc);
 
       // console.log('Edit Post Mutation Completed')
@@ -50,7 +50,7 @@ function EditPost(props: Props) {
     
       // console.log('Updated Post Data:', updatedPost); // Add a log to check the updated post data
 
-      // Update desc in ViewPost with the updated data
+      // update desc in ViewPost with the updated data
       updateDesc(editDesc);
     
       console.log('Description Updated');

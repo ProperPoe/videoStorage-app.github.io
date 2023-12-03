@@ -37,12 +37,12 @@ function EditProfile(props: Props) {
 
     const dispatch = useDispatch()
 
-    const userData: any = queryClient.getQueryData(['user']); // Access the same 'user' query
+    const userData: any = queryClient.getQueryData(['user']); // access the same 'user' query
 
     console.log(userData.profilePic)
 
     useEffect(() => { 
-      // When the component mounts, set the initial state of the form fields
+      //  set the initial state of the form fields
       setNewUsername(prevUserName);
       setProfilePicPreview(picture);
     }, [prevUserName, picture]);
@@ -55,15 +55,15 @@ function EditProfile(props: Props) {
       const files = e.target.files;
       if (files && files.length > 0) {
         const selectedFile = files[0];
-        // Update the profile picture preview
+        // update the profile picture preview
         setProfilePicPreview(URL.createObjectURL(selectedFile));
-        // Update the profile picture file state
+        // update the profile picture file state
         setNewProfilePic(selectedFile);
       }
     };
 
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNewUsername(e.target.value); // Update the new username state
+      setNewUsername(e.target.value); // update the new username state
       console.log(newUsername)
     };
 
@@ -76,21 +76,21 @@ function EditProfile(props: Props) {
       //   profilePic: newProfilePic, // Initialize as null if no new profilePic is selected
       // };
       try {
-        // Create FormData for handling the file upload
+        // FormData for handling the file upload
         const formData = new FormData();
         formData.append("username", newUsername);
         if (newProfilePic) {
           formData.append("profilePic", newProfilePic);
         }
     
-        // Make a PUT request to update the user's profile
+        
         await makeRequest.put("/users", formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
     
-        // Invalidate the 'user' query to trigger a refetch
+        // invalidating the 'user' query to trigger a refetch
         queryClient.invalidateQueries(["user"]);
         queryClient.invalidateQueries(["nav"]);
         

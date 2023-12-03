@@ -57,7 +57,7 @@ function Posts(props: PostsProps) {
         setShowPost(null);
     };
 
-    // Filter the posts based on the searchQuery
+    // filter the posts based on the searchQuery
     const filteredData = data?.filter((post) =>
     post.desc.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
     post.username.toLowerCase().includes(props.searchQuery.toLowerCase())
@@ -74,11 +74,11 @@ function Posts(props: PostsProps) {
     }, [filteredData, props]);
     
 
-    // Function to delete a post
+    // function to delete a post
     const deletePost = (postId: number) => {
-      // Remove the post from the local state
+      // remove the post from the local state
       const updatedData = data?.filter((post) => post.id !== postId);
-      // Update the data using React Query's cache
+      // update the data using React Query's cache
       queryClient.setQueryData(['posts'], updatedData);
     };
 

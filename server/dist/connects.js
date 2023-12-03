@@ -3,17 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mysql2_1 = __importDefault(require("mysql2"));
+const promise_1 = __importDefault(require("mysql2/promise"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 let dbConfig;
 if (process.env.JAWSDB_URL) {
-    // the JAWSDB_URL provided by Heroku
-    dbConfig = process.env.JAWSDB_URL;
-}
-else {
-    // local development environment variables
+    // The JAWSDB_URL provided by Heroku
     dbConfig = {
+        connectionLimit: 10,
         host: process.env.DB_PRODUCTION_HOST,
         user: process.env.DB_PRODUCTION_USER,
         password: process.env.DB_PRODUCTION_PASSWORD,
@@ -21,14 +18,26 @@ else {
         port: process.env.DB_PRODUCTION_PORT ? parseInt(process.env.DB_PRODUCTION_PORT) : 3306,
     };
 }
-// MySQL connection
-const db = typeof dbConfig === "string" ? mysql2_1.default.createConnection(dbConfig) : mysql2_1.default.createConnection(dbConfig);
-// Connect to the database
-db.connect((err) => {
-    if (err) {
-        console.error("Error connecting to the database: " + err.stack);
-        return;
-    }
-    console.log("Connected to the database as ID " + db.threadId);
+else {
+    // Local development environment variables
+    dbConfig = {
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        port: 3306,
+    };
+}
+// MySQL connection pool
+const pool = promise_1.default.createPool(dbConfig);
+pool.getConnection()
+    .then((connection) => {
+    console.log("Connected to the database as ID " + connection.threadId);
+    // Release the connection back to the pool when done
+    connection.release();
+})
+    .catch((err) => {
+    console.error("Error getting connection from pool: " + err.stack);
 });
-exports.default = db;
+// Export the pool for use in your application
+exports.default = pool;

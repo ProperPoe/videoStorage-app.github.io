@@ -32,8 +32,8 @@ class Server {
         })
         this.app.use(express.json());
         this.app.use(cors({
-            // origin: "http://localhost:3000",
-            origin: "https://clip-flow-c44deb5c5c24.herokuapp.com",
+            origin: "http://localhost:3000",
+            // origin: "https://clip-flow-c44deb5c5c24.herokuapp.com",
             credentials: true
         }));
         this.app.use(cookieParser());
@@ -41,7 +41,7 @@ class Server {
         const storage = multer.memoryStorage(); 
         const upload = multer({ storage });
 
-            // Serve static React build files
+    // Serve static React build files
     this.app.use(express.static(path.join(__dirname, "../../client/build")));
 
 
@@ -60,7 +60,7 @@ class Server {
     }
 
     public start(){
-                            // Handle React's routing
+    // Handle React's routing
     this.app.get("*", (req, res) => {
         res.sendFile(path.join(__dirname, "../../client/build/index.html"));
       });

@@ -3,18 +3,18 @@ import { makeRequest } from '../axios';
 import { ThunkAction } from '@reduxjs/toolkit';
 
 
-// Define the initial state with a count property
 const initialState = {
   count: 0,
 };
 
-// Create an async thunk to fetch the count from the backend
+// Async thunk to fetch the count from the backend
 export const fetchCount = createAsyncThunk('count/fetchCount', async () => {
   const response = await makeRequest.get('/count');
-  return response.data[0].notificationCount;
+  console.log(response.data)
+  return response.data.notificationCount;
 });
 
-// Create a count slice with reducer and actions
+// Count slice with reducer and actions
 const countSlice = createSlice({
   name: 'count',
   initialState,

@@ -7,8 +7,6 @@ const getSessionStorageValue = (key: string, defaultValue: any) => {
     return storedValue !== null ? storedValue : defaultValue;
   };
   
-  // Initialize username and profilePic from sessionStorage
-  ;
 
   const initialCurrentUser = JSON.parse(getSessionStorageValue('currentUser', null));
 
@@ -16,17 +14,13 @@ const getSessionStorageValue = (key: string, defaultValue: any) => {
 
 export const fetchUserData = createAsyncThunk("user/fetchUserData", async () => {
     try {
-      const response = await makeRequest.get("/users"); // Replace with your backend endpoint
+      const response = await makeRequest.get("/users"); 
     //   console.log(response.data)
-      return response.data; // Assuming the response contains username and profilePic
+      return response.data; 
     } catch (error) {
       throw error;
     }
   });
-
-  const what = sessionStorage.getItem("currentUser")
-
-//   console.log(what)
 
 const userSlice = createSlice({
     name: 'user',

@@ -33,8 +33,8 @@ const Login: React.FC = () => {
     });
 
     try {
-      const res = await axios.post('https://clip-flow-c44deb5c5c24.herokuapp.com/api/auth/login', formValues, {
-      // const res = await axios.post('http://localhost:4000/api/auth/login', formValues, {
+      // const res = await axios.post('https://clip-flow-c44deb5c5c24.herokuapp.com/api/auth/login', formValues, {
+      const res = await axios.post('http://localhost:4000/api/auth/login', formValues, {
         withCredentials: true,
       });
       console.log(res.data)
@@ -45,10 +45,10 @@ const Login: React.FC = () => {
     } catch (error: any) {
       console.log(error.response.data);
       if (typeof error.response.data === 'string') {
-        // Set the error message as is if it's a string
+        // set the error message as is if it's a string
         setErr(error.response.data);
       } else {
-        // Handling other cases to convert the object to a string representation
+        // handling other cases to convert the object to a string representation
         setErr(JSON.stringify(error.response.data));
       }
     }
@@ -84,8 +84,10 @@ const Login: React.FC = () => {
             className="mt-1 p-3 w-full border rounded-md focus:ring focus:ring-blue-300"
             />
         </div>
+        <div>
+          <strong className='text-red-500 '>{err}</strong>
+        </div>
         <div className="flex justify-end space-x-12 items-center">
-            <strong className='text-red-500 '>{err}</strong>
             <button
             type="submit"
             className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"

@@ -71,13 +71,13 @@ function Profile(props: Props) {
     
     const queryClient = useQueryClient();
 
-    const userData: any = queryClient.getQueryData(['user']); // Access the same 'user' query
+    const userData: any = queryClient.getQueryData(['user']); 
 
-    // Function to delete a post
+    // delete a post
     const deletePost = (postId: number) => {
-        // Remove the post from the local state
+        // remove the post from the local state
         const updatedData = userPosts?.filter((post) => post.id !== postId);
-        // Update the data using React Query's cache
+        // update the data using React Query's cache
         queryClient.setQueryData(['posts'], updatedData);
     };
 
@@ -98,7 +98,7 @@ function Profile(props: Props) {
             <div className="relative -mt-16 mx-4 flex justify-center items-center">
             <Avatar
                     className="w-20 h-20 border-4 border-white"
-                    src={profilePicUrl || undefined} // Set the src attribute based on profilePicUrl
+                    src={profilePicUrl || undefined} // set the src attribute based on profilePicUrl
                 />
 
                 <div className="ml-4">

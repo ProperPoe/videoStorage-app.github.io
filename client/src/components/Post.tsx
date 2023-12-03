@@ -33,7 +33,7 @@ function Post(props: Props) {
     // const [pic, setPic] = useState<string>(post.profilePic)
     // const [name, setName] = useState<string>(post.username)
 
-    // Define class names based on dark mode
+    // define class names based on dark mode
     const cardClassName = `w-81 h-95 shadow-md rounded-md m-4 relative transition transform hover:scale-105 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-white'} cursor-pointer`;
     const iconColor = isDarkMode ? 'text-white' : 'text-gray-700';
 

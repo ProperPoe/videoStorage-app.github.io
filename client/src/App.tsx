@@ -9,8 +9,7 @@ import Login from './pages/Auth/Login';
 import { connect } from 'react-redux';
 import { RootState } from './store/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { logout } from './store/authSlice'; // Import the logout action
-
+import { logout } from './store/authSlice'; 
 
 interface Props {
   currentUser: string | null;

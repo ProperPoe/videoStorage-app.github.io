@@ -54,7 +54,7 @@ function Notification({ notification, notifyCount, removeNotification }: Props) 
                 />
                 <p className={`text-${isDarkMode ? 'white' : 'gray'}`}>{notification.username}</p>
             </div>
-            <div className="ml-3 border-2 flex flex-col">
+            <div className="ml-3 flex flex-col">
                 <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     {currentUser.username === notification.username ? `YOU left a ${notification.type} on your post`
                     :

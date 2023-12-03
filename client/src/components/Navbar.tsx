@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import store, { AppDispatch, RootState } from '../store/store';
@@ -39,17 +39,17 @@ const Navbar: React.FC<Props> = (props) => {
   const [anchorLogoutMenu, setAnchorLogoutMenu] = useState<HTMLElement | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [count, setCount] = useState<number | undefined>(undefined);
-const [pic, setPic] = useState<string | null>(null)
+  const [pic, setPic] = useState<string | null>(null)
 
     
-  
+    const containerRef = useRef<HTMLDivElement | null>(null); 
   
     // useEffect to fetch the count when the component mounts
     useEffect(() => {
       props.fetchCount(); // fetchCount dispatches the action to get the count
     }, []);
   
-    // Use this useEffect to update the local state when props.count changes
+    // useEffect to update the local state when props.count changes
     useEffect(() => {
       if (props.count !== undefined) {
         setCount(props.count);
@@ -74,12 +74,13 @@ const [pic, setPic] = useState<string | null>(null)
     setIsLogoutMenuOpen(!isLogoutMenuOpen);
     const shouldOpenMenu = anchorLogoutMenu !== event.currentTarget;
     setAnchorLogoutMenu(shouldOpenMenu ? event.currentTarget : null);
+
   };
 
   const handleConfirmLogout = () => {
     makeRequest.post('/auth/logout').then((res) => {
       sessionStorage.removeItem('currentUser');
-      navigate('/login'); // Use navigate to redirect
+      navigate('/login'); 
     });
     setAnchorEl(null)
   };
@@ -101,7 +102,8 @@ const [pic, setPic] = useState<string | null>(null)
 
   return (
     <>
-      <div className={`bg-gray-800 py-4 ${props.isDarkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'} fixed top-0 left-0 right-0 z-10 `}>
+      <div className={`bg-gray-800 py-4 ${props.isDarkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'} fixed top-0 left-0 right-0 z-10 `}   
+      ref={containerRef}>
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center">
             <IconButton
@@ -249,6 +251,7 @@ const [pic, setPic] = useState<string | null>(null)
             vertical: 'top',
             horizontal: 'center',
           }}
+          container={containerRef.current ?? undefined}
         >
           <MenuItem onClick={handleConfirmLogout}>Logout</MenuItem>
         </Popover>

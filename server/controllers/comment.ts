@@ -1,46 +1,46 @@
 import { Request, Response } from "express";
-// import { db } from "../connect";
-import db from "../connects";
+import pool from "../connects";
 import jwt from "jsonwebtoken";
 import moment from "moment";
-
-
+import { RowDataPacket } from "mysql2";
 
 class CommentController {
-    public getComment(req: Request, res: Response): void {       
-        const q =  `SELECT comments.*, userId, username, profilePic FROM comments JOIN users ON (users.id = comments.userId) WHERE comments.postId = ? ORDER BY comments.createdAt DESC`;
-    
-        db.query(q, [req.query.postId], (err, data) => {
-            if(err) return res.status(500).json(err)
-            return res.status(200).json(data)
-        });
+    public async getComment(req: Request, res: Response): Promise<void> {
+        try {
+            const q = `SELECT comments.*, userId, username, profilePic FROM comments JOIN users ON (users.id = comments.userId) WHERE comments.postId = ? ORDER BY comments.createdAt DESC`;
 
+            const [data] = await pool.query<RowDataPacket[]>(q, [req.query.postId]);
 
-    };
-    public postComment(req: Request, res: Response): void {        
+            res.status(200).json(data);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json(err);
+        }
+    }
+
+    public async postComment(req: Request, res: Response): Promise<void> {
         const token = req.cookies.accessToken;
-        if(!token){
+
+        if (!token) {
             res.status(401).json("Not logged in");
             return;
-        } 
+        }
 
-        jwt.verify(token, "theKey", (err: jwt.VerifyErrors | null, userInfo:any) => {
-            if(err){
-                res. status(403).json("Token is not valid");
-                return; 
-            } 
-            const q =  "INSERT INTO comments (`desc`, `createdAt`, `userId`, `postId`) VALUES (?)";
+        try {
+            const userInfo: any = jwt.verify(token, "theKey");
 
-            const values = [req.body.desc, moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"), userInfo.id, req.body.postId]
-    
-            db.query(q, [values], (err, data) => {
-                if(err) return res.status(500).json(err)
-                return res.status(200).json("Comment created!")
-            });
-        });
+            const q = "INSERT INTO comments (`desc`, `createdAt`, `userId`, `postId`) VALUES (?)";
 
+            const values = [req.body.desc, moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"), userInfo.id, req.body.postId];
 
-    };
+            const [data] = await pool.query(q, [values]);
+
+            res.status(200).json("Comment created!");
+        } catch (err) {
+            console.error(err);
+            res.status(500).json(err);
+        }
+    }
 }
 
-export default new CommentController()
+export default new CommentController();
