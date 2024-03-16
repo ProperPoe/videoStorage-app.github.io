@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# Clip Flow
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Clip Flow is a video and image file storage site, doubling as a social media app with features for interacting with media such as comments, likes, and notifications. The application is built using Create React App for the front end and Express.js for the server. MySQL is used for the database, and Amazon S3 cloud bucket serves as the storage solution for media files. User authentication is required to access the app, with the test credentials provided below:
 
-## Available Scripts
+- **Username:** test
+- **Password:** test
 
-In the project directory, you can run:
+[Access Clip Flow](https://clip-flow-c44deb5c5c24.herokuapp.com/)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Upload and store videos and images
+- Social media functionality including comments, likes, and notifications
+- Secure authentication system
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+To run the application locally, follow these steps:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Server/Backend
 
-### `npm run build`
+1. cd server
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Install dependencies: npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Start the server in watch mode: npm run dev
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### React Client/Frontend
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Navigate to the `client` directory: cd client
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Install dependencies: npm install
+ 
+3. Start the React client: npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Dependencies
 
-## Learn More
+### Server/Backend
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- express
+- mongoose
+- axios
+- dotenv
+- jsonwebtoken
+- bcryptjs
+- cookie-parser
+- cors
+- moment
+- multer
+- mysql
+- mysql2
+- rimraf
+- typescript
+- nodemon (dev)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### React Client/Frontend
 
-### Code Splitting
+- react
+- react-dom
+- react-router-dom
+- react-redux
+- redux
+- @reduxjs/toolkit
+- axios
+- moment
+- @emotion/react
+- @emotion/styled
+- @mui/icons-material
+- @mui/types
+- @tanstack/react-query
+- @testing-library/react
+- @testing-library/user-event
+- web-vitals
+- typescript
+- react-scripts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Contributing
 
-### Analyzing the Bundle Size
+Contributions are welcome! Please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
 
-### Making a Progressive Web App
+This project is licensed under the [MIT License](LICENSE).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Contact
 
-### Advanced Configuration
+For any inquiries or feedback, please contact [Your Name](mailto:your_email@example.com).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
