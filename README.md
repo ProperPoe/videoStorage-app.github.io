@@ -80,13 +80,10 @@ To run the application locally, follow these steps:
 
 Contributions are welcome! Please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-For any inquiries or feedback, please contact [Your Name](mailto:your_email@example.com).
+For any inquiries or feedback, please contact [Steven Trujillo](mailto:Steveprogramming@outlook.com).
 
 
 
