@@ -5,14 +5,35 @@ dotenv.config();
 
 let dbConfig: mysql2.PoolOptions;
 
-if (process.env.JAWSDB_URL) {
+// if (process.env.JAWSDB_URL) {
+//   // The JAWSDB_URL provided by Heroku
+//   dbConfig = {
+//     connectionLimit: 10,
+//     host: process.env.DB_PRODUCTION_HOST,
+//     user: process.env.DB_PRODUCTION_USER,
+//     password: process.env.DB_PRODUCTION_PASSWORD,
+//     database: process.env.DB_PRODUCTION_NAME,
+//     port: process.env.DB_PRODUCTION_PORT ? parseInt(process.env.DB_PRODUCTION_PORT) : 3306,
+//   };
+// } else {
+//   // Local development environment variables
+//   dbConfig = {
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_NAME,
+//     port: 3306,
+//   };
+// }
+
+if (process.env.DB_AWS_HOST) {
   // The JAWSDB_URL provided by Heroku
   dbConfig = {
     connectionLimit: 10,
-    host: process.env.DB_PRODUCTION_HOST,
-    user: process.env.DB_PRODUCTION_USER,
-    password: process.env.DB_PRODUCTION_PASSWORD,
-    database: process.env.DB_PRODUCTION_NAME,
+    host: process.env.DB_AWS_HOST,
+    user: process.env.DB_AWS_USER,
+    password: process.env.DB_AWS_PASSWORD,
+    database: process.env.DB_AWS_NAME,
     port: process.env.DB_PRODUCTION_PORT ? parseInt(process.env.DB_PRODUCTION_PORT) : 3306,
   };
 } else {
